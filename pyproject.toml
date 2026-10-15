@@ -1,0 +1,36 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "nutrition-rag"
+version = "0.1.0"
+description = "Evidence-ranked nutrition research RAG (diabetes prevention, weight management, maternal nutrition)"
+requires-python = ">=3.11"
+dependencies = [
+    "requests>=2.31",
+    "pyyaml>=6.0",
+    "typer>=0.12",
+    "pydantic>=2.6",
+    "python-dotenv>=1.0",
+]
+
+[project.optional-dependencies]
+# Heavier stacks are added per phase so the core installs fast.
+pdf = ["pymupdf>=1.24", "pdfplumber>=0.11"]
+llm = ["anthropic>=0.40"]
+search = ["sentence-transformers>=3.0", "lancedb>=0.13", "bm25s>=0.2"]
+reports = ["matplotlib>=3.8"]
+app = ["streamlit>=1.38"]
+dev = ["pytest>=8.0"]
+
+[project.scripts]
+nrag = "nrag.cli:app"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/nrag"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-q"
+markers = ["network: hits a live API (deselected by default with -m 'not network')"]

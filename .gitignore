@@ -1,0 +1,23 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+.pytest_cache/
+build/
+dist/
+
+# Secrets
+.env
+
+# Data (large / regenerable). Keep the guidelines registry under version control.
+data/**
+!data/**/
+!data/**/.gitkeep
+!data/guidelines/registry.yaml
+
+# Eval run outputs are regenerable; reports and labelled files are kept.
+eval/runs/*
+!eval/runs/.gitkeep
+
+.DS_Store

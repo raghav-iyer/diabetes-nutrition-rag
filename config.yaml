@@ -1,0 +1,101 @@
+# All tunable numbers live here. Every change to the `pubmed` or `design`
+# sections alters the corpus, so commit config changes with a clear message.
+#
+# Phase 0 values reproduce legacy/ingest_pubmed.py exactly (tests/test_parity.py
+# enforces this). Phase 1 changes are made on top, each with before/after counts.
+
+paths:
+  cache_dir: data/cache
+  pubmed_corpus: data/interim/pubmed_corpus.jsonl
+  pubmed_excluded: data/interim/pubmed_excluded.jsonl
+
+ncbi:
+  eutils_base: https://eutils.ncbi.nlm.nih.gov/entrez/eutils
+  tool: nutrition_rag_ingest
+  delay_no_key_s: 0.34      # 3 req/s without an API key
+  delay_with_key_s: 0.11    # 10 req/s with NCBI_API_KEY
+  timeout_s: 60
+  retries: 4                # exponential backoff 1, 2, 4 ... seconds
+  efetch_batch: 200
+  esearch_max_ids: 10000    # PubMed's hard cap per search
+
+cache:
+  # Days before a cached response is refetched. null = never expires.
+  esearch_ttl_days: 1       # searches change daily; same-day reruns are free
+  efetch_ttl_days: 30       # record metadata (retractions etc.) can change
+
+pubmed:
+  date_range: ["2010/01/01", "3000/12/31"]
+  base_filters: 'humans[mh] AND english[la] AND hasabstract'
+  strong_designs: >-
+    (randomized controlled trial[pt] OR meta-analysis[pt] OR systematic review[pt]
+    OR practice guideline[pt] OR guideline[pt] OR cohort studies[mh])
+  topics:
+    diabetes_prevention: >-
+      ("diabetes mellitus, type 2/prevention and control"[mh] OR prediabetic state[mh]
+      OR prediabetes[tiab]) AND (diet[mh] OR "feeding behavior"[mh] OR "dietary pattern*"[tiab]
+      OR "lifestyle intervention"[tiab])
+    weight_management: >-
+      ("weight loss"[mh] OR "obesity/diet therapy"[mh] OR "weight maintenance"[tiab])
+      AND (diet[mh] OR "diet, reducing"[mh] OR "dietary pattern*"[tiab] OR "eating behavio*"[tiab])
+    maternal_nutrition: >-
+      (pregnancy[mh] OR "pregnant women"[mh] OR "prenatal nutritional physiological phenomena"[mh]
+      OR "lactation"[mh]) AND (diet[mh] OR "dietary supplements"[mh] OR "maternal nutrition"[tiab]
+      OR "gestational weight gain"[mh])
+    gestational_diabetes: >-
+      "diabetes, gestational"[mh] AND (diet[mh] OR "diet therapy"[sh] OR "dietary pattern*"[tiab]
+      OR prevention and control[sh])
+
+design:
+  # Checked in order against PubMed publication types; first match wins.
+  # `defer: true` means "only use this if MeSH and text rules find nothing".
+  pubtype_rules:
+    - {label: guideline, score: 1.00, pub_types: ["Practice Guideline", "Guideline", "Consensus Development Conference"]}
+    - {label: meta_analysis, score: 0.90, pub_types: ["Meta-Analysis"]}
+    - {label: systematic_review, score: 0.85, pub_types: ["Systematic Review"]}
+    - {label: rct, score: 0.75, pub_types: ["Randomized Controlled Trial"]}
+    - {label: controlled_trial, score: 0.60, pub_types: ["Controlled Clinical Trial", "Clinical Trial", "Clinical Trial, Phase III", "Clinical Trial, Phase IV", "Pragmatic Clinical Trial"]}
+    - {label: observational, score: 0.45, pub_types: ["Observational Study", "Multicenter Study"]}
+    - {label: narrative_review, score: 0.15, pub_types: ["Review"], defer: true}
+    - {label: opinion, score: 0.05, pub_types: ["Editorial", "Comment", "Letter", "News"]}
+  mesh_rules:
+    - {label: cohort, score: 0.55, mesh: ["Cohort Studies", "Prospective Studies", "Longitudinal Studies"]}
+    - {label: case_control, score: 0.40, mesh: ["Case-Control Studies"]}
+    - {label: cross_sectional, score: 0.30, mesh: ["Cross-Sectional Studies"]}
+  # Case-insensitive regexes over title + abstract, used when the above find nothing.
+  text_rules:
+    - {label: meta_analysis, score: 0.90, pattern: '\bmeta-?analys[ie]s\b'}
+    - {label: systematic_review, score: 0.85, pattern: '\bsystematic(ally)? review'}
+    - {label: rct, score: 0.75, pattern: '\brandomi[sz]ed\b.{0,40}\btrial\b'}
+    - {label: cohort, score: 0.55, pattern: '\b(prospective|retrospective)?\s*cohort\b'}
+    - {label: case_control, score: 0.40, pattern: '\bcase-?control\b'}
+    - {label: cross_sectional, score: 0.30, pattern: '\bcross-?sectional\b'}
+  unknown_score: 0.20
+
+sample_size:
+  patterns:
+    - '\b[nN]\s*=\s*([\d,]{2,9})'
+    - '\b([\d,]{2,9})\s+(?:participants|subjects|adults|women|men|patients|pregnant women|individuals|people|children|mothers)\b'
+  min: 5
+  max: 50000000
+  skip_range: [1900, 2100]   # numbers that look like years
+
+exclusion:
+  min_abstract_chars: 200
+  notice_pub_types: ["Retracted Publication", "Retraction of Publication", "Published Erratum", "Expression of Concern"]
+  required_mesh: Humans      # only enforced when the record has MeSH terms
+  language: eng
+  excluded_designs: [opinion]
+
+scoring:
+  size:
+    exempt_designs: [guideline, meta_analysis, systematic_review, narrative_review, opinion]
+    unknown_n: 0.85
+    # [upper bound (exclusive), factor]; n at or above the last bound gets `large`.
+    bands: [[50, 0.60], [200, 0.80], [1000, 0.90]]
+    large: 1.00
+  recency:
+    half_life_years: 10.0
+    floor: 0.6
+    reference_year: null     # null = current calendar year
+  expression_of_concern_multiplier: 0.5
