@@ -3,8 +3,14 @@ from datetime import date
 import pytest
 
 from nrag.ingest.pubmed import (
-    classify_design, exclusion_reason, extract_sample_size, recency_factor, reference_year, score, size_factor,
+    classify_design, design_text, exclusion_reason, extract_sample_size, recency_factor, reference_year, score,
+    size_factor,
 )
+
+
+def _unstructured(text):
+    return [["", text]]
+
 
 # --- design classification -------------------------------------------------
 
@@ -12,31 +18,57 @@ from nrag.ingest.pubmed import (
     (["Practice Guideline"], [], "", ("guideline", 1.0, "pubtype")),
     (["Meta-Analysis", "Review"], [], "", ("meta_analysis", 0.9, "pubtype")),
     (["Systematic Review"], [], "", ("systematic_review", 0.85, "pubtype")),
-    (["Randomized Controlled Trial"], [], "", ("rct", 0.75, "pubtype")),
+    (["Randomized Controlled Trial"], ["Prospective Studies"], "", ("rct", 0.75, "pubtype")),
     (["Clinical Trial"], [], "", ("controlled_trial", 0.6, "pubtype")),
-    (["Observational Study"], ["Cohort Studies"], "", ("observational", 0.45, "pubtype")),
-    (["Journal Article"], ["Prospective Studies"], "", ("cohort", 0.55, "mesh")),
+    # Observational Study now defers to MeSH / text:
+    (["Observational Study"], ["Prospective Studies"], "", ("prospective_cohort", 0.55, "mesh")),
+    (["Observational Study"], ["Cross-Sectional Studies"], "", ("cross_sectional", 0.3, "mesh")),
+    (["Observational Study"], [], "nothing informative", ("observational", 0.45, "pubtype")),
+    # Multicenter Study is not a design:
+    (["Multicenter Study"], ["Cohort Studies"], "", ("cohort", 0.55, "mesh")),
+    (["Multicenter Study"], [], "nothing informative", ("unknown", 0.2, "none")),
+    (["Journal Article"], ["Prospective Studies"], "", ("prospective_cohort", 0.55, "mesh")),
+    (["Journal Article"], ["Retrospective Studies"], "", ("cohort", 0.55, "mesh")),
     (["Journal Article"], ["Case-Control Studies"], "", ("case_control", 0.4, "mesh")),
+    (["Journal Article"], ["Case-Control Studies", "Retrospective Studies"], "", ("case_control", 0.4, "mesh")),
+    (["Journal Article"], ["Cohort Studies", "Cross-Sectional Studies"], "", ("cross_sectional", 0.3, "mesh")),
+    (["Journal Article"], ["Prospective Studies", "Case-Control Studies"], "", ("prospective_cohort", 0.55, "mesh")),
     (["Journal Article"], [], "a systematic review of trials", ("systematic_review", 0.85, "text")),
     (["Journal Article"], [], "participants were randomized in a parallel trial", ("rct", 0.75, "text")),
+    (["Journal Article"], [], "in this prospective population-based cohort we", ("prospective_cohort", 0.55, "text")),
+    (["Journal Article"], [], "a retrospective cohort of records", ("cohort", 0.55, "text")),
     (["Journal Article"], [], "a case-control analysis", ("case_control", 0.4, "text")),
     (["Journal Article"], [], "a cross-sectional survey", ("cross_sectional", 0.3, "text")),
     (["Review"], [], "an overview of iron needs", ("narrative_review", 0.15, "pubtype")),
-    (["Review"], ["Cohort Studies"], "", ("cohort", 0.55, "mesh")),      # deferred review loses to MeSH
+    (["Review"], ["Cohort Studies"], "", ("cohort", 0.55, "mesh")),
     (["Review"], [], "this systematic review", ("systematic_review", 0.85, "text")),
     (["Editorial"], [], "", ("opinion", 0.05, "pubtype")),
     (["Journal Article"], [], "nothing informative", ("unknown", 0.2, "none")),
 ])
 def test_classify_design(rules, pub_types, mesh, text, expected):
-    assert classify_design(rules, pub_types, mesh, "", text) == expected
+    assert classify_design(rules, pub_types, mesh, "", _unstructured(text)) == expected
 
 
-def test_text_rule_false_positive_is_preserved(rules):
-    # Known Phase 0 behaviour (fixed in Phase 1): a mention of prior
-    # meta-analyses anywhere in the abstract makes the paper a meta-analysis.
-    label, _, method = classify_design(rules, ["Journal Article"], [], "",
-                                       "Previous meta-analyses suggested benefit; we surveyed 200 adults.")
+def test_prior_work_sentences_ignored(rules):
+    # Legacy classified this as a meta-analysis from the background sentence.
+    text = "Previous meta-analyses suggested benefit. We surveyed 200 adults in a cross-sectional design."
+    assert classify_design(rules, ["Journal Article"], [], "", _unstructured(text))[0] == "cross_sectional"
+
+
+def test_background_section_ignored(rules):
+    sections = [["BACKGROUND", "Several meta-analyses report benefits."],
+                ["METHODS", "A cross-sectional survey of 300 women."]]
+    assert classify_design(rules, ["Journal Article"], [], "", sections)[0] == "cross_sectional"
+
+
+def test_title_always_counts(rules):
+    label, _, method = classify_design(rules, ["Journal Article"], [], "Pulses and weight: a meta-analysis", [])
     assert (label, method) == ("meta_analysis", "text")
+
+
+def test_design_text_keeps_own_study_sentences(rules):
+    text = design_text(rules, "T", [["", "Earlier trials were small. We conducted a meta-analysis of 12 trials."]])
+    assert "Earlier trials" not in text and "We conducted a meta-analysis" in text
 
 
 # --- sample size --------------------------------------------------------------
@@ -47,7 +79,13 @@ def test_text_rule_false_positive_is_preserved(rules):
     ("Data from 12,000 women and 300 men.", 12000),
     ("Included 23 trials.", None),                     # trial counts are not participants
     ("n = 4 adults", None),                            # below minimum / too short
-    ("There were 2,015 participants.", None),          # looks like a year: skipped (known issue)
+    ("There were 2,015 participants.", 2015),          # comma: not a year (legacy skipped this)
+    ("We enrolled n = 1950 women.", 1950),             # n = ... is never a year
+    ("A total of 2000 participants enrolled.", 2000),
+    ("In 2015 women were invited to screening.", None),    # reads like a year
+    ("Between 2012 and 2014 participants were recruited.", None),
+    ("From 2010-2014 participants were recruited.", None),
+    ("We included 1500 men and 2000 women.", 2000),
     ("No numbers here.", None),
 ])
 def test_extract_sample_size(rules, abstract, expected):

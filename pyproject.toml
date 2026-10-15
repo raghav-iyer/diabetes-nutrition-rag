@@ -34,3 +34,4 @@ packages = ["src/nrag"]
 testpaths = ["tests"]
 addopts = "-q"
 markers = ["network: hits a live API (deselected by default with -m 'not network')"]
+filterwarnings = ["ignore:builtin type .* has no __module__ attribute:DeprecationWarning"]
