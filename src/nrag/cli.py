@@ -14,39 +14,65 @@ app = typer.Typer(help="Evidence-ranked nutrition research RAG.", no_args_is_hel
 ConfigOpt = typer.Option(None, "--config", help="Path to config.yaml (default: repo root).")
 
 
+def _clients(cfg):
+    from nrag.ingest.pipeline import Clients
+    from nrag.ingest.pubmed import PubMedClient
+    from nrag.net import CachedHttp
+
+    email, api_key = env("NCBI_EMAIL"), env("NCBI_API_KEY")
+    ncbi = cfg["ncbi"]
+    cache = resolve_path(cfg["paths"]["cache_dir"])
+    ncbi_http = CachedHttp(cache / "ncbi", delay_s=ncbi["delay_with_key_s"] if api_key else ncbi["delay_no_key_s"],
+                           timeout_s=ncbi["timeout_s"], retries=ncbi["retries"])
+    web_http = CachedHttp(cache / "web", delay_s=1.0, timeout_s=300, retries=ncbi["retries"])
+    params = {"tool": ncbi["tool"], **({"email": email} if email else {}), **({"api_key": api_key} if api_key else {})}
+    pubmed = PubMedClient(ncbi_http, ncbi, cfg["cache"], email, api_key, sort=cfg["pubmed"]["sort"])
+    if not email:
+        typer.echo("Note: NCBI_EMAIL not set; requests are sent with `tool` only (allowed, 3 req/s).", err=True)
+    return Clients(pubmed=pubmed, ncbi=ncbi_http, web=web_http, ncbi_params=params)
+
+
 @app.command()
 def ingest(
     since: Optional[str] = typer.Option(None, help="Incremental: only records entered since YYYY/MM/DD."),
-    max_per_topic: Optional[int] = typer.Option(None, help="Cap records per topic (testing)."),
-    topics: Optional[List[str]] = typer.Option(None, "--topic", help="Run only these topics (repeatable)."),
-    strong_only: bool = typer.Option(False, help="Restrict to guidelines, reviews, RCTs and cohorts at search time."),
+    max_per_topic: Optional[int] = typer.Option(None, help="Sample N records per topic, spread across years (testing)."),
+    topics: Optional[List[str]] = typer.Option(None, "--topic", help="Search only these topics (repeatable)."),
+    design_filter: Optional[bool] = typer.Option(None, "--design-filter/--no-design-filter",
+                                                 help="Override config pubmed.design_filter."),
+    fulltext: bool = typer.Option(True, help="Fetch PMC open-licence full text."),
+    guidelines: bool = typer.Option(True, help="Parse guideline PDFs from the registry."),
     config: Optional[str] = ConfigOpt,
 ):
-    """Fetch PubMed records, filter, classify design and score."""
-    from nrag.ingest.pubmed import PubMedClient, ingest as run_ingest, print_summary
-    from nrag.net import CachedHttp
+    """Build the corpus: PubMed search + refresh, retraction and journal checks,
+    credibility filter, PMC full text, guidelines. Writes data/corpus/."""
+    from nrag.ingest import pipeline
 
     cfg = load_config(config)
     unknown = set(topics or []) - set(cfg["pubmed"]["topics"])
     if unknown:
         raise typer.BadParameter(f"unknown topic(s): {', '.join(sorted(unknown))}")
-    api_key = env("NCBI_API_KEY")
-    ncbi = cfg["ncbi"]
-    http = CachedHttp(
-        resolve_path(cfg["paths"]["cache_dir"]) / "ncbi",
-        delay_s=ncbi["delay_with_key_s"] if api_key else ncbi["delay_no_key_s"],
-        timeout_s=ncbi["timeout_s"],
-        retries=ncbi["retries"],
-    )
-    client = PubMedClient(http, ncbi, cfg["cache"], env("NCBI_EMAIL", required=True), api_key)
-    records, excluded = run_ingest(
-        cfg, client,
-        resolve_path(cfg["paths"]["pubmed_corpus"]),
-        resolve_path(cfg["paths"]["pubmed_excluded"]),
-        since=since, max_per_topic=max_per_topic, topics=topics, strong_only=strong_only,
-    )
-    print_summary(records, excluded)
-    typer.echo(f"\nHTTP cache: {http.stats['hits']} hits, {http.stats['misses']} misses")
+    clients = _clients(cfg)
+    summary = pipeline.run(cfg, clients, since=since, max_per_topic=max_per_topic, topics=topics,
+                           design_filter=design_filter, fulltext=fulltext, guidelines=guidelines)
+    pipeline.print_summary(summary)
+    for name, http in (("NCBI", clients.ncbi), ("web", clients.web)):
+        typer.echo(f"{name} cache: {http.stats['hits']} hits, {http.stats['misses']} misses")
+
+
+@app.command("guidelines")
+def guidelines_cmd(config: Optional[str] = ConfigOpt):
+    """Show the guidelines registry and parse any PDFs present (no corpus write)."""
+    from nrag.ingest import guidelines as gl
+
+    cfg = load_config(config)
+    for e in gl.load_registry(cfg):
+        parsed = gl.parse_entry(e, cfg)
+        if parsed is None:
+            where = e.file_glob or e.file
+            typer.echo(f"  [missing] {e.id:<22} {e.year}  put the PDF at {where}")
+        else:
+            typer.echo(f"  [parsed]  {e.id:<22} {e.year}  {len(parsed['sections'])} sections, "
+                       f"{len(parsed['tables'])} tables, {len(parsed['recommendations'])} graded recommendations")
 
 
 def _not_yet(phase: int):

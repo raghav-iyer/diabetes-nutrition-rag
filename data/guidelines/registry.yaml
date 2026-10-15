@@ -1,0 +1,117 @@
+# Clinical guidelines registry. Download each PDF yourself (respect the
+# publisher's terms) and put it at `file`. `nrag ingest` parses whatever is present.
+#
+# Fields:
+#   id            stable ID, used in citations as [GUIDELINE:<id>]
+#   topics        diabetes_prevention | weight_management | maternal_nutrition | gestational_diabetes
+#   population    tags from the fixed population vocabulary
+#   supersedes    id of the older entry this replaces (that entry gets superseded_by)
+#   status        current | superseded
+#   grade_scheme  key into config `guidelines.grade_patterns` (null: sections only)
+#   verify        true = details checked online when seeding but worth a human look
+#
+# Seeded 2026-10-15. Sources noted per entry.
+
+guidelines:
+  - id: icmr_nin_dgi_2024
+    title: Dietary Guidelines for Indians
+    issuing_body: ICMR - National Institute of Nutrition
+    year: 2024
+    version: "2nd edition (released 7 May 2024)"
+    url: https://www.nin.res.in/dietaryguidelines/
+    pdf_url: https://main.icmr.nic.in/sites/default/files/upload_documents/DGI_07th_May_2024_fin.pdf
+    topics: [diabetes_prevention, weight_management, maternal_nutrition]
+    population: [general_adults, indian, pregnant, lactating, children, older_adults]
+    file: data/guidelines/icmr_nin_dgi_2024.pdf
+    supersedes: null
+    status: current
+    grade_scheme: null
+    verify: false
+
+  - id: ada_soc_2026
+    title: Standards of Care in Diabetes—2026
+    issuing_body: American Diabetes Association
+    year: 2026
+    version: "Diabetes Care 49(Suppl 1), January 2026"
+    url: https://diabetesjournals.org/care/issue/49/Supplement_1
+    topics: [diabetes_prevention, weight_management, gestational_diabetes]
+    population: [general_adults, prediabetes, type2_diabetes, overweight_obese, pregnant, gestational_diabetes]
+    file: data/guidelines/ada_soc_2026.pdf
+    supersedes: null          # add an ada_soc_2025 entry if you also load the older edition
+    status: current
+    grade_scheme: ada
+    verify: false
+    notes: >-
+      Published as separate section articles; sections 3 (prevention or delay of
+      diabetes), 5 (lifestyle/nutrition), 8 (obesity) and 15 (pregnancy) are the
+      relevant ones. A combined PDF or the individual section PDFs both work (use
+      file_glob for several files).
+
+  - id: who_anc_2016
+    title: WHO recommendations on antenatal care for a positive pregnancy experience
+    issuing_body: World Health Organization
+    year: 2016
+    version: "ISBN 9789241549912"
+    url: https://www.who.int/publications/i/item/9789241549912
+    topics: [maternal_nutrition, gestational_diabetes]
+    population: [pregnant]
+    file: data/guidelines/who_anc_2016.pdf
+    supersedes: null
+    status: current
+    grade_scheme: who
+    verify: false
+    notes: >-
+      Nutrition recommendations were updated separately (2020 multiple
+      micronutrients and vitamin D; 2021 zinc). Consider adding those updates as
+      their own entries with supersedes pointing here for the affected recommendations.
+
+  - id: iom_gwg_2009
+    title: "Weight Gain During Pregnancy: Reexamining the Guidelines"
+    issuing_body: Institute of Medicine / National Research Council (now NAM)
+    year: 2009
+    version: "National Academies Press, 2009"
+    url: https://nap.nationalacademies.org/catalog/12584
+    topics: [maternal_nutrition, weight_management]
+    population: [pregnant, overweight_obese]
+    file: data/guidelines/iom_gwg_2009.pdf
+    supersedes: null
+    status: current          # still the reference GWG ranges; exempt from the 2013 cutoff
+    grade_scheme: null
+    verify: false
+
+  - id: acog_co548_gwg
+    title: "ACOG Committee Opinion No. 548: Weight Gain During Pregnancy"
+    issuing_body: American College of Obstetricians and Gynecologists
+    year: 2013
+    version: "Obstet Gynecol 2013;121:210-2 (reaffirmed)"
+    url: https://www.acog.org/clinical/clinical-guidance/committee-opinion
+    topics: [maternal_nutrition, weight_management]
+    population: [pregnant, overweight_obese]
+    file: data/guidelines/acog_co548_gwg.pdf
+    supersedes: null
+    status: current
+    grade_scheme: null
+    verify: true
+    notes: >-
+      ACOG has no single "nutrition in pregnancy" guideline. Candidates: this
+      Committee Opinion (endorses the IOM 2009 ranges); the 2024 Clinical Practice
+      Update "Screening for Gestational and Pregestational Diabetes in Pregnancy and
+      Postpartum" (updates Practice Bulletins 190 and 201); the patient FAQ
+      "Nutrition During Pregnancy" (not a guideline). Confirm which you want.
+
+  - id: rssdi_cpr_t2dm_2022
+    title: RSSDI Clinical Practice Recommendations for the Management of Type 2 Diabetes Mellitus 2022
+    issuing_body: Research Society for the Study of Diabetes in India
+    year: 2022
+    version: "Int J Diabetes Dev Ctries 2022;42(Suppl 1):1-143, doi:10.1007/s13410-022-01129-5"
+    url: https://pmc.ncbi.nlm.nih.gov/articles/PMC9534592/
+    topics: [diabetes_prevention, weight_management]
+    population: [prediabetes, type2_diabetes, indian, south_asian, overweight_obese]
+    file: data/guidelines/rssdi_cpr_t2dm_2022.pdf
+    supersedes: null
+    status: current
+    grade_scheme: null
+    verify: false
+    notes: >-
+      The PMC copy is under a temporary COVID-19 permission, not an open licence,
+      so the pipeline will not pull it from PMC. Download the PDF yourself.

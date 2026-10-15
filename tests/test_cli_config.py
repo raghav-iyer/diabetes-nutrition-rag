@@ -8,7 +8,7 @@ from nrag.ingest.pubmed import PubMedClient
 
 runner = CliRunner()
 
-COMMANDS = ["ingest", "extract", "extract-accuracy", "score", "index", "ask", "eval", "ablate",
+COMMANDS = ["ingest", "guidelines", "extract", "extract-accuracy", "score", "index", "ask", "eval", "ablate",
             "failures", "compare"]
 
 
@@ -22,14 +22,6 @@ def test_help_lists_commands():
 def test_unimplemented_commands_exit_cleanly():
     result = runner.invoke(app, ["score"])
     assert result.exit_code == 2
-
-
-def test_ingest_requires_email(monkeypatch, tmp_path):
-    monkeypatch.delenv("NCBI_EMAIL", raising=False)
-    monkeypatch.setattr("nrag.config.load_dotenv", lambda *a, **k: None)
-    result = runner.invoke(app, ["ingest", "--max-per-topic", "1"])
-    assert result.exit_code != 0
-    assert "NCBI_EMAIL" in str(result.exception) + result.output
 
 
 def test_ingest_rejects_unknown_topic():
@@ -59,28 +51,38 @@ class _RecordingHttp:
         return b"<PubmedArticleSet/>"
 
 
-def test_pubmed_client_sends_identity_and_batches():
+def test_pubmed_client_identity_and_batches():
     cfg = load_config()
     http = _RecordingHttp(json.dumps({"esearchresult": {"count": "450", "idlist": [str(i) for i in range(450)]}}).encode())
-    client = PubMedClient(http, cfg["ncbi"], cfg["cache"], "me@example.com", api_key="K")
-    count, ids = client.search("q", "2010/01/01", "3000/12/31", limit=450)
-    assert count == 450 and len(ids) == 450
+    client = PubMedClient(http, cfg["ncbi"], cfg["cache"], email="me@example.com", api_key="K")
+    from datetime import date
+    total, ids = client.search("q", "2026/01/01", "3000/12/31", limit=450, today=date(2026, 10, 15))
+    assert total == 450 and len(ids) == 450
     _, url, params, kw = http.calls[0]
     assert url.endswith("/esearch.fcgi")
     assert params["tool"] == "nutrition_rag_ingest" and params["email"] == "me@example.com"
-    assert params["api_key"] == "K" and params["retmax"] == 450
+    assert params["api_key"] == "K" and params["sort"] == "pub_date"
     assert kw["ttl_days"] == cfg["cache"]["esearch_ttl_days"]
 
     list(client.fetch(ids))
     posts = [c for c in http.calls if c[0] == "POST"]
     assert len(posts) == 3                                # 200 + 200 + 50
     assert posts[2][2]["id"].count(",") == 49
+    assert posts[0][3]["ttl_days"] == cfg["cache"]["efetch_ttl_days"]
 
 
-def test_pubmed_client_caps_retmax():
+def test_pubmed_client_without_email_or_key():
     cfg = load_config()
-    http = _RecordingHttp(json.dumps({"esearchresult": {"count": "25000", "idlist": []}}).encode())
-    client = PubMedClient(http, cfg["ncbi"], cfg["cache"], "me@example.com")
-    client.search("q", "2010/01/01", "3000/12/31")
-    assert http.calls[0][2]["retmax"] == cfg["ncbi"]["esearch_max_ids"]
-    assert "api_key" not in http.calls[0][2]
+    http = _RecordingHttp(json.dumps({"esearchresult": {"count": "0", "idlist": []}}).encode())
+    client = PubMedClient(http, cfg["ncbi"], cfg["cache"])
+    from datetime import date
+    client.search("q", "2026/01/01", "3000/12/31", today=date(2026, 10, 15))
+    params = http.calls[0][2]
+    assert params["tool"] == "nutrition_rag_ingest"
+    assert "email" not in params and "api_key" not in params
+
+
+def test_guidelines_command_lists_registry():
+    result = runner.invoke(app, ["guidelines"])
+    assert result.exit_code == 0
+    assert "icmr_nin_dgi_2024" in result.output and "rssdi_cpr_t2dm_2022" in result.output

@@ -1,13 +1,19 @@
 # All tunable numbers live here. Every change to the `pubmed` or `design`
 # sections alters the corpus, so commit config changes with a clear message.
 #
-# Phase 0 values reproduce legacy/ingest_pubmed.py exactly (tests/test_parity.py
-# enforces this). Phase 1 changes are made on top, each with before/after counts.
+# Phase 0 reproduced legacy/ingest_pubmed.py exactly. Phase 1 deliberately
+# changed behaviour; see CLAUDE.md "Changes from the legacy script".
 
 paths:
   cache_dir: data/cache
-  pubmed_corpus: data/interim/pubmed_corpus.jsonl
-  pubmed_excluded: data/interim/pubmed_excluded.jsonl
+  pubmed_records: data/interim/pubmed_records.jsonl   # every fetched record, parsed (refreshed each run)
+  documents: data/corpus/documents.jsonl
+  excluded: data/corpus/excluded.jsonl
+  removals_log: data/corpus/removals_log.jsonl        # docs that left the corpus, appended per run
+  summary: data/corpus/summary.json
+  fulltext_dir: data/corpus/fulltext
+  guidelines_dir: data/guidelines
+  guidelines_registry: data/guidelines/registry.yaml
 
 ncbi:
   eutils_base: https://eutils.ncbi.nlm.nih.gov/entrez/eutils
@@ -22,10 +28,14 @@ ncbi:
 cache:
   # Days before a cached response is refetched. null = never expires.
   esearch_ttl_days: 1       # searches change daily; same-day reruns are free
-  efetch_ttl_days: 30       # record metadata (retractions etc.) can change
+  efetch_ttl_days: 7        # every stored record is refetched at most weekly (retractions, MeSH, EoC)
 
 pubmed:
-  date_range: ["2010/01/01", "3000/12/31"]
+  date_range: ["2013/01/01", "3000/12/31"]   # "post 2012"; searches are split by year
+  sort: pub_date
+  # Apply `strong_designs` at search time. Only an efficiency filter: the
+  # credibility rules below decide inclusion. Turn off to measure what it misses.
+  design_filter: true
   base_filters: 'humans[mh] AND english[la] AND hasabstract'
   strong_designs: >-
     (randomized controlled trial[pt] OR meta-analysis[pt] OR systematic review[pt]
@@ -55,21 +65,29 @@ design:
     - {label: systematic_review, score: 0.85, pub_types: ["Systematic Review"]}
     - {label: rct, score: 0.75, pub_types: ["Randomized Controlled Trial"]}
     - {label: controlled_trial, score: 0.60, pub_types: ["Controlled Clinical Trial", "Clinical Trial", "Clinical Trial, Phase III", "Clinical Trial, Phase IV", "Pragmatic Clinical Trial"]}
-    - {label: observational, score: 0.45, pub_types: ["Observational Study", "Multicenter Study"]}
+    - {label: observational, score: 0.45, pub_types: ["Observational Study"], defer: true}
     - {label: narrative_review, score: 0.15, pub_types: ["Review"], defer: true}
     - {label: opinion, score: 0.05, pub_types: ["Editorial", "Comment", "Letter", "News"]}
   mesh_rules:
-    - {label: cohort, score: 0.55, mesh: ["Cohort Studies", "Prospective Studies", "Longitudinal Studies"]}
+    # Case-control and cross-sectional come before the generic cohort rule: case-control
+    # studies are nearly always also indexed "Retrospective Studies".
+    - {label: prospective_cohort, score: 0.55, mesh: ["Prospective Studies"]}
     - {label: case_control, score: 0.40, mesh: ["Case-Control Studies"]}
     - {label: cross_sectional, score: 0.30, mesh: ["Cross-Sectional Studies"]}
+    - {label: cohort, score: 0.55, mesh: ["Cohort Studies", "Longitudinal Studies", "Retrospective Studies"]}
   # Case-insensitive regexes over title + abstract, used when the above find nothing.
   text_rules:
     - {label: meta_analysis, score: 0.90, pattern: '\bmeta-?analys[ie]s\b'}
     - {label: systematic_review, score: 0.85, pattern: '\bsystematic(ally)? review'}
     - {label: rct, score: 0.75, pattern: '\brandomi[sz]ed\b.{0,40}\btrial\b'}
-    - {label: cohort, score: 0.55, pattern: '\b(prospective|retrospective)?\s*cohort\b'}
+    - {label: prospective_cohort, score: 0.55, pattern: '\bprospective(ly)?\b.{0,40}\bcohort\b'}
+    - {label: cohort, score: 0.55, pattern: '\b(retrospective\s+)?cohort\b'}
     - {label: case_control, score: 0.40, pattern: '\bcase-?control\b'}
     - {label: cross_sectional, score: 0.30, pattern: '\bcross-?sectional\b'}
+  # Text rules ignore background sections and sentences about prior work.
+  text_scope:
+    background_labels: '^(background|introduction|context|rationale|importance)'
+    prior_work_cues: '\b(previous(ly)?|prior|earlier|existing|past)\b|\b(have|has) (been )?(shown|suggested|reported|found|demonstrated)\b|\bremains? (unclear|controversial|uncertain)\b'
   unknown_score: 0.20
 
 sample_size:
@@ -78,7 +96,9 @@ sample_size:
     - '\b([\d,]{2,9})\s+(?:participants|subjects|adults|women|men|patients|pregnant women|individuals|people|children|mothers)\b'
   min: 5
   max: 50000000
-  skip_range: [1900, 2100]   # numbers that look like years
+  skip_range: [1900, 2100]   # numbers that look like years...
+  # ...when preceded by a date-like context ("in 2015 women", "between 2012 and 2014 participants")
+  year_context: '(\b(in|since|from|during|until|by|before|after)\s+|\bbetween\s+\d{4}\s+and\s+|\b\d{4}\s*(-|–|to)\s*)$'
 
 exclusion:
   min_abstract_chars: 200
@@ -99,3 +119,55 @@ scoring:
     floor: 0.6
     reference_year: null     # null = current calendar year
   expression_of_concern_multiplier: 0.5
+
+# Fixed population vocabulary (registry entries, Phase 2 extraction).
+population_tags: [general_adults, prediabetes, type2_diabetes, overweight_obese, pregnant, lactating,
+                  gestational_diabetes, south_asian, indian, children, older_adults]
+
+# What counts as "extremely credible". Applied after the hygiene filters above.
+credibility:
+  include_designs: [guideline, meta_analysis, systematic_review, rct, prospective_cohort]
+  min_n: {rct: 50, prospective_cohort: 1000}
+  unknown_n: provisional            # provisional | include | exclude (Phase 2 extraction resolves provisional)
+  trusted_design_methods: [pubtype, mesh]   # a text-only design match makes the record provisional
+  exclude_pub_types: ["Clinical Trial Protocol", "Preprint"]
+  require_medline_journal: true     # citation indexed for MEDLINE, or journal currently indexed (NLM Catalog)
+  exclude_expression_of_concern: true
+  min_year: 2013                    # guidelines in the registry are exempt while current
+
+journals:
+  nlmcatalog_batch: 100
+  ttl_days: 30
+
+retractions:
+  # Crossref's distribution of the Retraction Watch database (updated daily).
+  retraction_watch_csv: https://gitlab.com/crossref/retraction-watch-data/-/raw/main/retraction_watch.csv
+  ttl_days: 1
+
+pmc:
+  enabled: true
+  efetch_batch: 20
+  ttl_days: 90
+  allowed_licences: [CC-BY, CC-BY-SA, CC0]
+  # Section titles are matched (lowercase, substring) in this order.
+  section_map:
+    introduction: [introduction, background]
+    methods: [method, materials, design, participants, population, statistical, procedure, setting, intervention]
+    results: [result, finding]
+    discussion: [discussion]
+    conclusion: [conclusion]
+  skip_sec_types: [supplementary-material, COI-statement, author-contributions, data-availability,
+                   ai-statement, disclaimer, funding-information, ethics-statement, abbreviations]
+  skip_titles: [acknowledg, funding, conflict, competing interest, author contribution, data availability,
+                abbreviation, supplementary, ethics, declaration, publisher]
+
+guidelines:
+  heading_size_ratio: 1.15          # a line is a heading if its font is this much larger than body text
+  heading_max_chars: 120
+  min_section_chars: 40
+  # Named regexes for recommendation grades. Each needs groups `text` and `grade`.
+  grade_patterns:
+    # ADA: "5.1 Refer adults with ... program. A" (several may share a paragraph)
+    ada: '(?P<text>\b\d{1,2}\.\d{1,2}[a-z]?\s.{20,}?)\s(?P<grade>[ABCE])(?=\s+\d{1,2}\.\d{1,2}[a-z]?\s|\s*$)'
+    grade_system: '(?i)(?P<text>.{20,}?)\s*[(\[]?(?P<grade>(?:strong|weak|conditional) recommendation[^.;)\]]*)'
+    who: '(?i)(?P<text>.{20,}?)\s*[(\[]?(?P<grade>context-specific recommendation|not recommended|recommended only in the context of rigorous research|recommended)\s*[)\]]?\s*$'

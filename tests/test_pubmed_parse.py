@@ -8,13 +8,15 @@ def records():
 
 
 def test_parses_all_articles():
-    assert len(records()) == 17
+    assert len(records()) == 25
 
 
 def test_structured_abstract_keeps_labels():
     r = records()["90000001"]
     assert r["abstract"].startswith("BACKGROUND: South Asian adults")
     assert "\nMETHODS: We randomised n = 240" in r["abstract"]
+    assert [label for label, _ in r["abstract_sections"]] == ["BACKGROUND", "METHODS", "RESULTS", "CONCLUSIONS"]
+    assert records()["90000003"]["abstract_sections"][0][0] == ""
 
 
 def test_ids_and_doi_lowercased():
@@ -44,17 +46,19 @@ def test_mesh_pubtypes_and_major_topics():
 
 def test_retraction_and_correction_flags():
     recs = records()
-    assert recs["90000007"]["retracted"]              # Retracted Publication pub type
-    assert recs["90000008"]["retracted"]              # RetractionIn link
-    assert recs["90000009"]["expression_of_concern"]
+    assert recs["90000007"]["pubmed_retracted"]       # Retracted Publication pub type
+    assert recs["90000008"]["pubmed_retracted"]       # RetractionIn link
+    assert recs["90000009"]["pubmed_expression_of_concern"]
     assert recs["90000009"]["has_erratum"]
-    assert not recs["90000001"]["retracted"]
+    assert not recs["90000001"]["pubmed_retracted"]
 
 
 def test_medline_status_language_coi_funders():
     recs = records()
-    assert recs["90000001"]["medline_indexed"]
-    assert not recs["90000003"]["medline_indexed"]    # PubMed-not-MEDLINE
+    assert recs["90000001"]["citation_status"] == "MEDLINE"
+    assert recs["90000003"]["citation_status"] == "PubMed-not-MEDLINE"
+    assert recs["90000001"]["nlm_unique_id"] == "0001001"
+    assert recs["90000023"]["nlm_unique_id"] == "9999999"
     assert recs["90000010"]["languages"] == ["ger"]
     assert recs["90000001"]["coi_statement"].startswith("The authors declare")
     assert recs["90000001"]["funders"] == ["Indian Council of Medical Research"]

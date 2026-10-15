@@ -7,7 +7,7 @@ FILLER = ("Participants were followed with standardised dietary assessment and o
 
 def art(pmid, title, abstract, year=None, medline_date=None, article_date=None, pub_types=("Journal Article",),
         mesh=("Humans",), status="MEDLINE", doi=None, eloc_doi=None, pmc=None, langs=("eng",),
-        corrections=(), coi=None, grants=(), structured=False, major=()):
+        corrections=(), coi=None, grants=(), structured=False, major=(), nlm="0001001"):
     if structured:
         ab = "".join(f'<AbstractText Label="{escape(l)}">{escape(t)}</AbstractText>' for l, t in abstract)
     else:
@@ -34,7 +34,7 @@ def art(pmid, title, abstract, year=None, medline_date=None, article_date=None, 
     return f"""<PubmedArticle><MedlineCitation Status="{status}" Owner="NLM"><PMID Version="1">{pmid}</PMID>
 <Article PubModel="Print"><Journal><ISSN IssnType="Electronic">1234-5678</ISSN><JournalIssue><PubDate>{pd}</PubDate></JournalIssue><Title>Journal of Test Nutrition</Title></Journal>
 <ArticleTitle>{escape(title)}</ArticleTitle>{el}<Abstract>{ab}</Abstract>{langs_x}{gl}<PublicationTypeList>{pts}</PublicationTypeList>{ad}</Article>
-{ccl}{mhl}{coi_x}</MedlineCitation><PubmedData><ArticleIdList>{ids}</ArticleIdList></PubmedData></PubmedArticle>
+<MedlineJournalInfo><Country>England</Country><MedlineTA>J Test Nutr</MedlineTA><NlmUniqueID>{nlm}</NlmUniqueID></MedlineJournalInfo>{ccl}{mhl}{coi_x}</MedlineCitation><PubmedData><ArticleIdList>{ids}</ArticleIdList></PubmedData></PubmedArticle>
 """
 
 def wrap(arts):
@@ -49,7 +49,7 @@ base = [
      coi="The authors declare no competing interests.", grants=("Indian Council of Medical Research",)),
  art(90000002, "Mediterranean diet and gestational diabetes: a meta-analysis",
      "We pooled 23 trials including 4,500 pregnant women. Mediterranean-style diets reduced gestational diabetes risk compared with usual care. " + FILLER,
-     year=2018, pub_types=("Journal Article", "Meta-Analysis", "Review"), mesh=("Humans", "Female", "Pregnancy", "Diabetes, Gestational"), doi="10.1000/test.0002"),
+     year=2018, pub_types=("Journal Article", "Meta-Analysis", "Review"), mesh=("Humans", "Female", "Pregnancy", "Diabetes, Gestational"), doi="10.1000/test.0002", pmc="PMC9000002"),
  art(90000003, "Dietary pulses and weight loss: a systematic review",
      "This systematic review summarises controlled feeding studies of pulses and body weight in adults with overweight. " + FILLER,
      medline_date="2015 Jan-Feb", status="PubMed-not-MEDLINE", mesh=("Humans", "Weight Loss")),
@@ -94,6 +94,32 @@ base = [
  art(90000017, "Sugar-sweetened beverages and weight in adolescents",
      "A cross-sectional study (n = 35) of adolescents examined sugar-sweetened beverage intake and body mass index in urban schools. " + FILLER,
      year=2011, mesh=("Humans", "Adolescent")),
+
+ # --- Phase 1 additions ---
+ art(90000019, "Diet quality in pregnancy and offspring adiposity: a prospective cohort study",
+     "In this prospective cohort, 5,000 pregnant women completed food frequency questionnaires and offspring adiposity was measured at age five. " + FILLER,
+     year=2019, mesh=("Humans", "Female", "Pregnancy", "Prospective Studies")),
+ art(90000020, "Breakfast skipping and weight gain: a small prospective cohort",
+     "This prospective cohort followed 300 adults for weight change according to breakfast habits over four years of follow-up. " + FILLER,
+     year=2018, mesh=("Humans", "Prospective Studies")),
+ art(90000021, "Protocol for a randomised trial of millet diets in prediabetes",
+     "We describe the protocol of a randomized controlled trial that will enrol 600 adults with prediabetes in southern India over two years. " + FILLER,
+     year=2024, pub_types=("Journal Article", "Clinical Trial Protocol", "Randomized Controlled Trial"), mesh=("Humans", "Prediabetic State")),
+ art(90000022, "Probiotic yoghurt and gestational diabetes: a randomised controlled trial",
+     "We randomized 400 pregnant women to probiotic yoghurt or control and measured gestational diabetes incidence at 28 weeks of gestation. " + FILLER,
+     year=2020, pub_types=("Journal Article", "Randomized Controlled Trial"), mesh=("Humans", "Female", "Pregnancy"), doi="10.1000/test.0022"),
+ art(90000023, "Very low calorie diet for weight loss: randomised trial in a non-indexed journal",
+     "We randomized 150 adults with obesity to a very low calorie diet or usual care and measured weight at one year of follow-up. " + FILLER,
+     year=2022, pub_types=("Journal Article", "Randomized Controlled Trial"), mesh=(), status="Publisher", nlm="9999999"),
+ art(90000024, "Pulse-based meals and HbA1c in prediabetes: a randomised controlled trial",
+     "We randomized 220 adults with prediabetes to pulse-based meals or usual diet; HbA1c was measured at six months of follow-up. " + FILLER,
+     year=2026, pub_types=("Journal Article", "Randomized Controlled Trial"), mesh=(), status="In-Process"),
+ art(90000025, "Dietary habits of urban Indian adults",
+     "Previous meta-analyses have suggested that dietary patterns influence diabetes risk. We surveyed 900 adults about their usual diet in a cross-sectional design. " + FILLER,
+     year=2021, mesh=("Humans", "India")),
+ art(90000026, "Green tea extract for weight maintenance: a randomised controlled trial",
+     "We randomized 180 adults who had lost weight to green tea extract or placebo and measured weight regain over twelve months. " + FILLER,
+     year=2017, pub_types=("Journal Article", "Randomized Controlled Trial"), mesh=("Humans",), doi="10.1000/test.0026"),
 ]
 
 refresh = [

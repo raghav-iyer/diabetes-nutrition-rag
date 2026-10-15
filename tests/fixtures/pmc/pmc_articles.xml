@@ -1,0 +1,56 @@
+<?xml version="1.0" ?>
+<!-- Synthetic PMC JATS fixtures (fake IDs). Not real articles. -->
+<pmc-articleset>
+<article xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:ali="http://www.niso.org/schemas/ali/1.0/" article-type="research-article" xml:lang="en">
+<front>
+<article-meta>
+<article-id pub-id-type="pmcid">PMC9000001</article-id>
+<article-id pub-id-type="pmid">90000001</article-id>
+<article-id pub-id-type="doi">10.1000/test.0001</article-id>
+<title-group><article-title>Low glycaemic index diet versus usual care</article-title></title-group>
+<permissions>
+<copyright-statement>© 2020 The Authors.</copyright-statement>
+<license><ali:license_ref specific-use="textmining" content-type="ccbylicense">https://creativecommons.org/licenses/by/4.0/</ali:license_ref>
+<license-p>This is an open access article under the <ext-link ext-link-type="uri" xlink:href="https://creativecommons.org/licenses/by/4.0/">CC BY</ext-link> licence.</license-p></license>
+</permissions>
+<abstract><p>Abstract text that should not be duplicated into sections.</p></abstract>
+</article-meta>
+</front>
+<body>
+<sec id="s1"><title>Introduction</title>
+<p>South Asian adults develop type 2 diabetes at lower body mass index <xref ref-type="bibr" rid="b1">[1]</xref>.</p>
+<p>Dietary glycaemic index may matter.</p>
+</sec>
+<sec id="s2" sec-type="methods"><title>Materials and methods</title>
+<sec id="s2a"><title>Participants</title><p>We recruited 240 adults with prediabetes in Chennai.</p></sec>
+<sec id="s2b"><title>Intervention</title><p>Participants received a low glycaemic index meal plan.</p>
+<table-wrap id="t1"><label>Table 1</label><caption><p>Baseline characteristics</p></caption>
+<table><thead><tr><th>Characteristic</th><th>Intervention</th><th>Control</th></tr></thead>
+<tbody><tr><td>Age, years</td><td>45.2</td><td>44.8</td></tr><tr><td>BMI, kg/m2</td><td>26.1</td><td>25.9</td></tr></tbody></table>
+<table-wrap-foot><p>Values are means.</p></table-wrap-foot></table-wrap>
+</sec>
+</sec>
+<sec id="s3"><title>Results</title><p>Diabetes incidence was 12% versus 20% (see <xref ref-type="table" rid="t2">Table 2</xref>).</p>
+<fig id="f1"><label>Figure 1</label><caption><p>Flow diagram caption should be skipped.</p></caption></fig>
+</sec>
+<sec id="s4"><title>Discussion</title><p>The effect is consistent with prior trials.</p></sec>
+<sec id="s5"><title>Conclusions</title><p>A low GI diet reduced progression.</p></sec>
+<sec id="s6"><title>Funding</title><p>Funded by a test grant.</p></sec>
+<sec id="s7" sec-type="COI-statement"><title>Conflict of interest</title><p>None.</p></sec>
+</body>
+<floats-group>
+<table-wrap id="t2"><label>Table 2</label><caption><p>Outcomes at 3 years</p></caption>
+<table><tbody><tr><td>Outcome</td><td>HR (95% CI)</td></tr><tr><td>Diabetes</td><td>0.58 (0.40-0.84)</td></tr></tbody></table></table-wrap>
+</floats-group>
+</article>
+<article xmlns:xlink="http://www.w3.org/1999/xlink" article-type="review-article" xml:lang="en">
+<front>
+<article-meta>
+<article-id pub-id-type="pmcid">PMC9000002</article-id>
+<article-id pub-id-type="pmid">90000002</article-id>
+<permissions><license><license-p>This article is made available via the PMC Open Access Subset for unrestricted research re-use and secondary analysis in any form or by any means with acknowledgement of the original source. These permissions are granted for the duration of the World Health Organization (WHO) declaration of COVID-19 as a global pandemic.</license-p></license></permissions>
+</article-meta>
+</front>
+<body><sec><title>Introduction</title><p>Should not be stored.</p></sec></body>
+</article>
+</pmc-articleset>
