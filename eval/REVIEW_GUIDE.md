@@ -1,12 +1,14 @@
 # How to fill in `extraction_review.csv`
 
-The spreadsheet checks what the local model (gpt-oss 20B, low reasoning) extracted from each
-abstract. Your answers become the ground truth for `nrag extract-accuracy`.
+The spreadsheet compares what two local models (Qwen3.8 27B and gpt-oss 20B, both at low
+reasoning) extracted from each abstract. Which model is **A** and which is **B** is random for each
+paper and hidden from you (the key is in `extraction_review_key.json`; don't open it until you're done).
+Your answers become the ground truth for `nrag extract-accuracy`.
 
 ## Layout
 
 - One block of 16 rows per paper, one row per field. The title and abstract appear on the first row of each block.
-- Column **A** is the model's answer. Column **B** is empty (only one model is being reviewed).
+- Columns **A** and **B** are the two models' answers.
 - The first 30 papers (480 rows) are the quick-screen set. If you're short of time, do those first:
   partial labels work, and unlabelled rows are skipped.
 
@@ -14,8 +16,8 @@ abstract. Your answers become the ground truth for `nrag extract-accuracy`.
 
 | Column | What to enter |
 |---|---|
-| `verdict` | **A** if the answer is correct. **neither** if it is wrong. |
-| `correct_value` | Only when the verdict is **neither**: the right value, written the same way as column A. |
+| `verdict` | **A** or **B** if only that one is correct; **both** if both are correct; **neither** if neither is. |
+| `correct_value` | Only when the verdict is **neither**: the right value, written the same way as columns A/B. |
 | `notes` | Optional: anything odd ("abstract is a protocol", "off-topic"). |
 
 Judge only against the **title and abstract shown**. If the abstract doesn't say something, the correct
