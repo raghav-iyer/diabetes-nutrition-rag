@@ -195,15 +195,26 @@ def extract_one(client: LLMClient, endpoint: str, ec: ExtractConfig, doc: dict[s
     return {**result, "cached": False}
 
 
+class RunAborted(RuntimeError):
+    def __init__(self, message: str, results: list[dict[str, Any]]):
+        super().__init__(message)
+        self.results = results
+
+
 def run_extraction(client: LLMClient, pool: EndpointPool, ec: ExtractConfig, docs: Iterable[dict[str, Any]],
-                   use_cache: bool = True, progress: bool = True) -> list[dict[str, Any]]:
+                   use_cache: bool = True, progress: bool = True, max_consecutive_failures: int = 5
+                   ) -> list[dict[str, Any]]:
+    """Extract all docs. Raises RunAborted (carrying the results so far) if the model server
+    fails `max_consecutive_failures` times in a row, instead of burning through every document."""
     docs = list(docs)
     results: list[dict[str, Any]] = []
+    order = {d["doc_id"]: i for i, d in enumerate(docs)}
 
     def job(doc):
         with pool.acquire() as endpoint:
             return extract_one(client, endpoint, ec, doc, use_cache=use_cache)
 
+    consecutive = 0
     with ThreadPoolExecutor(max_workers=pool.size) as ex:
         futures = {ex.submit(job, d): d["doc_id"] for d in docs}
         for i, fut in enumerate(as_completed(futures), 1):
@@ -212,7 +223,14 @@ def run_extraction(client: LLMClient, pool: EndpointPool, ec: ExtractConfig, doc
             if progress:
                 tag = "cache" if r["cached"] else f"{r['latency_s']:.1f}s"
                 print(f"  [{i}/{len(docs)}] {r['doc_id']} {r['status']} ({tag})", flush=True)
-    order = {d["doc_id"]: i for i, d in enumerate(docs)}
+            server_error = r["status"] == "failed" and any(e.startswith("llm_error") for e in r["errors"])
+            consecutive = consecutive + 1 if server_error else 0
+            if consecutive >= max_consecutive_failures:
+                for f in futures:
+                    f.cancel()
+                results.sort(key=lambda r: order[r["doc_id"]])
+                raise RunAborted(f"model server failed {consecutive} times in a row; last error: "
+                                 f"{r['errors'][-1][:200]}", results)
     return sorted(results, key=lambda r: order[r["doc_id"]])
 
 

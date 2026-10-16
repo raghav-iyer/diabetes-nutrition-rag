@@ -199,6 +199,7 @@ llm:
   seed: 0
   num_ctx: 8192
   keep_alive: 30m
+  max_consecutive_failures: 5     # abort a run when the model server keeps erroring (e.g. GPU out of memory)
 
 extract:
   active_model: gpt-oss:20b       # overridden by LLM_MODEL; feeds the corpus once validated

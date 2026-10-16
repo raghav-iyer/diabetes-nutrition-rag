@@ -97,7 +97,13 @@ def run(cfg: dict[str, Any], model: str, think: Any, sample: str, limit: int | N
     docs = select(cfg, load_documents(cfg), sample, limit)
     slug = pico.model_slug(model, ec.think)
     print(f"Extracting {len(docs)} documents with {model} (think={ec.think}) on {len(eps)} endpoint(s)")
-    results = pico.run_extraction(client, pool, ec, docs, use_cache=use_cache)
+    try:
+        results = pico.run_extraction(client, pool, ec, docs, use_cache=use_cache,
+                                      max_consecutive_failures=cfg["llm"]["max_consecutive_failures"])
+    except pico.RunAborted as e:
+        save_results(cfg, slug, e.results)
+        raise SystemExit(f"Aborted: {e}. Completed results were saved; fix the server (e.g. restart "
+                         f"`ollama serve`) and rerun: finished documents come from the cache.")
     path = save_results(cfg, slug, results)
     summary = pico.summarize_run(results)
     summary.update(system=slug, output=str(path))
