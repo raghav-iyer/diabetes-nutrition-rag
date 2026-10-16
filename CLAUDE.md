@@ -11,7 +11,9 @@ with numbers.
 Built in phases; stop after each phase for review and wait for the go-ahead.
 - Phase 0 (setup + port of the legacy ingester): done.
 - Phase 1 (dataset ingestion): done. Live sample run: `--max-per-topic 200`.
-- Phase 2 (LLM PICO extraction): next. Needs `ANTHROPIC_API_KEY` and `LLM_MODEL`.
+- Phase 2 (LLM PICO extraction): in progress. Local models via Ollama **on the Mac only** (no laptop, no paid APIs).
+- No GCP account: Phase 10 is a local deployment (Docker compose, CI, local monitoring); the embedding
+  comparison uses local models only.
 
 ## Commands
 
@@ -53,6 +55,15 @@ reviews, RCTs (n ≥ 50) and prospective cohorts (n ≥ 1000); published 2013+; 
 no expressions of concern; no protocols or preprints. Registry guidelines are exempt from the
 date cutoff while current (IOM 2009). Unknown sample size or a text-only design match makes a
 record **provisional**; Phase 2 extraction resolves these.
+
+## India boost
+
+`pubmed.india_boost`: extra per-topic searches (India/South Asia terms AND diet terms AND topic outcomes),
+because India-specific evidence is ~3% of the main results. The user asked for ~30% more India-focused
+research: in sample runs `fraction` = 0.45 of each topic's quota is fetched, and about half passes the
+credibility rules, giving +31% documents (200/topic sample: 145 India-boost docs on 461 main). In full runs
+all India hits are added; the full India literature is too small to reach +30% of the whole corpus.
+Records carry `search_sources` (main / india_boost).
 
 ## Conventions
 

@@ -12,6 +12,7 @@ from __future__ import annotations
 
 import hashlib
 import json
+import math
 from collections import Counter
 from dataclasses import dataclass
 from datetime import date
@@ -21,7 +22,7 @@ from typing import Any, Iterable
 from nrag.config import resolve_path
 from nrag.ingest import credibility, guidelines as gl, journals, pmc_fulltext, retractions
 from nrag.ingest.pubmed import (
-    PubMedClient, Rules, build_query, classify_design, exclusion_reason, extract_sample_size,
+    PubMedClient, Rules, build_query, classify_design, india_query, exclusion_reason, extract_sample_size,
     parse_articles, recency_factor, reference_year, score,
 )
 from nrag.net import CachedHttp
@@ -68,12 +69,20 @@ def write_jsonl(path: Path, rows: Iterable[dict[str, Any]]) -> None:
 # Stages
 # ---------------------------------------------------------------------------
 def search_topics(cfg, client: PubMedClient, since, max_per_topic, topics, design_filter, today):
+    """Return ({pmid: topics}, {pmid: sources}, {search: total hits})."""
     pm = cfg["pubmed"]
+    ib = pm["india_boost"]
     mindate, maxdate = (since, pm["date_range"][1]) if since else pm["date_range"]
     datetype = "edat" if since else "pdat"   # entry date for refreshes
     hits: dict[str, set[str]] = {}
+    sources: dict[str, set[str]] = {}
     totals: dict[str, int] = {}
     wanted = set(topics or [])
+
+    def add(pmid, topic, source):
+        hits.setdefault(pmid, set()).add(topic)
+        sources.setdefault(pmid, set()).add(source)
+
     for topic, q in pm["topics"].items():
         if wanted and topic not in wanted:
             continue
@@ -81,19 +90,36 @@ def search_topics(cfg, client: PubMedClient, since, max_per_topic, topics, desig
                                    limit=max_per_topic, today=today)
         totals[topic] = total
         for pmid in ids:
-            hits.setdefault(pmid, set()).add(topic)
-        print(f"[{topic}] {total} hits, taking {len(ids)}")
-    return hits, totals
+            add(pmid, topic, "main")
+        msg = f"[{topic}] {total} hits, taking {len(ids)}"
+        if ib["enabled"]:
+            quota = math.ceil(ib["fraction"] * max_per_topic) if max_per_topic else None
+            # Over-fetch so the quota is filled with records the main search didn't return.
+            itotal, iids = client.search(india_query(cfg, topic, design_filter), mindate, maxdate, datetype,
+                                         limit=quota * 2 + len(ids) if quota else None, today=today)
+            new = [p for p in iids if p not in set(ids)]
+            new = new[:quota] if quota else new
+            totals[f"{topic}:india_boost"] = itotal
+            for pmid in new:
+                add(pmid, topic, "india_boost")
+            msg += f"; India boost {itotal} hits, adding {len(new)} new"
+        print(msg)
+    return hits, sources, totals
 
 
-def fetch_and_merge(client: PubMedClient, store: dict[str, dict], hits: dict[str, set[str]], today: date):
-    """Fetch new hits and refetch everything already stored; merge topics."""
+def fetch_and_merge(client: PubMedClient, store: dict[str, dict], hits: dict[str, set[str]], today: date,
+                    sources: dict[str, set[str]] | None = None):
+    """Fetch new hits and refetch everything already stored; merge topics and search sources."""
+    sources = sources or {}
     ids = sorted(set(store) | set(hits), key=int)   # stable batches -> cache-friendly
     returned = 0
     for chunk in client.fetch(ids):
         for rec in parse_articles(chunk):
             old = store.get(rec["pmid"], {})
             rec["topics"] = sorted(set(old.get("topics", [])) | hits.get(rec["pmid"], set()))
+            # Records stored before search sources were tracked came from the main searches.
+            prior = set(old.get("search_sources", ["main"])) if old else set()
+            rec["search_sources"] = sorted(prior | sources.get(rec["pmid"], set()) or {"main"})
             rec["first_seen"] = old.get("first_seen", today.isoformat())
             store[rec["pmid"]] = rec
             returned += 1
@@ -229,9 +255,9 @@ def run(cfg, clients: Clients, since=None, max_per_topic=None, topics=None, desi
     previous_docs = {d["doc_id"] for d in read_jsonl(paths["documents"])}
     print(f"Store: {len(store)} PubMed records; previous corpus: {len(previous_docs)} documents")
 
-    hits, totals = search_topics(cfg, clients.pubmed, since, max_per_topic, topics, design_filter, today)
+    hits, sources, totals = search_topics(cfg, clients.pubmed, since, max_per_topic, topics, design_filter, today)
     n_new = len(set(hits) - set(store))
-    returned = fetch_and_merge(clients.pubmed, store, hits, today)
+    returned = fetch_and_merge(clients.pubmed, store, hits, today, sources)
     write_jsonl(paths["pubmed_records"], sorted(store.values(), key=lambda r: int(r["pmid"])))
     print(f"Fetched {returned} records ({n_new} new); store now {len(store)}")
 
@@ -300,6 +326,8 @@ def summarize(cfg, kept, excluded, totals, licences, g_missing, removals, indexe
             "both": sum(1 for d in excluded if len(d.get("retraction_sources", [])) == 2),
         },
         "without_prospective_cohorts": sum(1 for d in kept if d["design"] != "prospective_cohort"),
+        "by_search_source": _count(src for d in pubmed_docs for src in d.get("search_sources", [])),
+        "india_boost_only": sum(1 for d in pubmed_docs if d.get("search_sources") == ["india_boost"]),
         "journals": {"unique_nlm_ids": len({r.get("nlm_unique_id") for r in store.values() if r.get("nlm_unique_id")}),
                      "currently_indexed": len(indexed)},
         "guidelines": {"parsed": [d["doc_id"] for d in kept if d["source_type"] == "guideline" and not d.get("pmid")],
@@ -313,10 +341,14 @@ def print_summary(s: dict[str, Any]) -> None:
     print(f"Documents: {s['documents']}   Excluded: {s['excluded']}   (store: {s['store_size']} PubMed records)")
     for key in ("pubmed_hits_by_topic", "by_status", "by_topic", "by_design", "by_source_type", "by_year",
                 "design_decided_by", "fulltext_licences_seen", "flags", "exclusion_reasons", "retracted_in_store",
-                "journals"):
+                "journals", "by_search_source"):
         print(f"{key}: {s[key]}")
     print(f"fulltext_stored: {s['fulltext_stored']}")
     print(f"without prospective cohorts: {s['without_prospective_cohorts']} documents")
+    main_only = s["documents"] - s["india_boost_only"] - len(s["guidelines"]["parsed"])
+    if main_only:
+        print(f"India boost: {s['india_boost_only']} documents found only by India searches "
+              f"(+{s['india_boost_only'] / main_only:.0%} on top of the main searches)")
     print(f"guidelines parsed: {s['guidelines']['parsed'] or 'none'}; awaiting PDF: {s['guidelines']['awaiting_pdf']}")
     if s["removed_this_run"]:
         print(f"removed this run: {len(s['removed_this_run'])} (see removals log)")
