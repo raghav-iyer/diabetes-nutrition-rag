@@ -202,7 +202,9 @@ llm:
 
 extract:
   active_model: gpt-oss:20b       # overridden by LLM_MODEL; feeds the corpus once validated
-  candidates: [gpt-oss:20b, qwen3.8:27b]
+  # Qwen3.8 27B does not fit the Mac's GPU memory (needs >18 GB); high reasoning on gpt-oss
+  # was ~4 min/abstract (measured on 4), so extraction uses gpt-oss low only.
+  candidates: [gpt-oss:20b]
   think:                          # per-model reasoning setting (gpt-oss: low|medium|high; qwen: true|false)
     gpt-oss:20b: low
     qwen3.8:27b: false
