@@ -171,3 +171,51 @@ guidelines:
     ada: '(?P<text>\b\d{1,2}\.\d{1,2}[a-z]?\s.{20,}?)\s(?P<grade>[ABCE])(?=\s+\d{1,2}\.\d{1,2}[a-z]?\s|\s*$)'
     grade_system: '(?i)(?P<text>.{20,}?)\s*[(\[]?(?P<grade>(?:strong|weak|conditional) recommendation[^.;)\]]*)'
     who: '(?i)(?P<text>.{20,}?)\s*[(\[]?(?P<grade>context-specific recommendation|not recommended|recommended only in the context of rigorous research|recommended)\s*[)\]]?\s*$'
+
+# Local LLM backend. Endpoints can be overridden with LLM_ENDPOINTS (comma-separated),
+# e.g. "http://localhost:11434,http://192.168.1.20:11434" to add the GPU laptop.
+llm:
+  backend: ollama                 # ollama | openai_compat (llama.cpp server, LM Studio, vLLM)
+  endpoints: ["http://localhost:11434"]
+  concurrency_per_endpoint: 1
+  timeout_s: 900
+  retries: 3
+  temperature: 0
+  seed: 0
+  num_ctx: 8192
+  keep_alive: 30m
+
+extract:
+  active_model: gpt-oss:20b       # overridden by LLM_MODEL; feeds the corpus once validated
+  candidates: [gpt-oss:20b, qwen3.8:27b]
+  think:                          # per-model reasoning setting (gpt-oss: low|medium|high; qwen: true|false)
+    gpt-oss:20b: low
+    qwen3.8:27b: false
+  prompt_version: pico_v1
+  max_attempts: 3
+  max_tokens: 4096
+  dropout_threshold_pct: 20
+  output_dir: data/interim/extractions
+  apply_to_corpus: false          # switch on after the review shows acceptable accuracy
+  sample: {screen: 30, review: 100, seed: 13}
+  review_csv: eval/extraction_review.csv
+  review_key: eval/extraction_review_key.json
+  report: eval/reports/extraction_accuracy.md
+  # Pre-registered model choice: prefer the faster model unless it is worse on these
+  # fields by more than max_accuracy_drop with a 95% CI excluding zero.
+  decision:
+    critical_fields: [population.tags, effect_direction, outcomes, sample_size]
+    max_accuracy_drop: 0.05
+  bootstrap_iters: 2000
+  # Rules-only baseline (no LLM): MeSH terms -> population tags.
+  rules_baseline_mesh_tags:
+    pregnant: [Pregnancy, Pregnant Women, Pregnant People]
+    lactating: [Lactation, Breast Feeding]
+    gestational_diabetes: ["Diabetes, Gestational"]
+    prediabetes: [Prediabetic State]
+    type2_diabetes: ["Diabetes Mellitus, Type 2"]
+    overweight_obese: [Obesity, Overweight, "Obesity, Morbid", "Pediatric Obesity"]
+    indian: [India]
+    south_asian: [India, Pakistan, Bangladesh, Sri Lanka, Nepal]
+    children: [Child, Adolescent, "Child, Preschool"]
+    older_adults: [Aged, "Aged, 80 and over"]
