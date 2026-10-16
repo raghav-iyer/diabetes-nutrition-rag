@@ -255,3 +255,26 @@ def test_incomplete_ollama_response_is_retried_then_fails(monkeypatch):
     assert LLMClient("ollama", session=FakeHTTP([crashed, ok])).chat("http://h", "m", []).content == "{}"
     with pytest.raises(LLMError, match="incomplete response"):
         LLMClient("ollama", session=FakeHTTP([crashed] * 3)).chat("http://h", "m", [])
+
+
+def test_run_aborts_after_consecutive_server_errors(ec):
+    docs = [{**DOC, "doc_id": f"PMID:{i}", "abstract": ABSTRACT + f" v{i}"} for i in range(10)]
+
+    class Broken(ScriptedClient):
+        def __init__(self):
+            super().__init__([])
+
+        def chat(self, *a, **k):
+            raise LLMError("incomplete response (runner error)")
+
+    with pytest.raises(pico.RunAborted) as info:
+        pico.run_extraction(Broken(), EndpointPool(["http://a"]), ec, docs, progress=False, max_consecutive_failures=3)
+    assert len(info.value.results) == 3 and all(r["status"] == "failed" for r in info.value.results)
+
+
+def test_isolated_failures_do_not_abort(ec):
+    docs = [{**DOC, "doc_id": f"PMID:{i}", "abstract": ABSTRACT + f" v{i}"} for i in range(6)]
+    contents = [LLMError("x"), json.dumps(good_extraction())] * 3
+    results = pico.run_extraction(ScriptedClient(contents), EndpointPool(["http://a"]), ec, docs, progress=False,
+                                  max_consecutive_failures=2)
+    assert [r["status"] for r in results] == ["failed", "ok"] * 3
