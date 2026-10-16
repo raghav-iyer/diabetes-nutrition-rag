@@ -1,307 +1,408 @@
 {
  "systems": [
+  "models-gemma-4-26B-A4B-it",
   "gpt-oss-20b__think-low"
  ],
  "assignment": {
   "PMID:39297398": {
-   "A": "gpt-oss-20b__think-low"
+   "A": "models-gemma-4-26B-A4B-it",
+   "B": "gpt-oss-20b__think-low"
   },
   "PMID:31259665": {
-   "A": "gpt-oss-20b__think-low"
+   "A": "models-gemma-4-26B-A4B-it",
+   "B": "gpt-oss-20b__think-low"
   },
   "PMID:34554038": {
-   "A": "gpt-oss-20b__think-low"
+   "A": "gpt-oss-20b__think-low",
+   "B": "models-gemma-4-26B-A4B-it"
   },
   "PMID:29074328": {
-   "A": "gpt-oss-20b__think-low"
+   "A": "gpt-oss-20b__think-low",
+   "B": "models-gemma-4-26B-A4B-it"
   },
   "PMID:34907820": {
-   "A": "gpt-oss-20b__think-low"
+   "A": "gpt-oss-20b__think-low",
+   "B": "models-gemma-4-26B-A4B-it"
   },
   "PMID:26607403": {
-   "A": "gpt-oss-20b__think-low"
+   "A": "gpt-oss-20b__think-low",
+   "B": "models-gemma-4-26B-A4B-it"
   },
   "PMID:30206335": {
-   "A": "gpt-oss-20b__think-low"
+   "A": "gpt-oss-20b__think-low",
+   "B": "models-gemma-4-26B-A4B-it"
   },
   "PMID:33454528": {
-   "A": "gpt-oss-20b__think-low"
+   "A": "gpt-oss-20b__think-low",
+   "B": "models-gemma-4-26B-A4B-it"
   },
   "PMID:27687080": {
-   "A": "gpt-oss-20b__think-low"
+   "A": "gpt-oss-20b__think-low",
+   "B": "models-gemma-4-26B-A4B-it"
   },
   "PMID:40495569": {
-   "A": "gpt-oss-20b__think-low"
+   "A": "gpt-oss-20b__think-low",
+   "B": "models-gemma-4-26B-A4B-it"
   },
   "PMID:37470090": {
-   "A": "gpt-oss-20b__think-low"
+   "A": "models-gemma-4-26B-A4B-it",
+   "B": "gpt-oss-20b__think-low"
   },
   "PMID:42365364": {
-   "A": "gpt-oss-20b__think-low"
+   "A": "gpt-oss-20b__think-low",
+   "B": "models-gemma-4-26B-A4B-it"
   },
   "PMID:34999333": {
-   "A": "gpt-oss-20b__think-low"
+   "A": "models-gemma-4-26B-A4B-it",
+   "B": "gpt-oss-20b__think-low"
   },
   "PMID:29032859": {
-   "A": "gpt-oss-20b__think-low"
+   "A": "gpt-oss-20b__think-low",
+   "B": "models-gemma-4-26B-A4B-it"
   },
   "PMID:29352654": {
-   "A": "gpt-oss-20b__think-low"
+   "A": "gpt-oss-20b__think-low",
+   "B": "models-gemma-4-26B-A4B-it"
   },
   "PMID:41387277": {
-   "A": "gpt-oss-20b__think-low"
+   "A": "models-gemma-4-26B-A4B-it",
+   "B": "gpt-oss-20b__think-low"
   },
   "PMID:41995444": {
-   "A": "gpt-oss-20b__think-low"
+   "A": "gpt-oss-20b__think-low",
+   "B": "models-gemma-4-26B-A4B-it"
   },
   "PMID:26373311": {
-   "A": "gpt-oss-20b__think-low"
+   "A": "gpt-oss-20b__think-low",
+   "B": "models-gemma-4-26B-A4B-it"
   },
   "PMID:36448660": {
-   "A": "gpt-oss-20b__think-low"
+   "A": "models-gemma-4-26B-A4B-it",
+   "B": "gpt-oss-20b__think-low"
   },
   "PMID:39163066": {
-   "A": "gpt-oss-20b__think-low"
+   "A": "models-gemma-4-26B-A4B-it",
+   "B": "gpt-oss-20b__think-low"
   },
   "PMID:25145972": {
-   "A": "gpt-oss-20b__think-low"
+   "A": "models-gemma-4-26B-A4B-it",
+   "B": "gpt-oss-20b__think-low"
   },
   "PMID:37308791": {
-   "A": "gpt-oss-20b__think-low"
+   "A": "gpt-oss-20b__think-low",
+   "B": "models-gemma-4-26B-A4B-it"
   },
   "PMID:37966688": {
-   "A": "gpt-oss-20b__think-low"
+   "A": "models-gemma-4-26B-A4B-it",
+   "B": "gpt-oss-20b__think-low"
   },
   "PMID:30470803": {
-   "A": "gpt-oss-20b__think-low"
+   "A": "models-gemma-4-26B-A4B-it",
+   "B": "gpt-oss-20b__think-low"
   },
   "PMID:36332698": {
-   "A": "gpt-oss-20b__think-low"
+   "A": "gpt-oss-20b__think-low",
+   "B": "models-gemma-4-26B-A4B-it"
   },
   "PMID:27726090": {
-   "A": "gpt-oss-20b__think-low"
+   "A": "models-gemma-4-26B-A4B-it",
+   "B": "gpt-oss-20b__think-low"
   },
   "PMID:31242511": {
-   "A": "gpt-oss-20b__think-low"
+   "A": "models-gemma-4-26B-A4B-it",
+   "B": "gpt-oss-20b__think-low"
   },
   "PMID:42628693": {
-   "A": "gpt-oss-20b__think-low"
+   "A": "models-gemma-4-26B-A4B-it",
+   "B": "gpt-oss-20b__think-low"
   },
   "PMID:38165660": {
-   "A": "gpt-oss-20b__think-low"
+   "A": "models-gemma-4-26B-A4B-it",
+   "B": "gpt-oss-20b__think-low"
   },
   "PMID:25414152": {
-   "A": "gpt-oss-20b__think-low"
+   "A": "models-gemma-4-26B-A4B-it",
+   "B": "gpt-oss-20b__think-low"
   },
   "PMID:38829171": {
-   "A": "gpt-oss-20b__think-low"
+   "A": "gpt-oss-20b__think-low",
+   "B": "models-gemma-4-26B-A4B-it"
   },
   "PMID:24251378": {
-   "A": "gpt-oss-20b__think-low"
+   "A": "models-gemma-4-26B-A4B-it",
+   "B": "gpt-oss-20b__think-low"
   },
   "PMID:33164108": {
-   "A": "gpt-oss-20b__think-low"
+   "A": "models-gemma-4-26B-A4B-it",
+   "B": "gpt-oss-20b__think-low"
   },
   "PMID:32448822": {
-   "A": "gpt-oss-20b__think-low"
+   "A": "models-gemma-4-26B-A4B-it",
+   "B": "gpt-oss-20b__think-low"
   },
   "PMID:25536083": {
-   "A": "gpt-oss-20b__think-low"
+   "A": "gpt-oss-20b__think-low",
+   "B": "models-gemma-4-26B-A4B-it"
   },
   "PMID:39569602": {
-   "A": "gpt-oss-20b__think-low"
+   "A": "models-gemma-4-26B-A4B-it",
+   "B": "gpt-oss-20b__think-low"
   },
   "PMID:26475162": {
-   "A": "gpt-oss-20b__think-low"
+   "A": "models-gemma-4-26B-A4B-it",
+   "B": "gpt-oss-20b__think-low"
   },
   "PMID:27917777": {
-   "A": "gpt-oss-20b__think-low"
+   "A": "gpt-oss-20b__think-low",
+   "B": "models-gemma-4-26B-A4B-it"
   },
   "PMID:34672229": {
-   "A": "gpt-oss-20b__think-low"
+   "A": "models-gemma-4-26B-A4B-it",
+   "B": "gpt-oss-20b__think-low"
   },
   "PMID:25323965": {
-   "A": "gpt-oss-20b__think-low"
+   "A": "gpt-oss-20b__think-low",
+   "B": "models-gemma-4-26B-A4B-it"
   },
   "PMID:24196190": {
-   "A": "gpt-oss-20b__think-low"
+   "A": "gpt-oss-20b__think-low",
+   "B": "models-gemma-4-26B-A4B-it"
   },
   "PMID:37721649": {
-   "A": "gpt-oss-20b__think-low"
+   "A": "models-gemma-4-26B-A4B-it",
+   "B": "gpt-oss-20b__think-low"
   },
   "PMID:25526968": {
-   "A": "gpt-oss-20b__think-low"
+   "A": "models-gemma-4-26B-A4B-it",
+   "B": "gpt-oss-20b__think-low"
   },
   "PMID:41247650": {
-   "A": "gpt-oss-20b__think-low"
+   "A": "models-gemma-4-26B-A4B-it",
+   "B": "gpt-oss-20b__think-low"
   },
   "PMID:41422485": {
-   "A": "gpt-oss-20b__think-low"
+   "A": "models-gemma-4-26B-A4B-it",
+   "B": "gpt-oss-20b__think-low"
   },
   "PMID:24646102": {
-   "A": "gpt-oss-20b__think-low"
+   "A": "models-gemma-4-26B-A4B-it",
+   "B": "gpt-oss-20b__think-low"
   },
   "PMID:41309052": {
-   "A": "gpt-oss-20b__think-low"
+   "A": "models-gemma-4-26B-A4B-it",
+   "B": "gpt-oss-20b__think-low"
   },
   "PMID:30514879": {
-   "A": "gpt-oss-20b__think-low"
+   "A": "models-gemma-4-26B-A4B-it",
+   "B": "gpt-oss-20b__think-low"
   },
   "PMID:39287760": {
-   "A": "gpt-oss-20b__think-low"
+   "A": "gpt-oss-20b__think-low",
+   "B": "models-gemma-4-26B-A4B-it"
   },
   "PMID:35305575": {
-   "A": "gpt-oss-20b__think-low"
+   "A": "models-gemma-4-26B-A4B-it",
+   "B": "gpt-oss-20b__think-low"
   },
   "PMID:40643866": {
-   "A": "gpt-oss-20b__think-low"
+   "A": "gpt-oss-20b__think-low",
+   "B": "models-gemma-4-26B-A4B-it"
   },
   "PMID:32814159": {
-   "A": "gpt-oss-20b__think-low"
+   "A": "gpt-oss-20b__think-low",
+   "B": "models-gemma-4-26B-A4B-it"
   },
   "PMID:34528393": {
-   "A": "gpt-oss-20b__think-low"
+   "A": "gpt-oss-20b__think-low",
+   "B": "models-gemma-4-26B-A4B-it"
   },
   "PMID:33632052": {
-   "A": "gpt-oss-20b__think-low"
+   "A": "models-gemma-4-26B-A4B-it",
+   "B": "gpt-oss-20b__think-low"
   },
   "PMID:42610344": {
-   "A": "gpt-oss-20b__think-low"
+   "A": "gpt-oss-20b__think-low",
+   "B": "models-gemma-4-26B-A4B-it"
   },
   "PMID:33293678": {
-   "A": "gpt-oss-20b__think-low"
+   "A": "gpt-oss-20b__think-low",
+   "B": "models-gemma-4-26B-A4B-it"
   },
   "PMID:34897805": {
-   "A": "gpt-oss-20b__think-low"
+   "A": "models-gemma-4-26B-A4B-it",
+   "B": "gpt-oss-20b__think-low"
   },
   "PMID:40997492": {
-   "A": "gpt-oss-20b__think-low"
+   "A": "models-gemma-4-26B-A4B-it",
+   "B": "gpt-oss-20b__think-low"
   },
   "PMID:26497537": {
-   "A": "gpt-oss-20b__think-low"
+   "A": "models-gemma-4-26B-A4B-it",
+   "B": "gpt-oss-20b__think-low"
   },
   "PMID:41372488": {
-   "A": "gpt-oss-20b__think-low"
+   "A": "gpt-oss-20b__think-low",
+   "B": "models-gemma-4-26B-A4B-it"
   },
   "PMID:30852029": {
-   "A": "gpt-oss-20b__think-low"
+   "A": "models-gemma-4-26B-A4B-it",
+   "B": "gpt-oss-20b__think-low"
   },
   "PMID:34541650": {
-   "A": "gpt-oss-20b__think-low"
+   "A": "gpt-oss-20b__think-low",
+   "B": "models-gemma-4-26B-A4B-it"
   },
   "PMID:41266773": {
-   "A": "gpt-oss-20b__think-low"
+   "A": "gpt-oss-20b__think-low",
+   "B": "models-gemma-4-26B-A4B-it"
   },
   "PMID:26099369": {
-   "A": "gpt-oss-20b__think-low"
+   "A": "gpt-oss-20b__think-low",
+   "B": "models-gemma-4-26B-A4B-it"
   },
   "PMID:28941313": {
-   "A": "gpt-oss-20b__think-low"
+   "A": "models-gemma-4-26B-A4B-it",
+   "B": "gpt-oss-20b__think-low"
   },
   "PMID:32927309": {
-   "A": "gpt-oss-20b__think-low"
+   "A": "models-gemma-4-26B-A4B-it",
+   "B": "gpt-oss-20b__think-low"
   },
   "PMID:36408672": {
-   "A": "gpt-oss-20b__think-low"
+   "A": "models-gemma-4-26B-A4B-it",
+   "B": "gpt-oss-20b__think-low"
   },
   "PMID:39627030": {
-   "A": "gpt-oss-20b__think-low"
+   "A": "gpt-oss-20b__think-low",
+   "B": "models-gemma-4-26B-A4B-it"
   },
   "PMID:27698345": {
-   "A": "gpt-oss-20b__think-low"
+   "A": "models-gemma-4-26B-A4B-it",
+   "B": "gpt-oss-20b__think-low"
   },
   "PMID:30240042": {
-   "A": "gpt-oss-20b__think-low"
+   "A": "models-gemma-4-26B-A4B-it",
+   "B": "gpt-oss-20b__think-low"
   },
   "PMID:42083880": {
-   "A": "gpt-oss-20b__think-low"
+   "A": "models-gemma-4-26B-A4B-it",
+   "B": "gpt-oss-20b__think-low"
   },
   "PMID:31529279": {
-   "A": "gpt-oss-20b__think-low"
+   "A": "gpt-oss-20b__think-low",
+   "B": "models-gemma-4-26B-A4B-it"
   },
   "PMID:33279367": {
-   "A": "gpt-oss-20b__think-low"
+   "A": "models-gemma-4-26B-A4B-it",
+   "B": "gpt-oss-20b__think-low"
   },
   "PMID:26577416": {
-   "A": "gpt-oss-20b__think-low"
+   "A": "gpt-oss-20b__think-low",
+   "B": "models-gemma-4-26B-A4B-it"
   },
   "PMID:42862557": {
-   "A": "gpt-oss-20b__think-low"
+   "A": "gpt-oss-20b__think-low",
+   "B": "models-gemma-4-26B-A4B-it"
   },
   "PMID:30355527": {
-   "A": "gpt-oss-20b__think-low"
+   "A": "models-gemma-4-26B-A4B-it",
+   "B": "gpt-oss-20b__think-low"
   },
   "PMID:27890521": {
-   "A": "gpt-oss-20b__think-low"
+   "A": "gpt-oss-20b__think-low",
+   "B": "models-gemma-4-26B-A4B-it"
   },
   "PMID:36384219": {
-   "A": "gpt-oss-20b__think-low"
+   "A": "gpt-oss-20b__think-low",
+   "B": "models-gemma-4-26B-A4B-it"
   },
   "PMID:31744345": {
-   "A": "gpt-oss-20b__think-low"
+   "A": "gpt-oss-20b__think-low",
+   "B": "models-gemma-4-26B-A4B-it"
   },
   "PMID:25434574": {
-   "A": "gpt-oss-20b__think-low"
+   "A": "models-gemma-4-26B-A4B-it",
+   "B": "gpt-oss-20b__think-low"
   },
   "PMID:41274792": {
-   "A": "gpt-oss-20b__think-low"
+   "A": "models-gemma-4-26B-A4B-it",
+   "B": "gpt-oss-20b__think-low"
   },
   "PMID:29506426": {
-   "A": "gpt-oss-20b__think-low"
+   "A": "gpt-oss-20b__think-low",
+   "B": "models-gemma-4-26B-A4B-it"
   },
   "PMID:40992149": {
-   "A": "gpt-oss-20b__think-low"
+   "A": "models-gemma-4-26B-A4B-it",
+   "B": "gpt-oss-20b__think-low"
   },
   "PMID:42675281": {
-   "A": "gpt-oss-20b__think-low"
+   "A": "gpt-oss-20b__think-low",
+   "B": "models-gemma-4-26B-A4B-it"
   },
   "PMID:33957760": {
-   "A": "gpt-oss-20b__think-low"
+   "A": "gpt-oss-20b__think-low",
+   "B": "models-gemma-4-26B-A4B-it"
   },
   "PMID:31438733": {
-   "A": "gpt-oss-20b__think-low"
+   "A": "gpt-oss-20b__think-low",
+   "B": "models-gemma-4-26B-A4B-it"
   },
   "PMID:31790315": {
-   "A": "gpt-oss-20b__think-low"
+   "A": "gpt-oss-20b__think-low",
+   "B": "models-gemma-4-26B-A4B-it"
   },
   "PMID:33938779": {
-   "A": "gpt-oss-20b__think-low"
+   "A": "gpt-oss-20b__think-low",
+   "B": "models-gemma-4-26B-A4B-it"
   },
   "PMID:39489419": {
-   "A": "gpt-oss-20b__think-low"
+   "A": "gpt-oss-20b__think-low",
+   "B": "models-gemma-4-26B-A4B-it"
   },
   "PMID:35883228": {
-   "A": "gpt-oss-20b__think-low"
+   "A": "models-gemma-4-26B-A4B-it",
+   "B": "gpt-oss-20b__think-low"
   },
   "PMID:41348659": {
-   "A": "gpt-oss-20b__think-low"
+   "A": "gpt-oss-20b__think-low",
+   "B": "models-gemma-4-26B-A4B-it"
   },
   "PMID:33279777": {
-   "A": "gpt-oss-20b__think-low"
+   "A": "models-gemma-4-26B-A4B-it",
+   "B": "gpt-oss-20b__think-low"
   },
   "PMID:37114318": {
-   "A": "gpt-oss-20b__think-low"
+   "A": "models-gemma-4-26B-A4B-it",
+   "B": "gpt-oss-20b__think-low"
   },
   "PMID:25688819": {
-   "A": "gpt-oss-20b__think-low"
+   "A": "gpt-oss-20b__think-low",
+   "B": "models-gemma-4-26B-A4B-it"
   },
   "PMID:40837957": {
-   "A": "gpt-oss-20b__think-low"
+   "A": "gpt-oss-20b__think-low",
+   "B": "models-gemma-4-26B-A4B-it"
   },
   "PMID:31207663": {
-   "A": "gpt-oss-20b__think-low"
+   "A": "gpt-oss-20b__think-low",
+   "B": "models-gemma-4-26B-A4B-it"
   },
   "PMID:39283705": {
-   "A": "gpt-oss-20b__think-low"
+   "A": "models-gemma-4-26B-A4B-it",
+   "B": "gpt-oss-20b__think-low"
   },
   "PMID:33912132": {
-   "A": "gpt-oss-20b__think-low"
+   "A": "gpt-oss-20b__think-low",
+   "B": "models-gemma-4-26B-A4B-it"
   },
   "PMID:37845187": {
-   "A": "gpt-oss-20b__think-low"
+   "A": "models-gemma-4-26B-A4B-it",
+   "B": "gpt-oss-20b__think-low"
   },
   "PMID:28362110": {
-   "A": "gpt-oss-20b__think-low"
+   "A": "models-gemma-4-26B-A4B-it",
+   "B": "gpt-oss-20b__think-low"
   }
  }
 }

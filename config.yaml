@@ -187,18 +187,25 @@ guidelines:
     grade_system: '(?i)(?P<text>.{20,}?)\s*[(\[]?(?P<grade>(?:strong|weak|conditional) recommendation[^.;)\]]*)'
     who: '(?i)(?P<text>.{20,}?)\s*[(\[]?(?P<grade>context-specific recommendation|not recommended|recommended only in the context of rigorous research|recommended)\s*[)\]]?\s*$'
 
-# Local LLM backend. Endpoints can be overridden with LLM_ENDPOINTS (comma-separated),
-# e.g. "http://localhost:11434,http://192.168.1.20:11434" to add the GPU laptop.
+# LLM providers. Endpoint URLs can come from env vars (kept in .env, not committed).
 llm:
-  backend: ollama                 # ollama | openai_compat (llama.cpp server, LM Studio, vLLM)
-  endpoints: ["http://localhost:11434"]
-  concurrency_per_endpoint: 1
+  providers:
+    local:                        # Ollama on this Mac
+      backend: ollama
+      endpoints: ["http://localhost:11434"]
+      endpoints_env: LLM_ENDPOINTS
+      concurrency_per_endpoint: 1
+    remote:                       # OpenAI-compatible server (vLLM); base URL without /v1
+      backend: openai_compat
+      endpoints: []
+      endpoints_env: LLM_REMOTE_ENDPOINTS
+      concurrency_per_endpoint: 4
   timeout_s: 900
   retries: 3
   temperature: 0
   seed: 0
-  num_ctx: 8192
-  keep_alive: 30m
+  num_ctx: 8192                   # Ollama only
+  keep_alive: 30m                 # Ollama only
   max_consecutive_failures: 5     # abort a run when the model server keeps erroring (e.g. GPU out of memory)
 
 extract:
@@ -206,7 +213,10 @@ extract:
   # qwen3.8:27b is the MLX (NVFP4) build: GPU-only, so it ran out of memory on the 24 GB Mac.
   # qwen3.8:27b-q4_K_M is the llama.cpp (GGUF) build, which can offload layers to the CPU.
   # High reasoning on gpt-oss was ~4 min/abstract (measured on 4), so only low is used.
-  candidates: [qwen3.8:27b-q4_K_M, gpt-oss:20b]
+  candidates: [/models/gemma-4-26B-A4B-it, qwen3.8:27b-q4_K_M, gpt-oss:20b]
+  provider:                       # which llm.providers entry serves each model
+    default: local
+    /models/gemma-4-26B-A4B-it: remote
   think:                          # per-model reasoning setting (gpt-oss: low|medium|high; qwen3.8: false|low|medium|xhigh)
     gpt-oss:20b: low
     qwen3.8:27b: false

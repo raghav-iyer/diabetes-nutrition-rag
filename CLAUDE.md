@@ -11,7 +11,9 @@ with numbers.
 Built in phases; stop after each phase for review and wait for the go-ahead.
 - Phase 0 (setup + port of the legacy ingester): done.
 - Phase 1 (dataset ingestion): done. Live sample run: `--max-per-topic 200`.
-- Phase 2 (LLM PICO extraction): in progress. Local models via Ollama **on the Mac only** (no laptop, no paid APIs).
+- Phase 2 (LLM PICO extraction): in progress. Two providers: `local` (Ollama on the Mac: gpt-oss 20B, Qwen3.8 27B GGUF)
+  and `remote` (the user's OpenAI-compatible vLLM server running Gemma 4 26B-A4B; base URL in `.env` as
+  `LLM_REMOTE_ENDPOINTS`, never committed). No laptop, no paid APIs.
 - No GCP account: Phase 10 is a local deployment (Docker compose, CI, local monitoring); the embedding
   comparison uses local models only.
 
@@ -51,7 +53,8 @@ NCBI_EMAIL / NCBI_API_KEY are optional (without a key: 3 req/s).
 - `ingest/pmc_fulltext.py`: JATS parse with a **licence gate** (efetch returns full text for non-open licences too). Normalised sections; tables kept whole.
 - `ingest/guidelines.py`: registry (pydantic, validated against topics and the population vocabulary) + pymupdf/pdfplumber parser + graded recommendations.
 - `ingest/pipeline.py`: orchestration. The corpus is **rebuilt from scratch every run** from the raw store (`data/interim/pubmed_records.jsonl`, every stored record refetched at most every `efetch_ttl_days`) + config + external checks. Docs that drop out are appended to `removals_log.jsonl`.
-- `llm.py`: `LLMClient` (backends `ollama` native /api/chat with JSON-schema `format` + `think`, or `openai_compat`), `EndpointPool`.
+- `llm.py`: `LLMClient` (backends `ollama` native /api/chat, or `openai_compat` /v1/chat/completions), `EndpointPool`; `client_from_config(llm_cfg, provider)`. Ollama `done:false` empty replies (runner crash) are retried as errors.
+- Measured lessons (in config comments): constrained decoding biased gpt-oss answers, so extraction uses prompted JSON (`extract.output_mode`); Qwen3.8 27B MLX build OOMs on 24 GB, GGUF build runs 90/10 GPU/CPU at ~3 min/abstract; a smaller num_ctx crashed the GPU; runs abort after `llm.max_consecutive_failures`.
 - `extract/schemas.py`: strict Pydantic `Extraction` (vocabularies must match config; tested). `extract/prompts/pico_v1.md`: versioned prompt.
 - `extract/pico.py`: per-document extraction cached by input hash (model, think, prompt, schema, text), retries with validation feedback, quote verification against the abstract.
 - `extract/review.py`: stratified sample (screen 30 ⊂ review 100), blinded A/B review CSV + key, scoring vs gold (accuracy, kappa, tag P/R/F1, numeric ±5%, hallucinated-"yes" rate, bootstrap CI, McNemar), rules-only baseline, pre-registered decision rule.
