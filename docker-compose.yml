@@ -1,0 +1,33 @@
+# Local stack: AlloyDB Omni (Postgres-compatible, ships pgvector + ScaNN) and the app.
+# Start the database:   docker compose up -d db
+# Run a CLI command:    docker compose run --rm app ingest --max-per-topic 50
+services:
+  db:
+    # arm64 images are a preview build (fine for local development). Pin the tag in Phase 4.
+    image: google/alloydbomni:${ALLOYDB_OMNI_TAG:-latest}
+    environment:
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?set POSTGRES_PASSWORD in .env}
+      POSTGRES_DB: nrag
+    ports:
+      - "127.0.0.1:5432:5432"      # local only
+    volumes:
+      - alloydb-data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 5s
+      retries: 20
+
+  app:
+    build: .
+    env_file: .env
+    environment:
+      DATABASE_URL: postgresql://postgres:${POSTGRES_PASSWORD}@db:5432/nrag
+    volumes:
+      - ./data:/app/data
+      - ./eval:/app/eval
+    depends_on:
+      db:
+        condition: service_healthy
+
+volumes:
+  alloydb-data:

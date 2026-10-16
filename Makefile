@@ -29,3 +29,13 @@ app:
 
 test:
 	$(PY) -m pytest -m "not network" $(ARGS)
+
+.PHONY: docker-build db-up db-down
+docker-build:
+	docker build -t nrag:dev .
+
+db-up:
+	docker compose up -d db
+
+db-down:
+	docker compose down
