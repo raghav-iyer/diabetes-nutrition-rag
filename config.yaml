@@ -206,9 +206,14 @@ extract:
   think:                          # per-model reasoning setting (gpt-oss: low|medium|high; qwen: true|false)
     gpt-oss:20b: low
     qwen3.8:27b: false
+  # schema = constrained decoding via the backend; prompt = schema in the prompt, validated afterwards
+  # (Ollama reports "structured output is unavailable" for qwen3.8's engine).
+  output_mode:
+    default: schema
+    qwen3.8:27b: prompt
   prompt_version: pico_v1
   max_attempts: 3
-  max_tokens: 4096
+  max_tokens: 8192                # thinking tokens count toward this; high effort needs headroom
   dropout_threshold_pct: 20
   output_dir: data/interim/extractions
   apply_to_corpus: false          # switch on after the review shows acceptable accuracy
