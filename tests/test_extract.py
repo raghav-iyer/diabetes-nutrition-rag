@@ -141,7 +141,7 @@ def test_prompt_fills_placeholders(ec):
     msgs = pico.build_messages(ec, "T", "A")
     assert msgs[0]["role"] == "system" and "at or below 20%" in msgs[0]["content"]
     assert msgs[1]["content"] == "Title: T\n\nAbstract:\nA"
-    assert "{" not in msgs[0]["content"].replace("{}", "")
+    assert not any(p in m["content"] for m in msgs for p in ("{title}", "{abstract}", "{dropout_threshold_pct}"))
 
 
 def test_extract_valid_first_try_then_cached(ec):
