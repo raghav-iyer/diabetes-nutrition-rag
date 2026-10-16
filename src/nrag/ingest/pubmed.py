@@ -398,6 +398,11 @@ class PubMedClient:
             }, ttl_days=ttl)
 
 
+def india_query(cfg: dict[str, Any], topic: str, design_filter: bool = False) -> str:
+    ib = cfg["pubmed"]["india_boost"]
+    return build_query(cfg, f"{ib['region']} AND {ib['diet']} AND {ib['outcomes'][topic]}", design_filter)
+
+
 def build_query(cfg: dict[str, Any], topic_query: str, design_filter: bool = False) -> str:
     pm = cfg["pubmed"]
     query = f"({topic_query}) AND {pm['base_filters']}"

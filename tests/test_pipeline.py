@@ -177,3 +177,43 @@ def test_offline_switches(env):
     summary = pipeline.run(cfg, clients, today=TODAY, fulltext=False, guidelines=False)
     assert not any(c[2].get("db") == "pmc" for c in http.calls)
     assert summary["guidelines"] == {"parsed": [], "awaiting_pdf": []}
+
+
+def _iq(cfg, topic):
+    from nrag.ingest.pubmed import india_query
+    return india_query(cfg, topic, design_filter=cfg["pubmed"]["design_filter"])
+
+
+def test_india_boost_adds_tagged_records_full_run(env):
+    cfg, _ = env
+    clients, _ = _clients(cfg, {_q(cfg, "diabetes_prevention"): ["90000001", "90000002"],
+                                _iq(cfg, "diabetes_prevention"): ["90000001", "90000019", "90000024"]})
+    summary = pipeline.run(cfg, clients, today=TODAY, fulltext=False, guidelines=False)
+    store = {r["pmid"]: r for r in _read(cfg["paths"]["pubmed_records"])}
+    assert store["90000001"]["search_sources"] == ["main"]           # main hit; India overlap not double-counted
+    assert store["90000019"]["search_sources"] == ["india_boost"]
+    assert store["90000019"]["topics"] == ["diabetes_prevention"]
+    assert summary["india_boost_only"] == 2                      # 90000019 and 90000024 (both included)
+    assert summary["pubmed_hits_by_topic"]["diabetes_prevention:india_boost"] == 3
+
+
+def test_india_boost_quota_in_sample_runs(env):
+    cfg, _ = env
+    india = ["90000019", "90000024", "90000020", "90000022", "90000026"]
+    clients, _ = _clients(cfg, {_q(cfg, "weight_management"): ["90000001", "90000002", "90000003"],
+                                _iq(cfg, "weight_management"): ["90000001"] + india})
+    pipeline.run(cfg, clients, today=TODAY, max_per_topic=3, topics=["weight_management"],
+                 fulltext=False, guidelines=False)
+    store = {r["pmid"]: r for r in _read(cfg["paths"]["pubmed_records"])}
+    boost_only = [p for p, r in store.items() if r["search_sources"] == ["india_boost"]]
+    assert len(boost_only) == 2                                  # ceil(0.45 x 3) = 2, overlap with main excluded
+    assert "90000001" not in boost_only
+
+
+def test_india_boost_can_be_disabled(env):
+    cfg, _ = env
+    cfg = {**cfg, "pubmed": {**cfg["pubmed"], "india_boost": {**cfg["pubmed"]["india_boost"], "enabled": False}}}
+    clients, http = _clients(cfg, {_q(cfg, "diabetes_prevention"): ["90000001"]})
+    summary = pipeline.run(cfg, clients, today=TODAY, fulltext=False, guidelines=False)
+    assert not any(":india_boost" in k for k in summary["pubmed_hits_by_topic"])
+    assert summary["india_boost_only"] == 0

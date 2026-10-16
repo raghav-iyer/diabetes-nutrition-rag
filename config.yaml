@@ -36,6 +36,21 @@ pubmed:
   # Apply `strong_designs` at search time. Only an efficiency filter: the
   # credibility rules below decide inclusion. Turn off to measure what it misses.
   design_filter: true
+  # Extra India / South Asia searches per topic, broader than the topic queries
+  # (India-specific evidence is ~3% of the main results). In sample runs the boost
+  # fetches `fraction` x max_per_topic extra records per topic; in full runs, all hits.
+  # Target: ~30% more *documents*. About half of India-boost records pass the
+  # credibility rules (many are retrospective or cross-sectional), hence 0.45.
+  india_boost:
+    enabled: true
+    fraction: 0.45
+    region: '(India[mh] OR India*[tiab] OR "South Asian*"[tiab] OR "Asian Indian*"[tiab] OR Bangladesh*[tiab] OR Pakistan*[tiab] OR "Sri Lanka*"[tiab] OR Nepal*[tiab])'
+    diet: '(diet[mh] OR "dietary supplements"[mh] OR "feeding behavior"[mh] OR diet*[tiab] OR food*[tiab] OR nutrition*[tiab] OR millet*[tiab] OR pulses[tiab] OR legume*[tiab] OR rice[tiab] OR ghee[tiab] OR yoga[tiab] OR "lifestyle intervention"[tiab])'
+    outcomes:
+      diabetes_prevention: '(prediabetic state[mh] OR prediabet*[tiab] OR "diabetes mellitus, type 2"[mh] OR "insulin resistance"[mh])'
+      weight_management: '(obesity[mh] OR overweight[mh] OR "weight loss"[mh] OR "body weight"[mh] OR "body mass index"[mh] OR adiposity[tiab])'
+      maternal_nutrition: '(pregnancy[mh] OR "pregnant women"[mh] OR lactation[mh] OR "breast feeding"[mh] OR "maternal nutrition"[tiab] OR anemia[mh] OR "gestational weight gain"[mh])'
+      gestational_diabetes: '("diabetes, gestational"[mh] OR "gestational diabetes"[tiab])'
   base_filters: 'humans[mh] AND english[la] AND hasabstract'
   strong_designs: >-
     (randomized controlled trial[pt] OR meta-analysis[pt] OR systematic review[pt]
