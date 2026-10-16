@@ -202,12 +202,14 @@ llm:
 
 extract:
   active_model: gpt-oss:20b       # overridden by LLM_MODEL; feeds the corpus once validated
-  # Qwen3.8 27B does not fit the Mac's GPU memory (needs >18 GB); high reasoning on gpt-oss
-  # was ~4 min/abstract (measured on 4), so extraction uses gpt-oss low only.
-  candidates: [gpt-oss:20b]
-  think:                          # per-model reasoning setting (gpt-oss: low|medium|high; qwen: true|false)
+  # qwen3.8:27b is the MLX (NVFP4) build: GPU-only, so it ran out of memory on the 24 GB Mac.
+  # qwen3.8:27b-q4_K_M is the llama.cpp (GGUF) build, which can offload layers to the CPU.
+  # High reasoning on gpt-oss was ~4 min/abstract (measured on 4), so only low is used.
+  candidates: [qwen3.8:27b-q4_K_M, gpt-oss:20b]
+  think:                          # per-model reasoning setting (gpt-oss: low|medium|high; qwen3.8: false|low|medium|xhigh)
     gpt-oss:20b: low
     qwen3.8:27b: false
+    qwen3.8:27b-q4_K_M: low
   # schema = constrained decoding via the backend; prompt = schema in the prompt, validated afterwards.
   # Measured 2026-10-16 on 6 abstracts: constrained decoding made gpt-oss answer effect_direction
   # "mixed" and funding_industry "no" on 6/6 (100-doc run: 68% mixed, 97% "no"); prompted JSON gave

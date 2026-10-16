@@ -246,3 +246,12 @@ def test_prompt_mode_embeds_schema_and_sends_no_format(cfg, tmp_path):
 ])
 def test_json_payload(content, expected):
     assert pico.json_payload(content) == expected
+
+
+def test_incomplete_ollama_response_is_retried_then_fails(monkeypatch):
+    monkeypatch.setattr("nrag.llm.time.sleep", lambda s: None)
+    crashed = R(200, {"model": "", "done": False})
+    ok = R(200, {"done": True, "message": {"content": "{}"}})
+    assert LLMClient("ollama", session=FakeHTTP([crashed, ok])).chat("http://h", "m", []).content == "{}"
+    with pytest.raises(LLMError, match="incomplete response"):
+        LLMClient("ollama", session=FakeHTTP([crashed] * 3)).chat("http://h", "m", [])

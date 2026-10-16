@@ -99,7 +99,12 @@ class LLMClient:
                     raise requests.HTTPError(f"HTTP {r.status_code}: {r.text[:200]}")
                 if r.status_code >= 400:
                     raise LLMError(f"HTTP {r.status_code} from {url}: {r.text[:300]}")
-                return r.json()
+                data = r.json()
+                # Ollama answers 200 with {"done": false} and no message when the runner crashes
+                # (e.g. llama.cpp "decode() failed" on GPU memory pressure). Treat it as retryable.
+                if self.backend == "ollama" and not data.get("done", True):
+                    raise requests.HTTPError("incomplete response (runner error; check GPU memory / num_ctx)")
+                return data
             except (requests.RequestException, json.JSONDecodeError) as e:
                 if attempt == self.retries - 1:
                     raise LLMError(f"{url}: {e}") from e
