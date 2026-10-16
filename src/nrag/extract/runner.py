@@ -23,9 +23,18 @@ def active_model(cfg: dict[str, Any]) -> str:
     return env("LLM_MODEL") or cfg["extract"]["active_model"]
 
 
-def endpoints(cfg: dict[str, Any]) -> list[str]:
-    raw = env("LLM_ENDPOINTS")
-    return [e.strip() for e in raw.split(",") if e.strip()] if raw else list(cfg["llm"]["endpoints"])
+def provider_for(cfg: dict[str, Any], model: str) -> str:
+    providers = cfg["extract"]["provider"]
+    return providers.get(model, providers["default"])
+
+
+def endpoints(cfg: dict[str, Any], provider: str) -> list[str]:
+    p = cfg["llm"]["providers"][provider]
+    raw = env(p["endpoints_env"]) if p.get("endpoints_env") else None
+    eps = [e.strip() for e in raw.split(",") if e.strip()] if raw else list(p["endpoints"])
+    if not eps:
+        raise SystemExit(f"no endpoints for LLM provider {provider!r}: set {p.get('endpoints_env')} in .env")
+    return eps
 
 
 def load_documents(cfg: dict[str, Any]) -> list[dict[str, Any]]:
@@ -87,16 +96,18 @@ def speed_stats(results: list[dict[str, Any]]) -> dict[str, Any] | None:
 
 def run(cfg: dict[str, Any], model: str, think: Any, sample: str, limit: int | None, use_cache: bool):
     ec = pico.ExtractConfig.from_config(cfg, model, think)
-    client = client_from_config(cfg["llm"])
-    eps = endpoints(cfg)
+    provider = provider_for(cfg, model)
+    client = client_from_config(cfg["llm"], provider)
+    eps = endpoints(cfg, provider)
     for e in eps:
         available = client.list_models(e)
         if model not in available and f"{model}:latest" not in available:
             raise SystemExit(f"model {model!r} not available at {e}; pull it first (`ollama pull {model}`).")
-    pool = EndpointPool(eps, cfg["llm"]["concurrency_per_endpoint"])
+    pool = EndpointPool(eps, cfg["llm"]["providers"][provider]["concurrency_per_endpoint"])
     docs = select(cfg, load_documents(cfg), sample, limit)
     slug = pico.model_slug(model, ec.think)
-    print(f"Extracting {len(docs)} documents with {model} (think={ec.think}) on {len(eps)} endpoint(s)")
+    print(f"Extracting {len(docs)} documents with {model} (think={ec.think}) via {provider} "
+          f"({len(eps)} endpoint(s) x {pool.size // len(eps)} concurrent)")
     try:
         results = pico.run_extraction(client, pool, ec, docs, use_cache=use_cache,
                                       max_consecutive_failures=cfg["llm"]["max_consecutive_failures"])

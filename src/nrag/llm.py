@@ -141,7 +141,8 @@ class EndpointPool:
             self._q.put(endpoint)
 
 
-def client_from_config(llm_cfg: dict[str, Any]) -> LLMClient:
-    return LLMClient(backend=llm_cfg["backend"], timeout_s=llm_cfg["timeout_s"], temperature=llm_cfg["temperature"],
+def client_from_config(llm_cfg: dict[str, Any], provider: str) -> LLMClient:
+    p = llm_cfg["providers"][provider]
+    return LLMClient(backend=p["backend"], timeout_s=llm_cfg["timeout_s"], temperature=llm_cfg["temperature"],
                      seed=llm_cfg["seed"], num_ctx=llm_cfg["num_ctx"], keep_alive=llm_cfg["keep_alive"],
                      retries=llm_cfg["retries"])

@@ -278,3 +278,17 @@ def test_isolated_failures_do_not_abort(ec):
     results = pico.run_extraction(ScriptedClient(contents), EndpointPool(["http://a"]), ec, docs, progress=False,
                                   max_consecutive_failures=2)
     assert [r["status"] for r in results] == ["failed", "ok"] * 3
+
+
+def test_provider_selection_and_endpoints(cfg, monkeypatch):
+    from nrag.extract import runner
+    assert runner.provider_for(cfg, "/models/gemma-4-26B-A4B-it") == "remote"
+    assert runner.provider_for(cfg, "gpt-oss:20b") == "local"
+    monkeypatch.setattr("nrag.config.load_dotenv", lambda *a, **k: None)
+    monkeypatch.setenv("LLM_REMOTE_ENDPOINTS", "https://a.example/x, https://b.example/y")
+    assert runner.endpoints(cfg, "remote") == ["https://a.example/x", "https://b.example/y"]
+    monkeypatch.delenv("LLM_REMOTE_ENDPOINTS")
+    with pytest.raises(SystemExit, match="LLM_REMOTE_ENDPOINTS"):
+        runner.endpoints(cfg, "remote")
+    monkeypatch.delenv("LLM_ENDPOINTS", raising=False)
+    assert runner.endpoints(cfg, "local") == ["http://localhost:11434"]

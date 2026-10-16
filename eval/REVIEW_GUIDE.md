@@ -1,7 +1,7 @@
 # How to fill in `extraction_review.csv`
 
-The spreadsheet compares what two local models (Qwen3.8 27B and gpt-oss 20B, both at low
-reasoning) extracted from each abstract. Which model is **A** and which is **B** is random for each
+The spreadsheet compares what two models (Gemma 4 26B-A4B on the remote vLLM server, and gpt-oss 20B at low
+reasoning on the Mac) extracted from each abstract. Which model is **A** and which is **B** is random for each
 paper and hidden from you (the key is in `extraction_review_key.json`; don't open it until you're done).
 Your answers become the ground truth for `nrag extract-accuracy`.
 
