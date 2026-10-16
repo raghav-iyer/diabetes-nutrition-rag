@@ -81,15 +81,46 @@ def _not_yet(phase: int):
 
 
 @app.command()
-def extract():
-    """LLM PICO / evidence-field extraction (Phase 2)."""
-    _not_yet(2)
+def extract(
+    model: Optional[str] = typer.Option(None, help="Model name (default: LLM_MODEL or extract.active_model)."),
+    think: Optional[str] = typer.Option(None, help="Reasoning: low|medium|high (gpt-oss), true|false (qwen)."),
+    sample: str = typer.Option("all", help="screen (30) | review (100) | all documents."),
+    limit: Optional[int] = typer.Option(None, help="Only the first N documents of the selection."),
+    cache: bool = typer.Option(True, help="Reuse cached extractions."),
+    config: Optional[str] = ConfigOpt,
+):
+    """LLM PICO / evidence-field extraction (local model via Ollama or llama.cpp)."""
+    from nrag.extract import runner
+
+    cfg = load_config(config)
+    summary = runner.run(cfg, model or runner.active_model(cfg), runner.parse_think(think), sample, limit, cache)
+    typer.echo("\n=== Extraction summary ===")
+    for k, v in summary.items():
+        typer.echo(f"{k}: {v}")
+
+
+@app.command("extract-compare")
+def extract_compare(
+    systems: List[str] = typer.Option(..., "--system", help="Two (or one) result names from data/interim/extractions."),
+    sample: str = typer.Option("screen", help="screen (30) | review (100)."),
+    force: bool = typer.Option(False, help="Overwrite a review CSV that already has verdicts."),
+    config: Optional[str] = ConfigOpt,
+):
+    """Write the blinded A/B review spreadsheet (eval/extraction_review.csv)."""
+    from nrag.extract import runner
+
+    path = runner.compare(load_config(config), systems, sample, force)
+    typer.echo(f"Wrote {path}. Fill `verdict` (A, B, both, neither) and `correct_value` when neither is right.")
 
 
 @app.command("extract-accuracy")
-def extract_accuracy():
-    """Field-level accuracy from eval/extraction_review.csv (Phase 2)."""
-    _not_yet(2)
+def extract_accuracy(config: Optional[str] = ConfigOpt):
+    """Field-level accuracy, model comparison and decision from the filled review CSV."""
+    from nrag.extract import runner
+
+    result, report = runner.accuracy(load_config(config))
+    typer.echo(report.read_text())
+    typer.echo(f"Saved {report} (+ .json)")
 
 
 @app.command()
