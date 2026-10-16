@@ -189,6 +189,10 @@ def test_input_hash_depends_on_model_think_and_text(cfg, ec, tmp_path):
     ("we  RANDOMISED 240 adults,", True),                    # case/spacing/punctuation tolerant
     ("We randomised 2400 adults", False),                    # changed number is not supported
     ("A totally invented sentence about kale", False),
+    ("low glycaemic index diet or usual care for 12\u2011months", True),     # non-breaking hyphen vs space
+    ("\u201cDiabetes incidence was lower\u201d", True),                       # curly quotes
+    ("We randomised 240 adults ... Diabetes incidence was lower", True),     # elided quote
+    ("We randomised 240 adults ... incidence tripled", False),               # one elided part invented
     (None, None),
 ])
 def test_quote_supported(quote, expected):
@@ -212,3 +216,33 @@ def test_run_extraction_uses_all_endpoints_and_keeps_order(ec):
     assert set(client.calls) == {"http://mac", "http://laptop"}
     s = pico.summarize_run(results)
     assert s["schema_failure_rate"] == 0.0 and s["first_attempt_valid_rate"] == 1.0 and s["latency_s"]["median"] == 2.0
+
+
+def test_prompt_mode_embeds_schema_and_sends_no_format(cfg, tmp_path):
+    ec = pico.ExtractConfig.from_config(cfg, "qwen3.8:27b", cache_dir=tmp_path)
+    assert ec.output_mode == "prompt"
+    sys_msg = pico.build_messages(ec, "T", "A")[0]["content"]
+    assert '"effect_direction"' in sys_msg and "no markdown" in sys_msg
+    seen = {}
+
+    class C(ScriptedClient):
+        def chat(self, endpoint, model, messages, schema=None, think=None, max_tokens=None):
+            seen["schema"] = schema
+            return super().chat(endpoint, model, messages, schema, think, max_tokens)
+
+    fenced = "Here you go:\n```json\n" + json.dumps(good_extraction()) + "\n```"
+    r = pico.extract_one(C([fenced]), "http://a", ec, DOC)
+    assert r["status"] == "ok" and r["output_mode"] == "prompt" and seen["schema"] is None
+    # Different output mode -> different cache key than schema mode would have.
+    schema_ec = pico.ExtractConfig.from_config(cfg, "qwen3.8:27b", cache_dir=tmp_path)
+    schema_ec.output_mode = "schema"
+    assert pico.input_hash(ec, "T", "A") != pico.input_hash(schema_ec, "T", "A")
+
+
+@pytest.mark.parametrize("content, expected", [
+    ('{"a": 1}', '{"a": 1}'),
+    ('```json\n{"a": 1}\n```', '{"a": 1}'),
+    ('Sure! {"a": {"b": 2}} Hope this helps.', '{"a": {"b": 2}}'),
+])
+def test_json_payload(content, expected):
+    assert pico.json_payload(content) == expected

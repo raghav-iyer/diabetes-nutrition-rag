@@ -26,6 +26,15 @@ make test                                   # offline pytest (-m "not network")
 .venv/bin/nrag guidelines                   # registry status; parses PDFs present
 ```
 
+Phase 2 (needs `ollama serve` running and the models pulled):
+
+```bash
+.venv/bin/nrag extract --model gpt-oss:20b --sample screen       # 30 stratified abstracts (cached per doc)
+.venv/bin/nrag extract --model qwen3.8:27b --sample screen
+.venv/bin/nrag extract-compare --system gpt-oss-20b__think-low --system qwen3-8-27b   # blinded A/B CSV
+.venv/bin/nrag extract-accuracy                                 # after the CSV is filled in
+```
+
 `ingest` flags: `--topic NAME` (repeatable), `--design-filter/--no-design-filter`,
 `--no-fulltext`, `--no-guidelines`, `--config PATH`.
 NCBI_EMAIL / NCBI_API_KEY are optional (without a key: 3 req/s).
@@ -42,6 +51,11 @@ NCBI_EMAIL / NCBI_API_KEY are optional (without a key: 3 req/s).
 - `ingest/pmc_fulltext.py`: JATS parse with a **licence gate** (efetch returns full text for non-open licences too). Normalised sections; tables kept whole.
 - `ingest/guidelines.py`: registry (pydantic, validated against topics and the population vocabulary) + pymupdf/pdfplumber parser + graded recommendations.
 - `ingest/pipeline.py`: orchestration. The corpus is **rebuilt from scratch every run** from the raw store (`data/interim/pubmed_records.jsonl`, every stored record refetched at most every `efetch_ttl_days`) + config + external checks. Docs that drop out are appended to `removals_log.jsonl`.
+- `llm.py`: `LLMClient` (backends `ollama` native /api/chat with JSON-schema `format` + `think`, or `openai_compat`), `EndpointPool`.
+- `extract/schemas.py`: strict Pydantic `Extraction` (vocabularies must match config; tested). `extract/prompts/pico_v1.md`: versioned prompt.
+- `extract/pico.py`: per-document extraction cached by input hash (model, think, prompt, schema, text), retries with validation feedback, quote verification against the abstract.
+- `extract/review.py`: stratified sample (screen 30 ⊂ review 100), blinded A/B review CSV + key, scoring vs gold (accuracy, kappa, tag P/R/F1, numeric ±5%, hallucinated-"yes" rate, bootstrap CI, McNemar), rules-only baseline, pre-registered decision rule.
+- `extract/runner.py`: CLI glue; results in `data/interim/extractions/<system>.jsonl`, failures in `failures.jsonl`.
 - `cli.py`: typer app; later-phase commands are stubs that exit with code 2.
 
 Outputs (`data/corpus/`, gitignored): `documents.jsonl` (included + provisional, sorted by quality),

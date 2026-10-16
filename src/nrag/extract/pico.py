@@ -49,15 +49,18 @@ class ExtractConfig:
     dropout_threshold_pct: float
     max_tokens: int | None
     cache_dir: Path
+    output_mode: str = "schema"
 
     @classmethod
     def from_config(cls, cfg: dict[str, Any], model: str, think: Any = "default", cache_dir: Path | None = None):
         ex = cfg["extract"]
         if think == "default":
             think = ex["think"].get(model)
+        modes = ex.get("output_mode", {})
         return cls(model=model, think=think, prompt_version=ex["prompt_version"], max_attempts=ex["max_attempts"],
                    dropout_threshold_pct=ex["dropout_threshold_pct"], max_tokens=ex.get("max_tokens"),
-                   cache_dir=cache_dir or resolve_path(cfg["paths"]["cache_dir"]) / "llm")
+                   cache_dir=cache_dir or resolve_path(cfg["paths"]["cache_dir"]) / "llm",
+                   output_mode=modes.get(model, modes.get("default", "schema")))
 
 
 def doc_text(doc: dict[str, Any]) -> tuple[str, str]:
@@ -67,34 +70,64 @@ def doc_text(doc: dict[str, Any]) -> tuple[str, str]:
 def input_hash(ec: ExtractConfig, title: str, abstract: str) -> str:
     system, user = load_prompt(ec.prompt_version)
     blob = json.dumps([ec.model, ec.think, ec.prompt_version, system, user, ec.dropout_threshold_pct,
-                       extraction_json_schema(), title, abstract], sort_keys=True)
+                       extraction_json_schema(), title, abstract] + ([ec.output_mode] if ec.output_mode != "schema" else []),
+                      sort_keys=True)
     return hashlib.sha256(blob.encode()).hexdigest()
 
 
 def build_messages(ec: ExtractConfig, title: str, abstract: str) -> list[dict[str, str]]:
     system, user = load_prompt(ec.prompt_version)
-    return [{"role": "system", "content": system.replace("{dropout_threshold_pct}", f"{ec.dropout_threshold_pct:g}")},
+    system = system.replace("{dropout_threshold_pct}", f"{ec.dropout_threshold_pct:g}")
+    if ec.output_mode == "prompt":
+        system += ("\n\nJSON schema (follow it exactly; use only the allowed enum values):\n"
+                   + json.dumps(extraction_json_schema(), separators=(",", ":"))
+                   + "\n\nReturn one JSON object only: no markdown, no commentary.")
+    return [{"role": "system", "content": system},
             {"role": "user", "content": user.replace("{title}", title).replace("{abstract}", abstract)}]
+
+
+def json_payload(content: str) -> str:
+    """Strip markdown fences or stray text around the JSON object (prompt mode)."""
+    text = content.strip()
+    fence = re.search(r"```(?:json)?\s*(.*?)```", text, re.S)
+    if fence:
+        text = fence.group(1).strip()
+    start, end = text.find("{"), text.rfind("}")
+    return text[start:end + 1] if start != -1 and end > start else text
 
 
 # ---------------------------------------------------------------------------
 # Quote verification (cheap hallucination check)
 # ---------------------------------------------------------------------------
+DASHES = re.compile(r"[\u2010-\u2015\u2212-]")
+ELLIPSIS = re.compile(r"\.\.\.|\u2026")
+
+
 def _norm(s: str) -> str:
-    return re.sub(r"\s+", " ", re.sub(r"[^\w%.,=<>-]+", " ", s.lower())).strip()
+    """Lowercase; dashes, quotes and other punctuation become spaces (models often swap
+    ASCII hyphens for Unicode ones or straight quotes for curly ones)."""
+    s = DASHES.sub(" ", s.lower())
+    return re.sub(r"\s+", " ", re.sub(r"[^\w%.,=<>]+", " ", s)).strip(" .,")
 
 
-def quote_supported(quote: str | None, text: str, min_ratio: float = 0.9) -> bool | None:
-    """True if the quote appears (near-)verbatim in the text; None if there is no quote."""
-    if not quote:
-        return None
-    q, t = _norm(quote), _norm(text)
-    if not q:
-        return None
+def _segment_supported(q: str, t: str, min_ratio: float) -> bool:
     if q in t:
         return True
     m = SequenceMatcher(None, q, t, autojunk=False).find_longest_match(0, len(q), 0, len(t))
     return m.size / len(q) >= min_ratio
+
+
+def quote_supported(quote: str | None, text: str, min_ratio: float = 0.9) -> bool | None:
+    """True if the quote appears (near-)verbatim in the text; None if there is no quote.
+    A quote elided with "..." is supported if every segment is."""
+    if not quote:
+        return None
+    t = _norm(text)
+    segments = [_norm(seg) for seg in ELLIPSIS.split(quote)]
+    segments = [seg for seg in segments if len(seg) >= 3]
+    if not segments:
+        return None
+    return all(_segment_supported(seg, t, min_ratio) for seg in segments)
 
 
 def quote_checks(extraction: dict[str, Any], title: str, abstract: str) -> dict[str, bool | None]:
@@ -115,10 +148,13 @@ def extract_one(client: LLMClient, endpoint: str, ec: ExtractConfig, doc: dict[s
     h = input_hash(ec, title, abstract)
     path = _cache_path(ec, h)
     if use_cache and path.exists():
-        return {**json.loads(path.read_text()), "cached": True}
+        cached = json.loads(path.read_text())
+        # Quote checks are cheap and deterministic: recompute so checker fixes apply to cached results.
+        cached["quote_checks"] = quote_checks(cached["extraction"], title, abstract)
+        return {**cached, "cached": True}
 
     messages = build_messages(ec, title, abstract)
-    schema = extraction_json_schema()
+    schema = extraction_json_schema() if ec.output_mode == "schema" else None
     errors: list[str] = []
     attempts, latency, prompt_tokens, completion_tokens = 0, 0.0, 0, 0
     extraction = None
@@ -133,7 +169,7 @@ def extract_one(client: LLMClient, endpoint: str, ec: ExtractConfig, doc: dict[s
         prompt_tokens += resp.prompt_tokens or 0
         completion_tokens += resp.completion_tokens or 0
         try:
-            extraction = Extraction.model_validate_json(resp.content).model_dump()
+            extraction = Extraction.model_validate_json(json_payload(resp.content)).model_dump()
             break
         except ValidationError as e:
             err = "; ".join(f"{'.'.join(map(str, x['loc']))}: {x['msg']}" for x in e.errors()[:8])
@@ -145,6 +181,7 @@ def extract_one(client: LLMClient, endpoint: str, ec: ExtractConfig, doc: dict[s
 
     result = {
         "doc_id": doc["doc_id"], "model": ec.model, "think": ec.think, "prompt_version": ec.prompt_version,
+        "output_mode": ec.output_mode,
         "input_hash": h, "status": "ok" if extraction else "failed", "extraction": extraction,
         "quote_checks": quote_checks(extraction, title, abstract) if extraction else {},
         "attempts": attempts, "errors": errors, "latency_s": round(latency, 2),
