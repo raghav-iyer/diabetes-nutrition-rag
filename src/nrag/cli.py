@@ -87,13 +87,17 @@ def extract(
     sample: str = typer.Option("all", help="screen (30) | review (100) | all documents."),
     limit: Optional[int] = typer.Option(None, help="Only the first N documents of the selection."),
     cache: bool = typer.Option(True, help="Reuse cached extractions."),
+    concurrency: Optional[int] = typer.Option(None, help="Concurrent requests per endpoint (overrides config)."),
     config: Optional[str] = ConfigOpt,
 ):
-    """LLM PICO / evidence-field extraction (local model via Ollama or llama.cpp)."""
+    """LLM PICO / evidence-field extraction (local Ollama or a remote OpenAI-compatible server)."""
     from nrag.extract import runner
 
     cfg = load_config(config)
-    summary = runner.run(cfg, model or runner.active_model(cfg), runner.parse_think(think), sample, limit, cache)
+    model = model or runner.active_model(cfg)
+    if concurrency:
+        cfg["llm"]["providers"][runner.provider_for(cfg, model)]["concurrency_per_endpoint"] = concurrency
+    summary = runner.run(cfg, model, runner.parse_think(think), sample, limit, cache)
     typer.echo("\n=== Extraction summary ===")
     for k, v in summary.items():
         typer.echo(f"{k}: {v}")
