@@ -11,7 +11,7 @@ with numbers.
 Built in phases; stop after each phase for review and wait for the go-ahead.
 - Phase 0 (setup + port of the legacy ingester): done.
 - Phase 1 (dataset ingestion): done. Live sample run: `--max-per-topic 200`.
-- Phase 2 (LLM PICO extraction): in progress. Two providers: `local` (Ollama on the Mac: gpt-oss 20B, Qwen3.8 27B GGUF)
+- Phase 2 (LLM PICO extraction): built and run on the 606-doc sample (Gemma, 605 ok); awaiting the user's review labels. Two providers: `local` (Ollama on the Mac: gpt-oss 20B, Qwen3.8 27B GGUF)
   and `remote` (the user's OpenAI-compatible vLLM server running Gemma 4 26B-A4B; base URL in `.env` as
   `LLM_REMOTE_ENDPOINTS`, never committed). No laptop, no paid APIs.
 - No GCP account: Phase 10 is a local deployment (Docker compose, CI, local monitoring); the embedding
@@ -103,6 +103,10 @@ Records carry `search_sources` (main / india_boost).
 7. Sample sizes 1900–2100 are skipped only in a date-like context; excluded.jsonl is rewritten (not appended).
 
 ## Known limitations / open items
+
+- Remote Gemma in prompt mode echoes the JSON schema (`$defs`) on ~1/3 of first attempts (fixed by the retry,
+  but it adds load to a shared production server). Candidate fix: a filled-in JSON template instead of the raw
+  schema (would be prompt `pico_v2`; needs re-measuring). Remote runs only after 19:00 IST.
 
 - `humans[mh]` in the base query means not-yet-MeSH-indexed records are never returned.
 - `--max-per-topic` samples the newest papers within each year, so samples under-represent early-year papers (2013 is missing from the 200/topic sample).
