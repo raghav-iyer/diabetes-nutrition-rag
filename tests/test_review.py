@@ -153,3 +153,18 @@ def test_decide(diff, lo, hi, choice):
     got = review.decide("slow", "fast", diff, lo, hi, speeds, {"max_accuracy_drop": 0.05})["choice"]
     expected = "fast" if diff < 0 else choice
     assert got == expected
+
+
+def test_add_paper_numbers_and_xlsx(tmp_path):
+    pytest.importorskip("openpyxl")
+    p = tmp_path / "r.csv"
+    p.write_text("doc_id,pmid,field,A,B,verdict,correct_value,notes,title,abstract\n"
+                 "PMID:1,1,study_design,rct,rct,both,,,t,a\nPMID:1,1,intervention,x,y,,,,,\n"
+                 "PMID:2,2,study_design,rct,rct,,,,t2,a2\n")
+    assert review.add_paper_numbers(p) == 2
+    rows = review.read_review(p)
+    assert [r["paper_no"] for r in rows] == ["1", "1", "2"] and rows[0]["verdict"] == "both"
+    review.write_review_xlsx(p, tmp_path / "r.xlsx")
+    from openpyxl import load_workbook
+    ws = load_workbook(tmp_path / "r.xlsx").active
+    assert ws["A2"].value == 1 and ws["A2"].fill.fgColor.rgb[-6:] != ws["A4"].fill.fgColor.rgb[-6:]

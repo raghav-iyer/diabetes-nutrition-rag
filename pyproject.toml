@@ -22,7 +22,7 @@ llm = ["anthropic>=0.40"]
 search = ["sentence-transformers>=3.0", "lancedb>=0.13", "bm25s>=0.2"]
 reports = ["matplotlib>=3.8"]
 app = ["streamlit>=1.38"]
-dev = ["pytest>=8.0"]
+dev = ["pytest>=8.0", "openpyxl>=3.1"]
 
 [project.scripts]
 nrag = "nrag.cli:app"
