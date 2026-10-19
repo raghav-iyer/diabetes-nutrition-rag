@@ -292,3 +292,33 @@ def test_provider_selection_and_endpoints(cfg, monkeypatch):
         runner.endpoints(cfg, "remote")
     monkeypatch.delenv("LLM_ENDPOINTS", raising=False)
     assert runner.endpoints(cfg, "local") == ["http://localhost:11434"]
+
+
+def test_schema_template_covers_every_field_without_schema_keywords():
+    tpl = pico.schema_template()
+    parsed = json.loads(tpl)
+    assert set(parsed) == set(Extraction.model_fields)
+    assert "$defs" not in tpl and "$ref" not in tpl and "properties" not in tpl
+    assert parsed["effect_direction"].startswith("<one of: benefit | harm | no_effect | mixed | unclear; Direction")
+    assert parsed["population"]["tags"][0].startswith("<zero or more of: general_adults")
+    assert parsed["outcomes"][0]["type"].startswith("<one of: hard | surrogate; hard = disease incidence")
+    assert parsed["sample_size"].startswith("<integer or null; Number of participants")
+    assert parsed["risk_of_bias_signals"]["blinding"].startswith("<one of: yes | no | not_reported; yes if")
+    assert parsed["confidence"] == "<one of: high | medium | low; Your confidence in this extraction overall>"
+
+
+def test_template_mode_messages(cfg, tmp_path):
+    ec = pico.ExtractConfig.from_config(cfg, "gpt-oss:20b", cache_dir=tmp_path)
+    ec.output_mode = "template"
+    sys_msg = pico.build_messages(ec, "T", "A")[0]["content"]
+    assert "Fill in this JSON template" in sys_msg and "$defs" not in sys_msg
+    prompt_ec = pico.ExtractConfig.from_config(cfg, "gpt-oss:20b", cache_dir=tmp_path)
+    assert pico.input_hash(ec, "T", "A") != pico.input_hash(prompt_ec, "T", "A")
+
+
+def test_cache_key_changes_when_template_changes(cfg, tmp_path, monkeypatch):
+    ec = pico.ExtractConfig.from_config(cfg, "gpt-oss:20b", cache_dir=tmp_path)
+    ec.output_mode = "template"
+    before = pico.input_hash(ec, "T", "A")
+    monkeypatch.setattr(pico, "schema_template", lambda schema=None: '{"changed": true}')
+    assert pico.input_hash(ec, "T", "A") != before
