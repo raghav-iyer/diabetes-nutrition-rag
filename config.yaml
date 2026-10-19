@@ -139,6 +139,32 @@ scoring:
 population_tags: [general_adults, prediabetes, type2_diabetes, overweight_obese, pregnant, lactating,
                   gestational_diabetes, south_asian, indian, children, older_adults]
 
+# Phase 3: quality score v2 = v1 (design x size x recency) x extraction-derived multipliers, plus supersession.
+# Multipliers are neutral (1.0) when the extraction is missing, so v2 == v1 for un-extracted docs.
+score_v2:
+  rob:                              # per-signal multiplier by answer; applied only to designs listed in `designs`
+    rct:
+      designs: [rct, non_randomised_trial]
+      randomisation_described: {"yes": 1.05, "no": 0.90, not_reported: 0.95}
+      blinding: {"yes": 1.05, "no": 0.97, not_reported: 1.00}
+      low_dropout: {"yes": 1.05, "no": 0.90, not_reported: 0.97}
+      pre_registered: {"yes": 1.05, "no": 1.00, not_reported: 0.97}
+    review:
+      designs: [meta_analysis, systematic_review]
+      pre_registered: {"yes": 1.08, "no": 1.00, not_reported: 0.95}
+  rob_clip: [0.7, 1.15]             # bounds on the product of the rob multipliers
+  industry_funding: {"yes": 0.92, "no": 1.00, unclear: 0.98}
+  low_confidence_multiplier: 0.95   # extraction confidence == low
+  use_extracted_sample_size: true   # fill v1's unknown sample size from the extraction
+  supersession:
+    designs: [guideline, meta_analysis, systematic_review]   # only these can supersede / be superseded
+    min_year_gap: 1
+    min_title_similarity: 0.45      # Jaccard over content tokens of title + intervention
+    min_population_overlap: 0.5     # Jaccard over population tags (both empty = overlap 1.0)
+    require_shared_topic: true
+  report: eval/reports/score_v2.md
+  output: data/corpus/scores_v2.jsonl
+
 # What counts as "extremely credible". Applied after the hygiene filters above.
 credibility:
   include_designs: [guideline, meta_analysis, systematic_review, rct, prospective_cohort]
@@ -209,7 +235,7 @@ llm:
   max_consecutive_failures: 5     # abort a run when the model server keeps erroring (e.g. GPU out of memory)
 
 extract:
-  active_model: gpt-oss:20b       # overridden by LLM_MODEL; feeds the corpus once validated
+  active_model: /models/gemma-4-26B-A4B-it   # chosen over gpt-oss 20B (remote, ~4 s/abstract); overridden by LLM_MODEL
   # qwen3.8:27b is the MLX (NVFP4) build: GPU-only, so it ran out of memory on the 24 GB Mac.
   # qwen3.8:27b-q4_K_M is the llama.cpp (GGUF) build, which can offload layers to the CPU.
   # High reasoning on gpt-oss was ~4 min/abstract (measured on 4), so only low is used.

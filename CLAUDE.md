@@ -11,9 +11,10 @@ with numbers.
 Built in phases; stop after each phase for review and wait for the go-ahead.
 - Phase 0 (setup + port of the legacy ingester): done.
 - Phase 1 (dataset ingestion): done. Live sample run: `--max-per-topic 200`.
-- Phase 2 (LLM PICO extraction): built and run on the 606-doc sample (Gemma, 605 ok); awaiting the user's review labels. Two providers: `local` (Ollama on the Mac: gpt-oss 20B, Qwen3.8 27B GGUF)
+- Phase 2 (LLM PICO extraction): done on the 606-doc sample with Gemma 4 (606 ok, pico_v2 template prompt; now `extract.active_model`; gpt-oss dropped). The Gemma-vs-gpt-oss review CSV was not labelled, so no field-level accuracy numbers exist yet (`nrag extract-accuracy` after labelling). Two providers: `local` (Ollama on the Mac: gpt-oss 20B, Qwen3.8 27B GGUF)
   and `remote` (the user's OpenAI-compatible vLLM server running Gemma 4 26B-A4B; base URL in `.env` as
   `LLM_REMOTE_ENDPOINTS`, never committed). No laptop, no paid APIs.
+- Phase 3 (scoring v2 + supersession): built, `nrag score` (config `score_v2`, `src/nrag/score/`). Writes `data/corpus/scores_v2.jsonl` and `eval/reports/score_v2.md`. Not yet validated against labels: multipliers are priors; supersession (4 pairs on the sample) needs a manual spot-check.
 - No GCP account: Phase 10 is a local deployment (Docker compose, CI, local monitoring); the embedding
   comparison uses local models only.
 
