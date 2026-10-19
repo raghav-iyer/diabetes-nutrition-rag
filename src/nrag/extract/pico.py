@@ -68,17 +68,60 @@ def doc_text(doc: dict[str, Any]) -> tuple[str, str]:
 
 
 def input_hash(ec: ExtractConfig, title: str, abstract: str) -> str:
-    system, user = load_prompt(ec.prompt_version)
-    blob = json.dumps([ec.model, ec.think, ec.prompt_version, system, user, ec.dropout_threshold_pct,
-                       extraction_json_schema(), title, abstract] + ([ec.output_mode] if ec.output_mode != "schema" else []),
-                      sort_keys=True)
+    """Hash of everything that determines the output: the exact messages sent (prompt, any
+    embedded schema/template, the document), model, think setting, output mode and schema."""
+    blob = json.dumps([ec.model, ec.think, ec.prompt_version, ec.output_mode, extraction_json_schema(),
+                       build_messages(ec, title, abstract)], sort_keys=True)
     return hashlib.sha256(blob.encode()).hexdigest()
+
+
+def schema_template(schema: dict[str, Any] | None = None) -> str:
+    """A fill-in JSON skeleton of the schema: every field, with its allowed values spelled out.
+    Models copy templates more reliably than raw JSON Schema (which some echo back, `$defs` and all)."""
+    schema = schema or extraction_json_schema()
+    defs = schema.get("$defs", {})
+
+    def resolve(node):
+        while "$ref" in node:
+            node = defs[node["$ref"].split("/")[-1]]
+        return node
+
+    def with_desc(text: str, desc: str | None) -> str:
+        return f"{text[:-1]}; {desc.rstrip('.')}>" if desc and text.endswith(">") else text
+
+    def placeholder(node, desc: str | None = None) -> Any:
+        desc = node.get("description", desc)
+        node = resolve(node)
+        if "anyOf" in node:   # Optional[X]
+            inner = [placeholder(n) for n in node["anyOf"] if resolve(n).get("type") != "null"]
+            base = inner[0] if inner else None
+            base = f"{base[:-1]} or null>" if isinstance(base, str) and base.endswith(">") else base
+            return with_desc(base, desc) if isinstance(base, str) else base
+        if "enum" in node:
+            return with_desc("<one of: " + " | ".join(node["enum"]) + ">", desc)
+        t = node.get("type")
+        if t == "object":
+            return {k: placeholder(v) for k, v in node["properties"].items()}
+        if t == "array":
+            item = resolve(node["items"])
+            if "enum" in item:
+                return ["<zero or more of: " + " | ".join(item["enum"]) + ">"]
+            return [placeholder(item)]
+        base = {"string": "<text>", "integer": "<integer>", "number": "<number>", "boolean": "<true or false>"}.get(t, "<value>")
+        return with_desc(base, desc)
+
+    return json.dumps(placeholder(schema), indent=1)
 
 
 def build_messages(ec: ExtractConfig, title: str, abstract: str) -> list[dict[str, str]]:
     system, user = load_prompt(ec.prompt_version)
     system = system.replace("{dropout_threshold_pct}", f"{ec.dropout_threshold_pct:g}")
-    if ec.output_mode == "prompt":
+    if ec.output_mode == "template":
+        system += ("\n\nFill in this JSON template. Replace every <...> placeholder with a value from the text "
+                   "(choose exactly one allowed option where options are listed; lists may be empty). Keep all keys.\n"
+                   + schema_template()
+                   + "\n\nReturn one JSON object only: no markdown, no commentary.")
+    elif ec.output_mode == "prompt":
         system += ("\n\nJSON schema (follow it exactly; use only the allowed enum values):\n"
                    + json.dumps(extraction_json_schema(), separators=(",", ":"))
                    + "\n\nReturn one JSON object only: no markdown, no commentary.")
@@ -154,7 +197,7 @@ def extract_one(client: LLMClient, endpoint: str, ec: ExtractConfig, doc: dict[s
         return {**cached, "cached": True}
 
     messages = build_messages(ec, title, abstract)
-    schema = extraction_json_schema() if ec.output_mode == "schema" else None
+    schema = extraction_json_schema() if ec.output_mode == "schema" else None   # prompt/template: validate after
     errors: list[str] = []
     attempts, latency, prompt_tokens, completion_tokens = 0, 0.0, 0, 0
     extraction = None

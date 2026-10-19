@@ -228,6 +228,7 @@ extract:
   output_mode:
     default: prompt
     qwen3.8:27b: prompt   # Ollama: "structured output is unavailable" for this engine
+    /models/gemma-4-26B-A4B-it: template   # raw schema in the prompt made Gemma echo `$defs` on ~1/3 of first attempts
   prompt_version: pico_v1
   max_attempts: 3
   max_tokens: 8192                # thinking tokens count toward this; high effort needs headroom
