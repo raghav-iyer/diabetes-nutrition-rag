@@ -117,6 +117,20 @@ def extract_compare(
     typer.echo(f"Wrote {path}. Fill `verdict` (A, B, both, neither) and `correct_value` when neither is right.")
 
 
+@app.command("review-xlsx")
+def review_xlsx(config: Optional[str] = ConfigOpt):
+    """Number the papers in the review CSV and write a colour-banded .xlsx copy to label in."""
+    from nrag.config import resolve_path
+    from nrag.extract import review
+
+    cfg = load_config(config)
+    csv_path = resolve_path(cfg["extract"]["review_csv"])
+    n = review.add_paper_numbers(csv_path)
+    xlsx = csv_path.with_suffix(".xlsx")
+    review.write_review_xlsx(csv_path, xlsx)
+    typer.echo(f"{n} papers numbered. Label {xlsx}, then File > Save As > CSV over {csv_path}.")
+
+
 @app.command("extract-accuracy")
 def extract_accuracy(config: Optional[str] = ConfigOpt):
     """Field-level accuracy, model comparison and decision from the filled review CSV."""

@@ -36,7 +36,7 @@ CATEGORICAL = {"study_design", "effect_direction", "funding_industry",
                "risk_of_bias_signals.low_dropout", "risk_of_bias_signals.pre_registered"}
 NUMERIC = {"sample_size", "duration_weeks"}
 YES_NO_FIELDS = {f for f in CATEGORICAL if f.startswith("risk_of_bias_signals.")}
-CSV_COLUMNS = ["doc_id", "pmid", "field", "A", "B", "verdict", "correct_value", "notes", "title", "abstract"]
+CSV_COLUMNS = ["paper_no", "doc_id", "pmid", "field", "A", "B", "verdict", "correct_value", "notes", "title", "abstract"]
 PHASE1_TO_DESIGN = {"controlled_trial": "non_randomised_trial", "cohort": "retrospective_cohort",
                     "observational": "other", "unknown": "other", "opinion": "other"}
 
@@ -138,13 +138,13 @@ def write_review_csv(path: Path, key_path: Path, docs: list[dict[str, Any]],
     with path.open("w", newline="") as f:
         w = csv.DictWriter(f, fieldnames=CSV_COLUMNS)
         w.writeheader()
-        for d in docs:
+        for paper_no, d in enumerate(docs, 1):
             order = names[:]
             if len(order) == 2:
                 rng.shuffle(order)
             key[d["doc_id"]] = dict(zip("AB", order))
             for i, field in enumerate(REVIEW_FIELDS):
-                row = {"doc_id": d["doc_id"], "pmid": d.get("pmid", ""), "field": field,
+                row = {"paper_no": paper_no, "doc_id": d["doc_id"], "pmid": d.get("pmid", ""), "field": field,
                        "A": render(get_field(systems[order[0]].get(d["doc_id"]), field), field),
                        "B": render(get_field(systems[order[1]].get(d["doc_id"]), field), field) if len(order) == 2 else "",
                        "verdict": "", "correct_value": "", "notes": "",
@@ -153,6 +153,51 @@ def write_review_csv(path: Path, key_path: Path, docs: list[dict[str, Any]],
                 w.writerow(row)
     key_path.parent.mkdir(parents=True, exist_ok=True)
     key_path.write_text(json.dumps({"systems": names, "assignment": key}, indent=1))
+
+
+def add_paper_numbers(path: Path) -> int:
+    """Insert `paper_no` (1, 2, ... in file order) into an existing review CSV, keeping all labels."""
+    rows = read_review(path)
+    n, last = 0, None
+    for r in rows:
+        if r["doc_id"] != last:
+            n, last = n + 1, r["doc_id"]
+        r["paper_no"] = n
+    with path.open("w", newline="") as f:
+        w = csv.DictWriter(f, fieldnames=CSV_COLUMNS)
+        w.writeheader()
+        w.writerows({k: r.get(k, "") for k in CSV_COLUMNS} for r in rows)
+    return n
+
+
+PAPER_COLOURS = ["FFC7CE", "FFEB9C", "C6EFCE", "BDD7EE", "E4C7F5", "FCE4D6"]   # red, yellow, green, blue, purple, orange
+
+
+def write_review_xlsx(csv_path: Path, xlsx_path: Path) -> None:
+    """Colour-banded copy of the review CSV (one colour per paper). Label here, then File > Save As CSV."""
+    from openpyxl import Workbook
+    from openpyxl.styles import Alignment, Font, PatternFill
+
+    rows = read_review(csv_path)
+    wb = Workbook()
+    ws = wb.active
+    ws.title = "review"
+    ws.append(CSV_COLUMNS)
+    for c in ws[1]:
+        c.font = Font(bold=True)
+    ws.freeze_panes = "D2"
+    for r in rows:
+        ws.append([int(r["paper_no"]) if k == "paper_no" and r.get("paper_no") else r.get(k, "") for k in CSV_COLUMNS])
+        fill = PatternFill("solid", fgColor=PAPER_COLOURS[(int(r["paper_no"]) - 1) % len(PAPER_COLOURS)])
+        for c in ws[ws.max_row]:
+            c.fill = fill
+            c.alignment = Alignment(vertical="top", wrap_text=c.column_letter in "DEFGHIJ")
+    widths = {"paper_no": 9, "doc_id": 14, "pmid": 10, "field": 24, "A": 34, "B": 34, "verdict": 10,
+              "correct_value": 26, "notes": 20, "title": 40, "abstract": 60}
+    for i, k in enumerate(CSV_COLUMNS):
+        ws.column_dimensions[chr(65 + i)].width = widths[k]
+    xlsx_path.parent.mkdir(parents=True, exist_ok=True)
+    wb.save(xlsx_path)
 
 
 def read_review(path: Path) -> list[dict[str, str]]:
