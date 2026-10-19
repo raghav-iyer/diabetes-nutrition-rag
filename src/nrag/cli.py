@@ -128,9 +128,14 @@ def extract_accuracy(config: Optional[str] = ConfigOpt):
 
 
 @app.command()
-def score():
-    """Quality scoring v2 and supersession (Phase 3)."""
-    _not_yet(3)
+def score(model: Optional[str] = typer.Option(None, help="Extraction model (default: extract.active_model)."),
+          config: Optional[str] = ConfigOpt):
+    """Quality scoring v2 (extraction-aware) and supersession (Phase 3)."""
+    from nrag.score import runner
+
+    out, report = runner.run(load_config(config), model)
+    typer.echo(report.read_text())
+    typer.echo(f"Saved {out} and {report}")
 
 
 @app.command()
