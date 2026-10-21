@@ -11,7 +11,7 @@ with numbers.
 Built in phases; stop after each phase for review and wait for the go-ahead.
 - Phase 0 (setup + port of the legacy ingester): done.
 - Phase 1 (dataset ingestion): done. Live sample run: `--max-per-topic 200`.
-- Phase 2 (LLM PICO extraction): done on the 606-doc sample with Gemma 4 (606 ok, pico_v2 template prompt; now `extract.active_model`; gpt-oss dropped). The Gemma-vs-gpt-oss review CSV was not labelled, so no field-level accuracy numbers exist yet (`nrag extract-accuracy` after labelling). Two providers: `local` (Ollama on the Mac: gpt-oss 20B, Qwen3.8 27B GGUF)
+- Phase 2 (LLM PICO extraction): done on the 606-doc sample with Gemma 4 (606 ok, prompt pico_v1 with the fill-in template output mode; now `extract.active_model`; gpt-oss dropped). The Gemma-vs-gpt-oss review CSV was not labelled, so no field-level accuracy numbers exist yet (`nrag extract-accuracy` after labelling). Two providers: `local` (Ollama on the Mac: gpt-oss 20B, Qwen3.8 27B GGUF)
   and `remote` (the user's OpenAI-compatible vLLM server running Gemma 4 26B-A4B; base URL in `.env` as
   `LLM_REMOTE_ENDPOINTS`, never committed). No laptop, no paid APIs.
 - Phase 3 (scoring v2 + supersession): built, `nrag score` (config `score_v2`, `src/nrag/score/`). Writes `data/corpus/scores_v2.jsonl` and `eval/reports/score_v2.md`. Not yet validated against labels: multipliers are priors; supersession (4 pairs on the sample) needs a manual spot-check.
@@ -107,7 +107,7 @@ Records carry `search_sources` (main / india_boost).
 
 - Remote Gemma in prompt mode echoes the JSON schema (`$defs`) on ~1/3 of first attempts (fixed by the retry,
   but it adds load to a shared production server). Candidate fix: a filled-in JSON template instead of the raw
-  schema (would be prompt `pico_v2`; needs re-measuring). Remote runs only after 19:00 IST.
+  schema. Fixed by `extract.output_mode: template` for Gemma (first-attempt validity 86% -> 98%). Remote runs only off-hours unless the user says otherwise.
 
 - `humans[mh]` in the base query means not-yet-MeSH-indexed records are never returned.
 - `--max-per-topic` samples the newest papers within each year, so samples under-represent early-year papers (2013 is missing from the 200/topic sample).
