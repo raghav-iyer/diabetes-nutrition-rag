@@ -22,7 +22,7 @@ from typing import Any, Iterable
 from nrag.config import resolve_path
 from nrag.ingest import credibility, guidelines as gl, journals, pmc_fulltext, retractions
 from nrag.ingest.pubmed import (
-    PubMedClient, Rules, build_query, classify_design, india_query, exclusion_reason, extract_sample_size,
+    PubMedClient, Rules, build_query, classify_design, india_foods_query, india_query, exclusion_reason, extract_sample_size,
     parse_articles, recency_factor, reference_year, score,
 )
 from nrag.net import CachedHttp
@@ -92,17 +92,22 @@ def search_topics(cfg, client: PubMedClient, since, max_per_topic, topics, desig
         for pmid in ids:
             add(pmid, topic, "main")
         msg = f"[{topic}] {total} hits, taking {len(ids)}"
-        if ib["enabled"]:
-            quota = math.ceil(ib["fraction"] * max_per_topic) if max_per_topic else None
-            # Over-fetch so the quota is filled with records the main search didn't return.
-            itotal, iids = client.search(india_query(cfg, topic, design_filter), mindate, maxdate, datetype,
-                                         limit=quota * 2 + len(ids) if quota else None, today=today)
-            new = [p for p in iids if p not in set(ids)]
+        seen = set(ids)
+        for source, spec, query_fn in (("india_boost", ib, india_query),
+                                       ("india_foods", pm.get("india_foods", {"enabled": False}), india_foods_query)):
+            if not spec.get("enabled"):
+                continue
+            quota = math.ceil(spec["fraction"] * max_per_topic) if max_per_topic else None
+            # Over-fetch so the quota is filled with records the earlier searches didn't return.
+            stotal, sids = client.search(query_fn(cfg, topic, design_filter), mindate, maxdate, datetype,
+                                         limit=quota * 2 + len(seen) if quota else None, today=today)
+            new = [p for p in sids if p not in seen]
             new = new[:quota] if quota else new
-            totals[f"{topic}:india_boost"] = itotal
+            totals[f"{topic}:{source}"] = stotal
             for pmid in new:
-                add(pmid, topic, "india_boost")
-            msg += f"; India boost {itotal} hits, adding {len(new)} new"
+                add(pmid, topic, source)
+            seen |= set(new)
+            msg += f"; {source} {stotal} hits, adding {len(new)} new"
         print(msg)
     return hits, sources, totals
 
