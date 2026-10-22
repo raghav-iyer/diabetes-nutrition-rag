@@ -41,6 +41,12 @@ pubmed:
   # fetches `fraction` x max_per_topic extra records per topic; in full runs, all hits.
   # Target: ~30% more *documents*. About half of India-boost records pass the
   # credibility rules (many are retrospective or cross-sectional), hence 0.45.
+  # Indian staple foods (user request 2026-10-22): staple terms AND each topic's outcomes (from india_boost),
+  # no region filter (millet or pulse trials elsewhere still apply). Source tag: india_foods.
+  india_foods:
+    enabled: true
+    fraction: 0.15                  # sample runs: extra records per topic = fraction x max_per_topic
+    foods: '(millet*[tiab] OR ragi[tiab] OR jowar[tiab] OR bajra[tiab] OR sorghum[tiab] OR pulses[tiab] OR dal[tiab] OR dhal[tiab] OR lentil*[tiab] OR chickpea*[tiab] OR "mung bean*"[tiab] OR "black gram"[tiab] OR "brown rice"[tiab] OR "white rice"[tiab] OR "parboiled rice"[tiab] OR basmati[tiab] OR chapati*[tiab] OR roti[tiab] OR "whole wheat"[tiab] OR ghee[tiab] OR jaggery[tiab] OR fenugreek[tiab] OR "bitter gourd"[tiab] OR "bitter melon"[tiab] OR curcumin[tiab] OR turmeric[tiab] OR "Indian diet*"[tiab] OR "South Asian diet*"[tiab] OR "vegetarian diet*"[tiab])'
   india_boost:
     enabled: true
     fraction: 0.45
@@ -303,7 +309,8 @@ index:
     hierarchical: {child_tokens: 160, child_overlap: 20}   # small children indexed, parent section returned
     semantic: {breakpoint_percentile: 20}                 # split where adjacent-sentence similarity is in the lowest 20%
   tables:
-    summary: caption                # caption | llm (LLM summary: off-hours only on the shared server)
+    summary: llm                    # caption | llm (one-paragraph summary from extract.active_model, cached)
+    summaries_dir: data/interim/table_summaries
     max_markdown_chars: 4000
   db:
     host: 127.0.0.1

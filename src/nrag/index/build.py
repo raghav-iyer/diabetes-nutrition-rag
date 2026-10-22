@@ -42,7 +42,12 @@ def load_inputs(cfg: dict[str, Any], only_extracted: bool = False) -> dict[str, 
         p = d.get("fulltext_path")
         if p and resolve_path(p).exists():
             fulltext[d["doc_id"]] = json.loads(resolve_path(p).read_text())
-    return {"docs": docs, "extractions": extractions, "scores": scores, "fulltext": fulltext, "model": model}
+    table_summaries = {}
+    if cfg["index"]["tables"]["summary"] == "llm":
+        from nrag.index.tables import load_summaries
+        table_summaries = load_summaries(cfg, model)
+    return {"docs": docs, "extractions": extractions, "scores": scores, "fulltext": fulltext, "model": model,
+            "table_summaries": table_summaries}
 
 
 def chunk_corpus(cfg, inputs, strategy: str, tok, embed=None) -> tuple[list, list]:
@@ -50,7 +55,8 @@ def chunk_corpus(cfg, inputs, strategy: str, tok, embed=None) -> tuple[list, lis
     for d in inputs["docs"]:
         cs, ps = chunking.build_doc_chunks(d, strategy, tok, cfg, extraction=inputs["extractions"].get(d["doc_id"]),
                                            score=inputs["scores"].get(d["doc_id"]),
-                                           fulltext=inputs["fulltext"].get(d["doc_id"]), embed=embed)
+                                           fulltext=inputs["fulltext"].get(d["doc_id"]), embed=embed,
+                                           table_summaries=inputs.get("table_summaries"))
         chunks += cs
         parents += ps
     return chunks, parents
@@ -92,7 +98,8 @@ def run(cfg: dict[str, Any], strategies: list[str] | None = None, index_type: st
 
     report: dict[str, Any] = {"documents": len(inputs["docs"]), "with_extraction": sum(d["doc_id"] in inputs["extractions"]
                               for d in inputs["docs"]), "with_fulltext": len(inputs["fulltext"]),
-                              "extraction_model": inputs["model"], "index_type": index_type, "strategies": {}}
+                              "extraction_model": inputs["model"], "index_type": index_type,
+                              "table_summaries": len(inputs.get("table_summaries") or {}), "strategies": {}}
     parents_done = False
     for strategy in strategies:
         s0 = time.monotonic()

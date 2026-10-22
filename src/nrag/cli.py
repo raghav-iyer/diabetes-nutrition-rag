@@ -152,6 +152,30 @@ def score(model: Optional[str] = typer.Option(None, help="Extraction model (defa
     typer.echo(f"Saved {out} and {report}")
 
 
+@app.command("summarize-tables")
+def summarize_tables(
+    concurrency: int = typer.Option(1, help="Concurrent requests (the remote server is shared)."),
+    limit: Optional[int] = typer.Option(None, help="Only the first N tables (testing)."),
+    config: Optional[str] = ConfigOpt,
+):
+    """One-paragraph LLM summaries of every full-text table (embedding text for table chunks)."""
+    from nrag.extract import runner
+    from nrag.index import build, tables
+    from nrag.llm import EndpointPool, client_from_config
+
+    cfg = load_config(config)
+    model = runner.active_model(cfg)
+    provider = runner.provider_for(cfg, model)
+    inputs = build.load_inputs(cfg)
+    items = tables.table_inputs(inputs["docs"], inputs["fulltext"], cfg["index"]["tables"]["max_markdown_chars"])
+    items = items[:limit] if limit else items
+    typer.echo(f"Summarising {len(items)} tables with {model} via {provider} ({concurrency} concurrent)")
+    stats = tables.summarize(client_from_config(cfg["llm"], provider),
+                             EndpointPool(runner.endpoints(cfg, provider), concurrency), model, items,
+                             tables.output_path(cfg, model))
+    typer.echo(f"Done: {stats}")
+
+
 @app.command()
 def index(
     strategy: Optional[List[str]] = typer.Option(None, "--strategy", help="Chunking strategy (repeatable); default from config."),
