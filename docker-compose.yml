@@ -3,8 +3,8 @@
 # Run a CLI command:    docker compose run --rm app ingest --max-per-topic 50
 services:
   db:
-    # arm64 images are a preview build (fine for local development). Pin the tag in Phase 4.
-    image: google/alloydbomni:${ALLOYDB_OMNI_TAG:-latest}
+    # Pinned 2026-10-22: PostgreSQL 16.14, pgvector 0.8.5, alloydb_scann 0.1.4 (arm64 build is a preview).
+    image: google/alloydbomni@sha256:6f9f2a87354dac2eed5e3a84fb1e6ccfce0429d4176623a3396a6012e6fc5e47
     environment:
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?set POSTGRES_PASSWORD in .env}
       POSTGRES_DB: nrag

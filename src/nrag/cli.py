@@ -153,9 +153,20 @@ def score(model: Optional[str] = typer.Option(None, help="Extraction model (defa
 
 
 @app.command()
-def index():
-    """Chunk documents and build LanceDB + BM25 indexes (Phase 4)."""
-    _not_yet(4)
+def index(
+    strategy: Optional[List[str]] = typer.Option(None, "--strategy", help="Chunking strategy (repeatable); default from config."),
+    all_strategies: bool = typer.Option(False, "--all-strategies", help="Build every chunking strategy."),
+    index_type: Optional[str] = typer.Option(None, help="hnsw | ivfflat | scann (default from config)."),
+    only_extracted: bool = typer.Option(False, help="Index only documents with an LLM extraction (the sample)."),
+    config: Optional[str] = ConfigOpt,
+):
+    """Chunk documents, embed them, and build pgvector (AlloyDB Omni) + BM25 indexes (Phase 4)."""
+    from nrag.index import build
+
+    cfg = load_config(config)
+    strategies = list(cfg["index"]["strategies"]) if all_strategies else (strategy or None)
+    report = build.run(cfg, strategies, index_type, only_extracted)
+    typer.echo(build.render_report(report))
 
 
 @app.command()

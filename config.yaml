@@ -283,3 +283,40 @@ extract:
     south_asian: [India, Pakistan, Bangladesh, Sri Lanka, Nepal]
     children: [Child, Adolescent, "Child, Preschool"]
     older_adults: [Aged, "Aged, 80 and over"]
+
+# Phase 4: chunking and indexing (pgvector on AlloyDB Omni + BM25).
+index:
+  embedding_model: BAAI/bge-m3
+  embedding_dim: 1024
+  device: mps                       # mps | cpu | cuda
+  batch_size: 16
+  max_embed_tokens: 1024            # embed_text is truncated to this many tokens
+  default_strategy: token_aware
+  strategies: [token_aware, recursive, sliding_window, semantic, hierarchical]
+  include_statuses: [included, provisional]
+  chunk:
+    target_tokens: 400              # full-text chunks aim for ~300-500 tokens
+    max_tokens: 500
+    min_tokens: 60                  # smaller trailing pieces merge into the previous chunk
+    overlap_tokens: 50              # recursive and sliding_window
+    overlap_sentences: 1            # token_aware
+    hierarchical: {child_tokens: 160, child_overlap: 20}   # small children indexed, parent section returned
+    semantic: {breakpoint_percentile: 20}                 # split where adjacent-sentence similarity is in the lowest 20%
+  tables:
+    summary: caption                # caption | llm (LLM summary: off-hours only on the shared server)
+    max_markdown_chars: 4000
+  db:
+    host: 127.0.0.1
+    port: 5432
+    dbname: nrag
+    user: postgres
+    password_env: POSTGRES_PASSWORD
+  vector_index:
+    default: hnsw
+    hnsw: {m: 16, ef_construction: 64}
+    ivfflat: {lists_factor: 1.0}    # lists = factor x sqrt(rows)
+    scann: {leaves_factor: 1.0}     # num_leaves = factor x sqrt(rows)
+  bm25: {dir: data/index/bm25, stemmer: english}
+  embed_cache: data/cache/embeddings.sqlite
+  manifest: data/index/manifest.json
+  report: eval/reports/index_stats.md
