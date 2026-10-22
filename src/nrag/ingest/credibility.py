@@ -10,6 +10,7 @@
 
 from __future__ import annotations
 
+import re
 from typing import Any
 
 
@@ -39,3 +40,29 @@ def assess(cred: dict[str, Any], rec: dict[str, Any]) -> tuple[str, str | None]:
     if rec["design_method"] not in cred["trusted_design_methods"]:
         provisional = provisional or "design_from_text_only"
     return ("provisional", provisional) if provisional else ("included", None)
+
+
+def india_focused(cred: dict[str, Any], rec: dict[str, Any]) -> bool:
+    ir = cred.get("india_relaxed") or {}
+    if not ir:
+        return False
+    if set(rec.get("mesh") or []) & set(ir["region_mesh"]):
+        return True
+    return bool(re.search(ir["region_pattern"], f"{rec.get('title', '')} {rec.get('abstract', '')}"))
+
+
+def assess_with_india(cred: dict[str, Any], rec: dict[str, Any]) -> tuple[str, str | None, bool]:
+    """Strict rules first; if they exclude an India-focused paper, retry with the relaxed
+    designs and sample-size minimums. Returns (status, reason, admitted_by_relaxed_rules)."""
+    status, reason = assess(cred, rec)
+    ir = cred.get("india_relaxed") or {}
+    if status != "excluded" or not ir.get("enabled") or reason not in {"design_not_credible", "below_min_sample_size"}:
+        return status, reason, False
+    if not india_focused(cred, rec):
+        return status, reason, False
+    relaxed = {**cred, "include_designs": list(cred["include_designs"]) + list(ir["extra_designs"]),
+               "min_n": {**cred["min_n"], **ir["min_n"]}}
+    r_status, r_reason = assess(relaxed, rec)
+    if r_status == "excluded":
+        return status, reason, False
+    return r_status, r_reason, True

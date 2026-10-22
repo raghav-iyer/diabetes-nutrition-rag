@@ -36,7 +36,7 @@ EXPECTED_STATUS = {
     "90000022": ("excluded", "retracted"),               # Retraction Watch, matched by DOI
     "90000023": ("excluded", "not_medline_journal"),
     "90000024": ("included", None),                      # In-Process citation in an indexed journal
-    "90000025": ("excluded", "design_not_credible"),     # "previous meta-analyses" no longer fools it
+    "90000025": ("provisional", "design_from_text_only"),  # cross-sectional, India, n=900: admitted by india_relaxed
     "90000026": ("excluded", "expression_of_concern"),   # Retraction Watch EoC
 }
 
@@ -119,9 +119,10 @@ def test_document_fields_topics_fulltext_and_guidelines(env):
 def test_summary_counts(env):
     cfg, _ = env
     summary, _ = _first_run(cfg)
-    assert summary["documents"] == 7 and summary["excluded"] == 19
-    assert summary["by_status"] == {"included": 6, "provisional:design_from_text_only": 1}
-    assert summary["by_design"]["prospective_cohort"] == 1 and summary["without_prospective_cohorts"] == 6
+    assert summary["documents"] == 8 and summary["excluded"] == 18
+    assert summary["by_status"] == {"included": 6, "provisional:design_from_text_only": 2}
+    assert summary["flags"].get("india_relaxed") == 1
+    assert summary["by_design"]["prospective_cohort"] == 1 and summary["without_prospective_cohorts"] == 7
     assert summary["retracted_in_store"] == {"pubmed_only": 2, "retraction_watch_only": 2, "both": 0}
     assert summary["fulltext_licences_seen"] == {"CC-BY": 1, "pmc-covid-temporary": 1}
     assert summary["fulltext_stored"] == 1
@@ -217,3 +218,26 @@ def test_india_boost_can_be_disabled(env):
     summary = pipeline.run(cfg, clients, today=TODAY, fulltext=False, guidelines=False)
     assert not any(":india_boost" in k for k in summary["pubmed_hits_by_topic"])
     assert summary["india_boost_only"] == 0
+
+
+def test_add_india_papers_then_rebuild_without_search(env):
+    cfg, _ = env
+    _first_run(cfg)
+    from nrag.ingest.pubmed import india_query
+    iq = india_query(cfg, "diabetes_prevention", design_filter=False)
+    clients, http = _clients(cfg, {iq: ["90000025", "90000001", "90000017"]}, xml_files=(PUBMED_BASE,))
+    store_path = cfg["paths"]["pubmed_records"]
+    # 90000025 is already stored by the first run; drop it so it is a new candidate.
+    rows = [r for r in _read(store_path) if r["pmid"] != "90000025"]
+    with open(store_path, "w") as f:
+        f.write("\n".join(json.dumps(r) for r in rows) + "\n")
+    added = pipeline.add_india_papers(cfg, clients, target=5, today=TODAY)
+    assert added["added"] == 1 and added["india_relaxed"] == 1        # 90000017 (2011) excluded; 90000001 already stored
+    store = {r["pmid"]: r for r in _read(store_path)}
+    assert store["90000025"]["search_sources"] == ["india_extra"]
+    before = len([c for c in http.calls if c[2].get("db") == "pubmed"])
+    summary = pipeline.run(cfg, clients, today=TODAY, search=False, fulltext=False, guidelines=False)
+    after_pubmed = [c for c in http.calls[before:] if c[2].get("db") == "pubmed"]
+    assert after_pubmed == []                                         # no search, no refetch
+    assert "PMID:90000025" in {d["doc_id"] for d in _read(cfg["paths"]["documents"])}
+    assert summary["pubmed_hits_by_topic"] == {}

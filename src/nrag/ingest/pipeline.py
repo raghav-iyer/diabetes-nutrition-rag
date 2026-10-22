@@ -156,8 +156,10 @@ def derive(rules: Rules, cfg, rec: dict, indexed: set[str], rw: retractions.Retr
     if reason:
         d["status"], d["status_reason"] = "excluded", reason
     else:
-        d["status"], d["status_reason"] = credibility.assess(cfg["credibility"], d)
+        d["status"], d["status_reason"], d["india_relaxed"] = credibility.assess_with_india(cfg["credibility"], d)
     score(rules, d, ref_year)
+    if d.get("india_relaxed"):
+        d["flags"].append("india_relaxed")
     return d
 
 
@@ -249,7 +251,9 @@ def guideline_docs(cfg, rules: Rules, out_dir: Path, ref_year: int) -> tuple[lis
 # Orchestration
 # ---------------------------------------------------------------------------
 def run(cfg, clients: Clients, since=None, max_per_topic=None, topics=None, design_filter=None,
-        fulltext=True, guidelines=True, today: date | None = None) -> dict[str, Any]:
+        fulltext=True, guidelines=True, today: date | None = None, search: bool = True) -> dict[str, Any]:
+    """Full run. With search=False the corpus is rebuilt from the stored records only
+    (no PubMed searches, no refetch), e.g. after `add_india_papers` or a rule change."""
     today = today or date.today()
     rules = Rules.from_config(cfg)
     ref_year = reference_year(rules, today)
@@ -260,11 +264,15 @@ def run(cfg, clients: Clients, since=None, max_per_topic=None, topics=None, desi
     previous_docs = {d["doc_id"] for d in read_jsonl(paths["documents"])}
     print(f"Store: {len(store)} PubMed records; previous corpus: {len(previous_docs)} documents")
 
-    hits, sources, totals = search_topics(cfg, clients.pubmed, since, max_per_topic, topics, design_filter, today)
-    n_new = len(set(hits) - set(store))
-    returned = fetch_and_merge(clients.pubmed, store, hits, today, sources)
-    write_jsonl(paths["pubmed_records"], sorted(store.values(), key=lambda r: int(r["pmid"])))
-    print(f"Fetched {returned} records ({n_new} new); store now {len(store)}")
+    if search:
+        hits, sources, totals = search_topics(cfg, clients.pubmed, since, max_per_topic, topics, design_filter, today)
+        n_new = len(set(hits) - set(store))
+        returned = fetch_and_merge(clients.pubmed, store, hits, today, sources)
+        write_jsonl(paths["pubmed_records"], sorted(store.values(), key=lambda r: int(r["pmid"])))
+        print(f"Fetched {returned} records ({n_new} new); store now {len(store)}")
+    else:
+        totals = {}
+        print("Rebuilding from stored records (no search, no refetch)")
 
     indexed = journals.currently_indexed(clients.ncbi, cfg, (r.get("nlm_unique_id") for r in store.values()),
                                          clients.ncbi_params)
@@ -357,3 +365,52 @@ def print_summary(s: dict[str, Any]) -> None:
     print(f"guidelines parsed: {s['guidelines']['parsed'] or 'none'}; awaiting PDF: {s['guidelines']['awaiting_pdf']}")
     if s["removed_this_run"]:
         print(f"removed this run: {len(s['removed_this_run'])} (see removals log)")
+
+
+def add_india_papers(cfg, clients: Clients, target: int, design_filter: bool = False,
+                     today: date | None = None) -> dict[str, Any]:
+    """Add up to `target` new India-focused documents without a full re-ingest.
+
+    Runs only the India searches (all designs by default, since the relaxed India rules
+    admit cohort, case-control and cross-sectional studies), fetches candidates not
+    already stored, applies the credibility rules, keeps the `target` best by quality
+    score (then recency), and adds just those to the store with source `india_extra`.
+    Rebuild the corpus afterwards with run(search=False).
+    """
+    today = today or date.today()
+    rules = Rules.from_config(cfg)
+    ref_year = reference_year(rules, today)
+    paths = {k: resolve_path(v) for k, v in cfg["paths"].items()}
+    store = {r["pmid"]: r for r in read_jsonl(paths["pubmed_records"])}
+    pm = cfg["pubmed"]
+    cand_topics: dict[str, set[str]] = {}
+    totals = {}
+    for topic in pm["topics"]:
+        total, ids = clients.pubmed.search(india_query(cfg, topic, design_filter), *pm["date_range"], "pdat", today=today)
+        totals[topic] = total
+        for pmid in ids:
+            if pmid not in store:
+                cand_topics.setdefault(pmid, set()).add(topic)
+    print(f"India searches: {totals}; {len(cand_topics)} candidates not yet stored")
+    candidates: dict[str, dict] = {}
+    for chunk in clients.pubmed.fetch(sorted(cand_topics, key=int)):
+        for rec in parse_articles(chunk):
+            rec["topics"] = sorted(cand_topics.get(rec["pmid"], set()))
+            rec["search_sources"] = ["india_extra"]
+            rec["first_seen"] = today.isoformat()
+            candidates[rec["pmid"]] = rec
+    indexed = journals.currently_indexed(clients.ncbi, cfg, (r.get("nlm_unique_id") for r in candidates.values()),
+                                         clients.ncbi_params)
+    rw = retractions.load_retraction_index(clients.web, cfg)
+    derived = [derive(rules, cfg, r, indexed, rw, ref_year) for r in candidates.values()]
+    eligible = [d for d in derived if d["status"] != "excluded" and credibility.india_focused(cfg["credibility"], d)]
+    eligible.sort(key=lambda d: (-d["quality_score"], -(d.get("year") or 0), d["pmid"]))
+    chosen = eligible[:target]
+    for d in chosen:
+        store[d["pmid"]] = candidates[d["pmid"]]
+    write_jsonl(paths["pubmed_records"], sorted(store.values(), key=lambda r: int(r["pmid"])))
+    return {"candidates": len(candidates), "eligible": len(eligible), "added": len(chosen),
+            "by_status": _count(d["status"] for d in chosen),
+            "india_relaxed": sum(1 for d in chosen if d.get("india_relaxed")),
+            "by_design": _count(d["design"] for d in chosen),
+            "exclusion_reasons_of_rest": _count(d["status_reason"] for d in derived if d["status"] == "excluded")}

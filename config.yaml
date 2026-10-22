@@ -181,6 +181,16 @@ credibility:
   require_medline_journal: true     # citation indexed for MEDLINE, or journal currently indexed (NLM Catalog)
   exclude_expression_of_concern: true
   min_year: 2013                    # guidelines in the registry are exempt while current
+  # Relaxed rules for India / South Asia-focused papers (user decision 2026-10-22). Applied only when a paper
+  # fails the strict rules; papers admitted this way are flagged `india_relaxed` (count it, ablate it). Their
+  # design scores stay low (e.g. cross-sectional 0.30), so they rank below stronger evidence.
+  india_relaxed:
+    enabled: true
+    extra_designs: [cohort, case_control, cross_sectional, controlled_trial]
+    min_n: {rct: 30, controlled_trial: 30, prospective_cohort: 300, cohort: 300, case_control: 300, cross_sectional: 300}
+    # "American Indian(s)" / "Native ... Indians" are excluded (not South Asian).
+    region_pattern: '\b(?:India\b|(?<!American )(?<!Native )Indians?\b|South Asians?\b|Bangladesh\w*|Pakistan\w*|Sri Lanka\w*|Nepal\w*)'
+    region_mesh: [India, Pakistan, Bangladesh, Sri Lanka, Nepal]
 
 journals:
   nlmcatalog_batch: 100
