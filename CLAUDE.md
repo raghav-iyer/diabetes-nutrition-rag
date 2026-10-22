@@ -15,6 +15,11 @@ Built in phases; stop after each phase for review and wait for the go-ahead.
   and `remote` (the user's OpenAI-compatible vLLM server running Gemma 4 26B-A4B; base URL in `.env` as
   `LLM_REMOTE_ENDPOINTS`, never committed). No laptop, no paid APIs.
 - Phase 3 (scoring v2 + supersession): built, `nrag score` (config `score_v2`, `src/nrag/score/`). Writes `data/corpus/scores_v2.jsonl` and `eval/reports/score_v2.md`. Not yet validated against labels: multipliers are priors; supersession (4 pairs on the sample) needs a manual spot-check.
+- Full corpus ingested 2026-10-22: 7,127 documents (4,774 included, 2,353 provisional), 2,207 open-licence full
+  texts, India boost +9% (the full India literature is too small for +30% under the credibility rules).
+  Gemma extraction of the full corpus runs off-hours (scheduled 19:00 IST, 2 concurrent).
+- Phase 4 (chunking + indexing): built, `nrag index`. AlloyDB Omni in Docker via Colima
+  (`colima start --cpu 4 --memory 6`; `docker compose up -d db`), bge-m3 on MPS (~14 chunks/s at ~290 tokens).
 - No GCP account: Phase 10 is a local deployment (Docker compose, CI, local monitoring); the embedding
   comparison uses local models only.
 
@@ -27,6 +32,15 @@ make test                                   # offline pytest (-m "not network")
 .venv/bin/nrag ingest                       # full corpus
 .venv/bin/nrag ingest --since 2026/10/01    # incremental refresh (entry date)
 .venv/bin/nrag guidelines                   # registry status; parses PDFs present
+```
+
+Phase 4 (needs Colima + the db container running; password in `.env` as POSTGRES_PASSWORD):
+
+```bash
+colima start --cpu 4 --memory 6 && docker compose up -d db
+.venv/bin/nrag index --only-extracted          # default strategy on docs with an LLM extraction
+.venv/bin/nrag index --all-strategies          # all 5 chunking strategies (ablation), full corpus
+.venv/bin/nrag index --index-type scann        # hnsw (default) | ivfflat | scann
 ```
 
 Phase 2 (needs `ollama serve` running and the models pulled):
@@ -60,6 +74,14 @@ NCBI_EMAIL / NCBI_API_KEY are optional (without a key: 3 req/s).
 - `extract/pico.py`: per-document extraction cached by input hash (model, think, prompt, schema, text), retries with validation feedback, quote verification against the abstract.
 - `extract/review.py`: stratified sample (screen 30 ⊂ review 100), blinded A/B review CSV + key, scoring vs gold (accuracy, kappa, tag P/R/F1, numeric ±5%, hallucinated-"yes" rate, bootstrap CI, McNemar), rules-only baseline, pre-registered decision rule.
 - `extract/runner.py`: CLI glue; results in `data/interim/extractions/<system>.jsonl`, failures in `failures.jsonl`.
+- `index/chunk.py`: abstract chunks (metadata header in `embed_text` only), 5 section strategies (token_aware,
+  recursive, sliding_window, semantic, hierarchical), whole tables, guideline recommendations; every chunk has
+  filter metadata and a `parent_id` (section) for parent-document retrieval. Token budgets use bge-m3's tokenizer.
+- `index/embed.py`: `Embedder` with a SQLite cache keyed by (model, text); `index/bm25.py`: bm25s per strategy.
+- `index/store.py`: pgvector schema (`documents`, `parents`, `chunks` with a generated `tsv`); one partial ANN
+  index per strategy (HNSW / IVFFlat / ScaNN); `vector_search(..., exact=True)` for recall baselines.
+- `index/build.py`: orchestration; writes `data/index/manifest.json` and `eval/reports/index_stats.md`.
+  DB tests use a throwaway `nrag_test` database and skip when the container isn't running.
 - `cli.py`: typer app; later-phase commands are stubs that exit with code 2.
 
 Outputs (`data/corpus/`, gitignored): `documents.jsonl` (included + provisional, sorted by quality),
