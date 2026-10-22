@@ -144,7 +144,8 @@ def accuracy(cfg: dict[str, Any]) -> tuple[dict[str, Any], Path]:
     csv_path, key_path = resolve_path(ex["review_csv"]), resolve_path(ex["review_key"])
     if not csv_path.exists():
         raise SystemExit(f"{csv_path} not found; run `nrag extract-compare` first.")
-    rows = review.read_review(csv_path)
+    rows, source = review.read_review_latest(csv_path)
+    print(f"Reading labels from {source.name}")
     key = json.loads(key_path.read_text())
     docs = {d["doc_id"]: d for d in load_documents(cfg)}
     baseline = {doc_id: review.rules_baseline(docs[doc_id], ex["rules_baseline_mesh_tags"])

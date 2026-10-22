@@ -168,3 +168,26 @@ def test_add_paper_numbers_and_xlsx(tmp_path):
     from openpyxl import load_workbook
     ws = load_workbook(tmp_path / "r.xlsx").active
     assert ws["A2"].value == 1 and ws["A2"].fill.fgColor.rgb[-6:] != ws["A4"].fill.fgColor.rgb[-6:]
+
+
+def test_verdict_aliases():
+    base = {"A": "x", "B": "x", "correct_value": ""}
+    assert review.gold_value({**base, "verdict": "same"}) == "x"
+    assert review.gold_value({**base, "verdict": "Same", "B": "y"}) is None     # 'same' but answers differ
+    assert review.gold_value({**base, "verdict": "none", "correct_value": "z"}) == "z"
+
+
+def test_read_review_latest_prefers_newer_xlsx(tmp_path):
+    import os
+    import openpyxl
+    csv_path = tmp_path / "r.csv"
+    csv_path.write_text("doc_id,field,A,B,verdict,correct_value\nD1,f,x,y,,\n")
+    wb = openpyxl.Workbook(); ws = wb.active
+    ws.append(["doc_id", "field", "A", "B", "verdict", "correct_value"]); ws.append(["D1", "f", "x", "y", "A", None])
+    wb.save(tmp_path / "r.xlsx")
+    os.utime(csv_path, (1, 1))
+    rows, src = review.read_review_latest(csv_path)
+    assert src.suffix == ".xlsx" and rows[0]["verdict"] == "A" and rows[0]["correct_value"] == ""
+    os.utime(tmp_path / "r.xlsx", (0, 0))
+    rows, src = review.read_review_latest(csv_path)
+    assert src.suffix == ".csv" and rows[0]["verdict"] == ""
