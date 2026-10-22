@@ -59,6 +59,24 @@ def ingest(
         typer.echo(f"{name} cache: {http.stats['hits']} hits, {http.stats['misses']} misses")
 
 
+@app.command("add-india")
+def add_india(
+    target: int = typer.Option(500, help="How many new India-focused documents to add."),
+    design_filter: bool = typer.Option(False, "--design-filter/--no-design-filter",
+                                       help="Restrict the India searches to strong designs."),
+    config: Optional[str] = ConfigOpt,
+):
+    """Add N new India-focused papers (India searches only), then rebuild the corpus from the store."""
+    from nrag.ingest import pipeline
+
+    cfg = load_config(config)
+    clients = _clients(cfg)
+    added = pipeline.add_india_papers(cfg, clients, target, design_filter)
+    typer.echo(f"Added: {added}")
+    summary = pipeline.run(cfg, clients, search=False)
+    pipeline.print_summary(summary)
+
+
 @app.command("guidelines")
 def guidelines_cmd(config: Optional[str] = ConfigOpt):
     """Show the guidelines registry and parse any PDFs present (no corpus write)."""
