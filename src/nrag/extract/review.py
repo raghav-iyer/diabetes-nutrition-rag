@@ -200,13 +200,31 @@ def write_review_xlsx(csv_path: Path, xlsx_path: Path) -> None:
     wb.save(xlsx_path)
 
 
+def read_review_latest(csv_path: Path) -> tuple[list[dict[str, str]], Path]:
+    """Read the labelled review from the .xlsx copy if it was saved after the CSV, else the CSV."""
+    xlsx = csv_path.with_suffix(".xlsx")
+    if xlsx.exists() and (not csv_path.exists() or xlsx.stat().st_mtime > csv_path.stat().st_mtime):
+        import openpyxl
+        wb = openpyxl.load_workbook(xlsx, read_only=True)
+        rows = list(wb.active.iter_rows(values_only=True))
+        hdr = [str(h) for h in rows[0]]
+        return [{k: ("" if v is None else str(v)) for k, v in zip(hdr, r)} for r in rows[1:]], xlsx
+    return read_review(csv_path), csv_path
+
+
 def read_review(path: Path) -> list[dict[str, str]]:
     with path.open(newline="") as f:
         return list(csv.DictReader(f))
 
 
+VERDICT_ALIASES = {"same": "both", "both correct": "both", "correct": "a", "none": "neither", "wrong": "neither"}
+
+
 def gold_value(row: dict[str, str]) -> str | None:
     v = norm(row["verdict"])
+    v = VERDICT_ALIASES.get(v, v)
+    if v == "both" and norm(row["verdict"]) == "same" and norm(row["A"]) != norm(row["B"]) and row["B"].strip():
+        return None   # "same" only means both-correct when the two answers really are identical
     if v in {"a", "both"}:
         return row["A"]
     if v == "b":
@@ -279,7 +297,8 @@ def score_review(rows: list[dict[str, str]], key: dict[str, Any], baseline: dict
                 ok = values_match(field, value, gold)
             else:   # free text: the verdict is the judgement
                 letter = next(k for k, v in key["assignment"][doc].items() if v == sysname)
-                ok = norm(row["verdict"]) in {letter.lower(), "both"}
+                v = norm(row["verdict"])
+                ok = VERDICT_ALIASES.get(v, v) in {letter.lower(), "both"}
             correct[sysname][field][doc] = ok
             if field in CATEGORICAL:
                 pairs[sysname][field].append((norm(value), norm(gold)))
