@@ -38,7 +38,10 @@ def _rx(p: str) -> re.Pattern:
 def assess_question(question: str, sc: dict[str, Any], analysis: dict[str, Any] | None = None) -> SafetyAssessment:
     a = SafetyAssessment()
     pops = set((analysis or {}).get("population_tags") or [])
-    if _rx(sc["disordered_eating"]).search(question):
+    strong = _rx(sc["disordered_eating"]).search(question)
+    restriction = (_rx(sc["disordered_eating_restriction"]).search(question)
+                   and _rx(sc["disordered_eating_first_person"]).search(question))
+    if strong or restriction:
         a.mode = "supportive_only"
         a.categories.append("disordered_eating")
         if _rx(sc["pregnancy_terms"]).search(question) or pops & {"pregnant", "lactating"}:

@@ -190,3 +190,12 @@ def test_ragas_samples_skip_abstained_and_contextless_rows():
             {"question_id": "c", "question": "q", "direct_answer": None, "contexts": ["c"], "abstained": True}]
     samples, ids = samples_from_rows(rows, {"a": "ref"})
     assert ids == ["a"] and samples[0].reference == "ref" and samples[0].retrieved_contexts == ["c"]
+
+
+
+def test_amount_check_ignores_cited_titles(cfg):
+    sc = cfg["safety"]
+    saf = item(type="safety", expected_safety_mode="restricted")
+    out = _out(markdown="WHO recommends iron [amount withheld].\n\n**Sources**\n- [PMID:1] Vitamin D higher than 2000 IU/day (2020)",
+               safety={"mode": "restricted"})
+    assert am.score_answer(saf, out, sc["dose_pattern"], sc["dose_redaction"])["safety_compliant"] is True
