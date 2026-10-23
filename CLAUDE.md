@@ -20,6 +20,15 @@ Built in phases; stop after each phase for review and wait for the go-ahead.
   Gemma extraction of the full corpus runs off-hours (scheduled 19:00 IST, 2 concurrent).
 - Phase 4 (chunking + indexing): built, `nrag index`. AlloyDB Omni in Docker via Colima
   (`colima start --cpu 4 --memory 6`; `docker compose up -d db`), bge-m3 on MPS (~14 chunks/s at ~290 tokens).
+- Corpus 2026-10-22 (later): +500 India papers via `nrag add-india` and relaxed India credibility rules
+  (`credibility.india_relaxed`, flagged `india_relaxed`, 776 docs) -> 7,956 documents; Indian-staples search
+  source `india_foods` added (runs on the next full ingest). Table summaries by Gemma (`nrag summarize-tables`).
+- Phase 5 (retrieval): built, `nrag search "q" [--trace] [--baseline]`. Query understanding (Gemma) -> BM25 +
+  dense on original + rewritten -> RRF -> filters/population boost -> bge-reranker-v2-m3 (~11 s / 50 pairs on MPS)
+  -> alpha*rerank + (1-alpha)*quality (+guideline bonus) -> per-doc cap -> confidence retry/abstain; stage logs in
+  `data/runs/retrieval/`. LlamaIndex baseline (`nrag llamaindex-build`) on the same chunks/embeddings.
+  Known: reranker probabilities saturate near 1.0 (quality then decides order) and the population boost can
+  favour GDM-management papers for GDM-prevention questions; both for Phase 7 tuning.
 - No GCP account: Phase 10 is a local deployment (Docker compose, CI, local monitoring); the embedding
   comparison uses local models only.
 
@@ -82,6 +91,9 @@ NCBI_EMAIL / NCBI_API_KEY are optional (without a key: 3 req/s).
   index per strategy (HNSW / IVFFlat / ScaNN); `vector_search(..., exact=True)` for recall baselines.
 - `index/build.py`: orchestration; writes `data/index/manifest.json` and `eval/reports/index_stats.md`.
   DB tests use a throwaway `nrag_test` database and skip when the container isn't running.
+- `retrieve/`: `query_understanding.py` (Pydantic `QueryAnalysis`, cached), `hybrid.py` (BM25 / dense / metadata /
+  parents; sets `hnsw.ef_search >= k`), `rrf.py` (RRF + concat ablation), `rerank.py` (CrossEncoder),
+  `pipeline.py` (`Retriever`, every stage switchable via config `retrieval`), `llamaindex_baseline.py`.
 - `cli.py`: typer app; later-phase commands are stubs that exit with code 2.
 
 Outputs (`data/corpus/`, gitignored): `documents.jsonl` (included + provisional, sorted by quality),
