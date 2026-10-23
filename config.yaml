@@ -393,7 +393,7 @@ generation:
 safety:
   pregnancy_terms: '\b(pregnan\w*|antenatal|prenatal|trimester|expecting|lactat\w*|breast ?feed\w*|nursing mother|gestational)\b'
   pregnancy_risk_topics:            # with a pregnancy/lactation term: guideline position + confirm with clinician
-    supplements: '\b(supplement\w*|vitamin|folic|folate|iron tablet|iodine|calcium|omega|fish oil|dha|multivitamin|herbal|ayurved\w*)\b'
+    supplements: '\b(supplement\w*|vitamins?|folic|folate|iron|zinc|b12|iodine|calcium|omega|fish oil|dha|multivitamins?|herbal|ayurved\w*)\b'
     medicines: '\b(medic\w*|drug|tablet|metformin|insulin|aspirin|pill)\b'
     alcohol: '\b(alcohol|wine|beer|drink(ing)? (alcohol|wine|beer))\b'
     high_mercury_fish: '\b(mercury|tuna|shark|swordfish|king mackerel|surmai|fish)\b'
@@ -402,7 +402,8 @@ safety:
   disordered_eating: '\b(purg\w*|vomit\w* after|laxative\w*|starv\w*|stop eating|not eat(ing)? (at all|for days)|binge\w*|(500|600|700|800) ?(kcal|calories)|very low calorie|fear of (gaining|weight gain)|too fat|hate my body|lose \d+ ?kg in (a|one|two|\d) (week|weeks))\b'
   individual_advice: '\b(should i (take|stop|start|increase|reduce)|my (dose|dosage|medication|medicine)|how (much|many) (mg|units|iu|tablets)|diagnos\w* me|do i have)\b'
   # Individual amounts are redacted (not whole sentences), so the guideline position survives. Handles ranges.
-  dose_pattern: '\b\d+(\.\d+)?(\s?(–|-|to)\s?\d+(\.\d+)?)?\s?(mg|mcg|µg|ug|iu|units?|g/day|kcal(/day)?|calories( a| per)? day)(?!\w)'
-  dose_redaction: "[amount: ask your doctor or midwife]"
+  dose_pattern: '\b\d+(\.\d+)?(\s?(–|-|to)\s?\d+(\.\d+)?)?\s?(mg|mcg|µg|ug|iu|units?|g/day|kcal(/day)?|calories( a| per)? day|milligrams?|micrograms?|international units)(?!\w)'
+  dose_redaction: "[amount withheld]"
+  dose_note: "Specific amounts are left out on purpose: your doctor or midwife will advise the right amount for you."
   support_resources: "If food, eating or weight is causing you distress, please reach out to a doctor, a registered dietitian or a mental-health professional. In India you can call the Tele-MANAS helpline: 14416 or 1-800-891-4416 (free, 24x7)."
   clinician_note: "Please confirm this with your doctor or midwife before acting on it; they can advise for your specific situation."

@@ -75,8 +75,9 @@ def redact_doses(text: str, dose_pattern: str, replacement: str) -> tuple[str, i
     Sentences survive, so a guideline position ("WHO recommends daily iron") is kept."""
     rx = _rx(dose_pattern)
     out, n = rx.subn(replacement, text or "")
-    # Collapse repeats like "[amount] and [amount]" into one.
-    out = re.sub(rf"(\s*\(?{re.escape(replacement)}\)?)(\s*(and|,|or)\s*\(?{re.escape(replacement)}\)?)+", r"\1", out)
+    r = re.escape(replacement)
+    out = re.sub(rf"\s*\(\s*{r}\s*\)", "", out)                         # "[x] ([x])" -> "[x]"
+    out = re.sub(rf"{r}(\s*(?:,|and|or)\s*{r})+", replacement, out)      # "[x] and [x]" -> "[x]"
     return out, n
 
 
@@ -100,4 +101,6 @@ def check_answer(answer: dict[str, Any], a: SafetyAssessment, sc: dict[str, Any]
         claim["text"], n = redact_doses(claim["text"], pat, rep)
         if n:
             flags.append(f"redacted_{n}_amount(s)_in_claim")
+    if any(f.startswith("redacted_") for f in flags) and sc["dose_note"] not in a.notes:
+        a.notes.append(sc["dose_note"])
     return answer
