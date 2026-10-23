@@ -29,6 +29,12 @@ Built in phases; stop after each phase for review and wait for the go-ahead.
   `data/runs/retrieval/`. LlamaIndex baseline (`nrag llamaindex-build`) on the same chunks/embeddings.
   Known: reranker probabilities saturate near 1.0 (quality then decides order) and the population boost can
   favour GDM-management papers for GDM-prevention questions; both for Phase 7 tuning.
+- Phase 6 (answers + safety): built, `nrag ask "q" [--trace]`. Structured Gemma answer (direct answer, claims with
+  citations, strength, conflicts, abstain) -> citation checks (ids must be retrieved; second LLM pass verifies
+  support on the SAME source text the generator saw) -> deterministic caveats (strength capped without strong
+  designs; non-Indian-evidence note from metadata) -> safety post-check. Safety (`config.safety`): disordered
+  eating -> supportive reply only (Tele-MANAS), no retrieval/LLM; individual advice / pregnancy risk topics ->
+  restricted: guideline position, amounts redacted to "[amount withheld]" in every field, clinician note.
 - No GCP account: Phase 10 is a local deployment (Docker compose, CI, local monitoring); the embedding
   comparison uses local models only.
 
@@ -94,6 +100,10 @@ NCBI_EMAIL / NCBI_API_KEY are optional (without a key: 3 req/s).
 - `retrieve/`: `query_understanding.py` (Pydantic `QueryAnalysis`, cached), `hybrid.py` (BM25 / dense / metadata /
   parents; sets `hnsw.ef_search >= k`), `rrf.py` (RRF + concat ablation), `rerank.py` (CrossEncoder),
   `pipeline.py` (`Retriever`, every stage switchable via config `retrieval`), `llamaindex_baseline.py`.
+- `generate/`: `safety.py` (pre/post rules), `answer.py` (`Answerer`, `pack_sources`, citation verification,
+  `render`), `prompts/answer_v1.md`. LLM calls cached in `data/cache/llm/answers/`.
+- Test hygiene: commit only when `make test` is green (a grep-and-commit chain once committed a red suite);
+  fake embeddings use crc32, not salted `hash()`.
 - `cli.py`: typer app; later-phase commands are stubs that exit with code 2.
 
 Outputs (`data/corpus/`, gitignored): `documents.jsonl` (included + provisional, sorted by quality),
