@@ -409,3 +409,28 @@ safety:
   clinician_note: "Please confirm this with your doctor or midwife before acting on it; they can advise for your specific situation."
   pregnancy_support_note: "During pregnancy, eating too little can affect you and your baby. Your doctor or midwife can help you with healthy weight gain in a way that feels safe for you."
   support_disclaimer: "This is not medical advice."
+
+# Phase 7: evaluation.
+eval:
+  golden: eval/golden_set.jsonl
+  labels_csv: eval/relevance_labels.csv
+  runs_dir: eval/runs
+  reports_dir: eval/reports
+  pool_depth: 10                    # distinct docs per system per question for relevance labelling
+  relevant_min: 2                   # graded relevance >= this counts as relevant
+  judge_validation: eval/judge_validation.csv
+  failures_csv: eval/failures.csv
+  alphas: [0.5, 0.6, 0.7, 0.8, 0.9, 1.0]
+  thresholds: [0.05, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 0.95]
+  ablation_metrics: [ndcg@10, recall@10, mrr]
+  ablations:                        # each: dotted config overrides applied to the base config
+    no_bm25: {retrieval.bm25.enabled: false}
+    no_dense: {retrieval.dense.enabled: false}
+    no_rewrite: {retrieval.use_rewrite: false}
+    no_query_understanding: {retrieval.query_understanding.enabled: false}
+    concat_fusion: {retrieval.fusion: concat}
+    no_filters: {retrieval.filters.enabled: false}
+    no_rerank: {retrieval.rerank.enabled: false}
+    no_quality_weighting: {retrieval.final.alpha: 1.0, retrieval.final.guideline_bonus: 0.0}
+    no_retry: {retrieval.confidence.retry: false}
+  strategy_ablations: [recursive, sliding_window, semantic, hierarchical]   # run when their indexes exist

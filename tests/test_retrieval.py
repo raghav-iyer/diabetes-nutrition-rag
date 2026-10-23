@@ -143,7 +143,7 @@ def test_full_pipeline_order_filters_cap_and_guideline_first(cfg):
     assert sum(1 for x in res.results if x["doc_id"] == "D1") == 2 # per-document cap
     assert res.results[0]["parent_text"] == "parent of D3#s0"
     assert ("dense", "low glycaemic index diet gestational diabetes incidence") in searcher.queries
-    assert res.stages["filtered_out"] == [("c4", "superseded")]
+    assert res.stages["filtered_out"] == [("c4", "D2", "superseded")]
     a = cfg["retrieval"]["final"]["alpha"]
     assert res.results[0]["final_score"] == pytest.approx(a * 0.75 + (1 - a) * 0.95 + 0.05, abs=1e-4)
 
@@ -151,7 +151,7 @@ def test_full_pipeline_order_filters_cap_and_guideline_first(cfg):
 def test_population_boost_affects_fusion_order(cfg):
     def order(boost):
         r, _ = _retriever(cfg, rerank__enabled=False, filters__population_boost=boost)
-        return [cid for cid, _ in r.retrieve("q").stages["after_filters"]]
+        return [cid for cid, _, _ in r.retrieve("q").stages["after_filters"]]
     plain, boosted = order(1.0), order(3.0)
     assert plain.index("c6") < plain.index("c3")                  # c6 is in both lists: fusion favours it
     assert boosted.index("c6") > boosted.index("c3")              # a population match outweighs that

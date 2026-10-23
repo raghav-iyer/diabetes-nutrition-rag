@@ -1,5 +1,7 @@
 import json
 
+import pytest
+
 from typer.testing import CliRunner
 
 from nrag.cli import app
@@ -19,9 +21,12 @@ def test_help_lists_commands():
         assert cmd in result.output
 
 
-def test_unimplemented_commands_exit_cleanly():
-    result = runner.invoke(app, ["eval"])
-    assert result.exit_code == 2
+def test_not_yet_helper_exits_with_code_2():
+    import typer
+    from nrag.cli import _not_yet
+    with pytest.raises(typer.Exit) as e:
+        _not_yet(9)
+    assert e.value.exit_code == 2
 
 
 def test_ingest_rejects_unknown_topic():

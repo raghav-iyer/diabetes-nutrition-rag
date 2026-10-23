@@ -278,28 +278,69 @@ def ask(
             typer.echo(f"errors: {out['errors']}")
 
 
+@app.command("eval-pool")
+def eval_pool(workers: int = typer.Option(2, help="Concurrent LLM grading requests (shared server)."),
+              config: Optional[str] = ConfigOpt):
+    """Pool candidate documents per golden question from several systems; Gemma drafts 0-3 grades."""
+    from nrag.eval import commands
+
+    cfg = load_config(config)
+    typer.echo(json.dumps(commands.pool_and_grade(cfg, commands.Components(cfg), workers), indent=1))
+
+
+@app.command("eval-import-labels")
+def eval_import_labels(config: Optional[str] = ConfigOpt):
+    """Import relevance labels (your_grade overrides the LLM draft) into the golden set."""
+    from nrag.eval import commands
+
+    typer.echo(json.dumps(commands.import_labels(load_config(config)), indent=1))
+
+
 @app.command("eval")
-def eval_():
-    """Run retrieval and answer evaluation on the golden set (Phase 7)."""
-    _not_yet(7)
+def eval_(split: str = typer.Option("all", help="all | dev | test"),
+          answers: bool = typer.Option(True, help="Also generate and score answers."),
+          judge: bool = typer.Option(True, help="LLM correctness judge."),
+          label: str = typer.Option("base", help="Name for this run."),
+          config: Optional[str] = ConfigOpt):
+    """Run the evaluation on the golden set; writes eval/runs/<run>/ and eval/reports/run_<run>.md."""
+    from nrag.eval import commands
+
+    cfg = load_config(config)
+    run_dir, metrics = commands.evaluate(cfg, commands.Components(cfg), split, answers, label, judge)
+    typer.echo((run_dir / "report.md").read_text())
 
 
 @app.command()
-def ablate():
-    """Run the eval with each pipeline component switched off (Phase 7)."""
-    _not_yet(7)
+def ablate(split: str = typer.Option("all", help="all | dev | test"), config: Optional[str] = ConfigOpt):
+    """Re-run retrieval evaluation with each component off; deltas with bootstrap 95% CIs."""
+    from nrag.eval import commands
+
+    cfg = load_config(config)
+    run_dir, _ = commands.ablations(cfg, commands.Components(cfg), split)
+    typer.echo((run_dir / "report.md").read_text())
 
 
 @app.command()
-def failures():
-    """Classify failed eval questions into root-cause buckets (Phase 7)."""
-    _not_yet(7)
+def failures(run: str = typer.Argument(..., help="Run directory name under eval/runs."),
+             config: Optional[str] = ConfigOpt):
+    """Failure buckets for a run (after your corrections in its failures.csv, if any)."""
+    from nrag.eval import failures as fail_mod
+
+    cfg = load_config(config)
+    path = resolve_path(cfg["eval"]["runs_dir"]) / run / "failures.csv"
+    typer.echo(json.dumps(fail_mod.corrected_counts(path), indent=1))
 
 
 @app.command()
-def compare(run_a: str, run_b: str):
-    """Compare two eval runs (Phase 7)."""
-    _not_yet(7)
+def compare(run_a: str, run_b: str, config: Optional[str] = ConfigOpt):
+    """Paired metric deltas (A - B) with bootstrap 95% CIs between two eval runs."""
+    from nrag.eval import run as run_mod
+
+    cfg = load_config(config)
+    d = resolve_path(cfg["eval"]["runs_dir"])
+    a, _ = run_mod.load_run(d / run_a)
+    b, _ = run_mod.load_run(d / run_b)
+    typer.echo(json.dumps(run_mod.compare_runs(a, b, run_mod.RETRIEVAL_KEYS + run_mod.ANSWER_KEYS), indent=1))
 
 
 if __name__ == "__main__":
