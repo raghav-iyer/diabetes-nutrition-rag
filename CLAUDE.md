@@ -35,6 +35,10 @@ Built in phases; stop after each phase for review and wait for the go-ahead.
   designs; non-Indian-evidence note from metadata) -> safety post-check. Safety (`config.safety`): disordered
   eating -> supportive reply only (Tele-MANAS), no retrieval/LLM; individual advice / pregnancy risk topics ->
   restricted: guideline position, amounts redacted to "[amount withheld]" in every field, clinician note.
+- Phase 7 (evaluation): code built and tested. `eval/golden_set.jsonl` = 60 seed questions (all
+  `expert_verified: false`). Relevance labels: Gemma drafts ("silver"), human `your_grade` overrides ("gold");
+  every report states the gold/silver split. Live run chained in `scripts/phase7_live.sh` (log
+  `data/runs/phase7_live.log`). RAGAS needs `langchain-community<0.4` (ragas 0.4.3 imports a removed module).
 - No GCP account: Phase 10 is a local deployment (Docker compose, CI, local monitoring); the embedding
   comparison uses local models only.
 
@@ -56,6 +60,17 @@ colima start --cpu 4 --memory 6 && docker compose up -d db
 .venv/bin/nrag index --only-extracted          # default strategy on docs with an LLM extraction
 .venv/bin/nrag index --all-strategies          # all 5 chunking strategies (ablation), full corpus
 .venv/bin/nrag index --index-type scann        # hnsw (default) | ivfflat | scann
+```
+
+Phase 7:
+
+```bash
+.venv/bin/nrag eval-pool                 # pool candidates (BM25, dense, pipeline, LlamaIndex) + Gemma draft grades -> eval/relevance_labels.csv
+.venv/bin/nrag eval-import-labels        # your_grade (CSV or newer .xlsx) overrides drafts -> golden set
+.venv/bin/nrag eval --ragas [--split dev|test]   # retrieval + answers + judge (+ RAGAS); eval/reports/run_<run>.md
+.venv/bin/nrag ablate                    # each component off; deltas with bootstrap 95% CIs
+.venv/bin/nrag compare RUN_A RUN_B       # paired deltas between runs
+.venv/bin/nrag failures RUN              # failure buckets after your corrections in eval/runs/RUN/failures.csv
 ```
 
 Phase 2 (needs `ollama serve` running and the models pulled):
@@ -104,7 +119,12 @@ NCBI_EMAIL / NCBI_API_KEY are optional (without a key: 3 req/s).
   `render`), `prompts/answer_v1.md`. LLM calls cached in `data/cache/llm/answers/`.
 - Test hygiene: commit only when `make test` is green (a grep-and-commit chain once committed a red suite);
   fake embeddings use crc32, not salted `hash()`.
-- `cli.py`: typer app; later-phase commands are stubs that exit with code 2.
+- `eval/`: `golden.py` (schema, dev/test split by id hash, pooling, LLM draft grades, label CSV import),
+  `retrieval_metrics.py` (recall/precision@k, MRR, nDCG@10, bootstrap CIs, paired deltas), `answer_metrics.py`
+  (abstention, safety, faithfulness, citation P/R, coverage, ROUGE-L, embedding similarity), `judge.py` (rubric
+  judge, validation CSV, accuracy + Cohen's kappa), `run.py` (runner, offline alpha/threshold tuning from logged
+  rerank candidates, compare), `failures.py` (9 buckets), `ablate.py`, `report.py`, `ragas_eval.py`, `commands.py`.
+- `cli.py`: typer app; `_not_yet` remains for future stubs.
 
 Outputs (`data/corpus/`, gitignored): `documents.jsonl` (included + provisional, sorted by quality),
 `excluded.jsonl` (reason per record), `fulltext/{PMCID}.json`, `fulltext/guideline_{id}.json`,
