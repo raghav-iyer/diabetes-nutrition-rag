@@ -173,10 +173,11 @@ class Answerer:
         # Citation check 2: does the cited text support the claim?
         if gc["verify_citations"] and a["claims"]:
             listing = "\n\n".join(
-                f"Claim {i}: {c['text']}\n" + "\n".join(f"Source {x}: {sources[x]['body'][:1200]}" for x in c["citations"])
+                # The verifier must see exactly the text the generator saw, or truncation causes false "no"s.
+                f"Claim {i}: {c['text']}\n" + "\n".join(f"Source {x}: {sources[x]['body']}" for x in c["citations"])
                 for i, c in enumerate(a["claims"], 1))
             ver, verrs = self._llm([{"role": "system", "content": VERIFY_PROMPT}, {"role": "user", "content": listing}],
-                                   900, _Checks)
+                                   1200, _Checks)
             out["errors"] += verrs
             checks = {c.claim: c for c in (ver.checks if ver else [])}
             for i, c in enumerate(a["claims"], 1):
