@@ -131,7 +131,7 @@ class Answerer:
         out: dict[str, Any] = {"question": question, "safety": pre.__dict__, "status": None, "sources": {},
                                "answer": None, "verification": [], "errors": []}
         if pre.mode == "supportive_only":
-            out.update(status="supportive_only", markdown=safety.supportive_reply(pre, gc["disclaimer"]))
+            out.update(status="supportive_only", markdown=safety.supportive_reply(pre, sc["support_disclaimer"]))
             return out
         ret = self.retriever.retrieve(question)
         out["retrieval"] = {"status": ret.status, "analysis": ret.analysis, "retried": ret.retried,

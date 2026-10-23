@@ -41,6 +41,9 @@ def assess_question(question: str, sc: dict[str, Any], analysis: dict[str, Any] 
     if _rx(sc["disordered_eating"]).search(question):
         a.mode = "supportive_only"
         a.categories.append("disordered_eating")
+        if _rx(sc["pregnancy_terms"]).search(question) or pops & {"pregnant", "lactating"}:
+            a.categories.append("pregnancy")
+            a.notes.append(sc["pregnancy_support_note"])
         a.notes.append(sc["support_resources"])
         return a                                  # no diet advice at all
     if _rx(sc["individual_advice"]).search(question):
