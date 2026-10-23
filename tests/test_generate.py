@@ -228,3 +228,10 @@ def test_redaction_collapses_repeats_and_adds_one_note(cfg):
     a = safety.assess_question("iron in pregnancy?", sc)
     safety.check_answer({"direct_answer": "Take 60 mg.", "claims": [{"text": "Use 30 mg.", "citations": []}]}, a, sc)
     assert a.notes.count(sc["dose_note"]) == 1
+
+
+
+def test_supportive_reply_for_pregnancy_mentions_midwife_and_no_research_disclaimer(cfg, tmp_path):
+    out = _answerer(cfg, tmp_path, []).answer("I am pregnant and scared of gaining weight, can I eat 800 calories a day?")
+    assert out["status"] == "supportive_only" and "midwife" in out["markdown"]
+    assert cfg["safety"]["support_disclaimer"] in out["markdown"] and "summarises published research" not in out["markdown"]

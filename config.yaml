@@ -407,3 +407,5 @@ safety:
   dose_note: "Specific amounts are left out on purpose: your doctor or midwife will advise the right amount for you."
   support_resources: "If food, eating or weight is causing you distress, please reach out to a doctor, a registered dietitian or a mental-health professional. In India you can call the Tele-MANAS helpline: 14416 or 1-800-891-4416 (free, 24x7)."
   clinician_note: "Please confirm this with your doctor or midwife before acting on it; they can advise for your specific situation."
+  pregnancy_support_note: "During pregnancy, eating too little can affect you and your baby. Your doctor or midwife can help you with healthy weight gain in a way that feels safe for you."
+  support_disclaimer: "This is not medical advice."
