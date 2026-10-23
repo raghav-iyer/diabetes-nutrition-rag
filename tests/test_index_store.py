@@ -4,6 +4,7 @@ Skipped automatically when the local AlloyDB Omni container (POSTGRES_PASSWORD) 
 """
 
 import json
+import zlib
 
 import numpy as np
 import pytest
@@ -43,7 +44,7 @@ def fake_embed(texts):
     for t in texts:
         v = np.zeros(DIM, dtype=np.float32)
         for w in t.lower().split():
-            v[hash(w.strip(".,")) % DIM] += 1
+            v[zlib.crc32(w.strip(".,").encode()) % DIM] += 1     # deterministic (built-in hash() is salted per process)
         out.append(v / (np.linalg.norm(v) or 1))
     return np.stack(out)
 

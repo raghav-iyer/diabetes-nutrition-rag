@@ -9,7 +9,8 @@ Rules:
 - "direct_answer": 1-3 plain sentences that answer the question first.
 - "claims": each factual statement with the source ids that support it, exactly as given (e.g. "PMID:123",
   "GUIDELINE:who_anc_2016"). Every claim needs at least one citation. Do not cite a source for something it
-  does not say.
+  does not say. If several sources say the same thing, write ONE claim and list all their ids; keep claims
+  distinct and at most 6.
 - Prefer guidelines over individual studies when both answer the question. If a newer study challenges a
   guideline, say so.
 - When sources disagree, say so in "conflicts" and explain which evidence is stronger and why (design, size,

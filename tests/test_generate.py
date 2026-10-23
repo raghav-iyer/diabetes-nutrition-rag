@@ -12,6 +12,8 @@ from nrag.retrieve.pipeline import RetrievalResult
 @pytest.mark.parametrize("q, mode, cats", [
     ("Does a Mediterranean diet help weight loss?", "normal", []),
     ("Is it safe to take iron supplements while pregnant?", "restricted", ["pregnancy_supplements"]),
+    ("How much iron do I need in pregnancy?", "restricted", ["pregnancy_supplements"]),
+    ("Is vitamin B12 important when breastfeeding?", "restricted", ["pregnancy_supplements"]),
     ("Can I drink a glass of wine when breastfeeding?", "restricted", ["pregnancy_alcohol"]),
     ("Is tuna safe in pregnancy because of mercury?", "restricted", ["pregnancy_high_mercury_fish"]),
     ("Can I eat paneer made from unpasteurised milk when pregnant?", "restricted", ["pregnancy_food_safety"]),
@@ -48,6 +50,7 @@ def test_supportive_reply_has_resources_and_no_diet_advice(cfg):
     ("A dose of 0.4 mg folate.", 1),
     ("120 mg elemental iron and 2800 µg folic acid weekly.", 2),
     ("The trial enrolled 240 women for 12 weeks.", 0),
+    ("together with 400 micrograms of folic acid", 1),
 ])
 def test_redact_doses(cfg, text, expected_n):
     out, n = safety.redact_doses(text, cfg["safety"]["dose_pattern"], cfg["safety"]["dose_redaction"])
@@ -215,3 +218,13 @@ def test_verifier_sees_the_same_source_text_as_the_generator(cfg, tmp_path):
     Answerer(cfg, FakeRetriever(results=res), llm, "http://x", "m", tmp_path).answer("Low GI and GDM?")
     gen_prompt, ver_prompt = llm.messages[0][1]["content"], llm.messages[1][1]["content"]
     assert "RESULT: GDM fell by 30%." in gen_prompt and "RESULT: GDM fell by 30%." in ver_prompt
+
+
+
+def test_redaction_collapses_repeats_and_adds_one_note(cfg):
+    sc = cfg["safety"]
+    out, _ = safety.redact_doses("daily 30-60 mg of iron and 0.4 mg (400 µg) of folate", sc["dose_pattern"], sc["dose_redaction"])
+    assert out == "daily [amount withheld] of iron and [amount withheld] of folate"
+    a = safety.assess_question("iron in pregnancy?", sc)
+    safety.check_answer({"direct_answer": "Take 60 mg.", "claims": [{"text": "Use 30 mg.", "citations": []}]}, a, sc)
+    assert a.notes.count(sc["dose_note"]) == 1
