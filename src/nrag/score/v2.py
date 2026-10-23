@@ -14,12 +14,12 @@ from typing import Any
 
 from nrag.ingest.pubmed import size_factor
 
+# Only function words and study-design words. Domain words (diabetes, pregnancy, supplementation, ...) must
+# stay: removing them made unrelated titles collapse to one word and look identical.
 _STOP = set("""a an and the of in on for to with by from at as is are was were be been or vs versus among between
-effect effects impact role association associations systematic review meta analysis metaanalysis randomized
-randomised controlled trial trials study studies evidence guideline guidelines patients adults women people
-health disease risk using use based new update updated diabetes diabetic mellitus gestational gdm pregnancy pregnant
-supplementation supplement supplements intake dietary diet type prevention preventing prevent management outcomes
-glycemic glycaemic control women""".split())
+its their this that these those how what does do can
+effect effects impact role association associations systematic review reviews meta analysis analyses metaanalysis
+randomized randomised controlled trial trials study studies cohort prospective update updated updating""".split())
 
 
 def tokens(text: str | None) -> set[str]:
@@ -97,7 +97,7 @@ def score_doc(cfg: dict[str, Any], doc: dict[str, Any], ex: dict[str, Any] | Non
 
 
 def _signature(doc: dict[str, Any], ex: dict[str, Any] | None) -> set[str]:
-    return tokens(doc.get("title")) | (tokens(ex.get("intervention")) if ex else set())
+    return tokens(doc.get("title"))
 
 
 def _pop_tags(doc: dict[str, Any], ex: dict[str, Any] | None) -> set[str]:
@@ -124,7 +124,9 @@ def find_supersession(cfg: dict[str, Any], docs: list[dict[str, Any]],
                 continue
             ts = jaccard(sig[old["doc_id"]], sig[new["doc_id"]])
             po = jaccard(pop[old["doc_id"]], pop[new["doc_id"]])
-            if ts < s["min_title_similarity"] or po < s["min_population_overlap"]:
+            says_update = bool(re.search(s["update_pattern"], f"{new.get('title', '')} {new.get('abstract', '')}", re.I))
+            needed = s["update_title_similarity"] if says_update else s["min_title_similarity"]
+            if ts < needed or po < s["min_population_overlap"]:
                 continue
             key = (new["year"], ts)
             if best is None or key > best[0]:

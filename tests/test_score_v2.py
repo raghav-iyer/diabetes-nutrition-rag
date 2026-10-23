@@ -44,15 +44,29 @@ def test_extracted_sample_size_fills_unknown(cfg):
     assert r2["quality_score_v2"] == 0.5          # known n is never overridden
 
 
-def test_supersession_newer_same_question(cfg):
-    docs = [_doc("old", "meta_analysis", 2015, "Low glycaemic index diet and type 2 diabetes: a meta-analysis"),
-            _doc("new", "meta_analysis", 2023, "Low glycaemic index diet and type 2 diabetes incidence"),
-            _doc("other", "meta_analysis", 2023, "Vitamin D supplementation in pregnancy"),
-            _doc("rct", "rct", 2024, "Low glycaemic index diet and type 2 diabetes")]
+def test_supersession_only_for_new_versions_of_the_same_review(cfg):
+    docs = [_doc("cochrane_old", "systematic_review", 2015, "Vitamin D supplementation for women during pregnancy"),
+            _doc("cochrane_new", "systematic_review", 2024, "Vitamin D supplementation for women during pregnancy"),
+            _doc("lgi_old", "meta_analysis", 2015, "Low glycaemic index diet and type 2 diabetes: a meta-analysis"),
+            _doc("lgi_other", "meta_analysis", 2023, "Glycaemic index of foods and incident diabetes in adults"),
+            _doc("probiotic_old", "meta_analysis", 2020, "Effect of probiotic supplementation in pregnant women: a meta-analysis"),
+            _doc("probiotic_gdm", "meta_analysis", 2023, "Probiotic supplement for the prevention of gestational diabetes: a meta-analysis"),
+            _doc("rct", "rct", 2025, "Vitamin D supplementation for women during pregnancy")]
     exts = {d["doc_id"]: good_extraction() for d in docs}
     sup = v2.find_supersession(cfg, docs, exts)
-    assert sup["old"]["superseded_by"] == "new"
-    assert "new" not in sup and "other" not in sup and "rct" not in sup
+    assert sup["cochrane_old"]["superseded_by"] == "cochrane_new"       # same review, newer version
+    assert "lgi_old" not in sup                                          # similar topic, different review, no "update"
+    assert "probiotic_old" not in sup                                    # same supplement, different question
+    assert "cochrane_new" not in sup and "rct" not in sup
+
+
+def test_explicit_update_lowers_the_title_bar(cfg):
+    old = _doc("old", "meta_analysis", 2015, "Low glycaemic index diet and type 2 diabetes: a meta-analysis")
+    upd = _doc("new", "meta_analysis", 2023, "Low glycaemic index diets and diabetes incidence: an updated meta-analysis")
+    not_upd = _doc("new", "meta_analysis", 2023, "Low glycaemic index diets and diabetes incidence: a meta-analysis")
+    exts = {d["doc_id"]: good_extraction() for d in (old, upd)}
+    assert v2.find_supersession(cfg, [old, upd], exts)["old"]["superseded_by"] == "new"    # similarity 0.5 + "updated"
+    assert v2.find_supersession(cfg, [old, not_upd], exts) == {}                          # same titles, no "update"
 
 
 def test_guideline_not_superseded_by_review(cfg):

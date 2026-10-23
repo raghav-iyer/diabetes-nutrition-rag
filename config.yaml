@@ -165,7 +165,10 @@ score_v2:
   supersession:
     designs: [guideline, meta_analysis, systematic_review]   # only these can supersede / be superseded
     min_year_gap: 1
-    min_title_similarity: 0.45      # Jaccard over content tokens of title + intervention
+    # Titles only (adding the intervention made any two reviews of the same supplement match).
+    min_title_similarity: 0.7       # Jaccard over title content tokens: same review, new version
+    update_title_similarity: 0.5    # lower bar when the newer paper says it is an update
+    update_pattern: '\b(update[ds]?|updating)\b'
     min_population_overlap: 0.5     # Jaccard over population tags (both empty = overlap 1.0)
     require_shared_topic: true
   report: eval/reports/score_v2.md
