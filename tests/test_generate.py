@@ -181,3 +181,13 @@ def test_answers_are_cached(cfg, tmp_path):
     _answerer(cfg, tmp_path, [_answer(), _verify("yes", "yes", "yes")]).answer("Weight loss diets?")
     out = _answerer(cfg, tmp_path, []).answer("Weight loss diets?")                 # no LLM contents left
     assert out["status"] == "answered"
+
+
+
+def test_verifier_sees_the_same_source_text_as_the_generator(cfg, tmp_path):
+    long_text = "Background. " * 110 + "RESULT: GDM fell by 30%."          # result at ~1,320 chars: past the old 1,200 cut
+    res = [_res("PMID:1", long_text, design="meta_analysis")]
+    llm = FakeLLM([_answer(claims=[{"text": "GDM fell by 30%.", "citations": ["PMID:1"]}]), _verify("yes")])
+    Answerer(cfg, FakeRetriever(results=res), llm, "http://x", "m", tmp_path).answer("Low GI and GDM?")
+    gen_prompt, ver_prompt = llm.messages[0][1]["content"], llm.messages[1][1]["content"]
+    assert "RESULT: GDM fell by 30%." in gen_prompt and "RESULT: GDM fell by 30%." in ver_prompt
