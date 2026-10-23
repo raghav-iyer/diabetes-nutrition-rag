@@ -126,3 +126,28 @@ def test_build_end_to_end(conn, cfg, tmp_path, monkeypatch):
     (tmp_path / "documents.jsonl").write_text(json.dumps(docs[0]))
     build.run(c2, ["token_aware"], "hnsw", tok=TOK, embedder=emb, conn=conn)
     assert conn.execute("SELECT count(*) FROM chunks WHERE doc_id = 'PMID:2'").fetchone()[0] == 0
+
+
+def test_llamaindex_baseline_on_same_chunks(conn, cfg, tmp_path):
+    from llama_index.core.embeddings import MockEmbedding
+    from llama_index.vector_stores.postgres import PGVectorStore
+
+    from nrag.retrieve import llamaindex_baseline as lb
+    conn.execute("DROP TABLE IF EXISTS chunks, parents, documents CASCADE")
+    store.create_schema(conn, DIM)
+    c3 = {"index": {**cfg["index"], "chunk": {"target_tokens": 40, "max_tokens": 50, "min_tokens": 8, "overlap_tokens": 5,
+          "overlap_sentences": 1, "hierarchical": {"child_tokens": 15, "child_overlap": 3},
+          "semantic": {"breakpoint_percentile": 20}}}}
+    chunks, parents = ch.build_doc_chunks(DOC, "token_aware", TOK, c3, extraction=EXTRACTION, fulltext=FULLTEXT)
+    store.upsert_documents(conn, [{"doc_id": "PMID:1", "meta": chunks[0].meta}])
+    store.replace_chunks(conn, "token_aware", chunks, fake_embed([c.embed_text for c in chunks]))
+    db = cfg["index"]["db"]
+    vs = PGVectorStore.from_params(host=db["host"], port=str(db["port"]), database="nrag_test", user=db["user"],
+                                   password=env(db["password_env"]), table_name="li_test", embed_dim=DIM)
+    lcfg = {**cfg, "llamaindex": {**cfg["llamaindex"], "candidate_k": 5, "top_k": 3}}
+    built = lb.build(lcfg, conn, vector_store=vs, bm25_dir=tmp_path / "bm")
+    assert built["nodes"] == len(chunks)
+    base = lb.LlamaIndexBaseline(lcfg, embed_model=MockEmbedding(embed_dim=DIM), vector_store=vs, bm25_dir=tmp_path / "bm")
+    res = base.retrieve("lifestyle programs for prediabetes")
+    assert 1 <= len(res) <= 3 and all(r["doc_id"] == "PMID:1" for r in res)
+    assert {r["chunk_id"] for r in res} <= {c.chunk_id for c in chunks}

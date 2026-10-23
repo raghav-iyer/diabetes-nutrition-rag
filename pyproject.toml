@@ -19,7 +19,10 @@ dependencies = [
 # Heavier stacks are added per phase so the core installs fast.
 pdf = ["pymupdf>=1.24", "pdfplumber>=0.11"]
 llm = ["anthropic>=0.40"]
-search = ["sentence-transformers>=3.0", "psycopg[binary]>=3.2", "pgvector>=0.3", "bm25s>=0.2", "PyStemmer>=2.2"]
+search = ["sentence-transformers>=3.0", "psycopg[binary]>=3.2", "pgvector>=0.3", "bm25s>=0.2", "PyStemmer>=2.2",
+          "openpyxl>=3.1"]
+baseline = ["llama-index-core>=0.12", "llama-index-vector-stores-postgres>=0.4", "llama-index-retrievers-bm25>=0.5",
+            "llama-index-embeddings-huggingface>=0.4"]
 reports = ["matplotlib>=3.8"]
 app = ["streamlit>=1.38"]
 dev = ["pytest>=8.0", "openpyxl>=3.1"]

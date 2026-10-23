@@ -369,3 +369,10 @@ retrieval:
     min_top_rerank: 0.3             # placeholder; tuned on the dev split in Phase 7
     retry: true                     # one rewrite-and-retry before answering "insufficient evidence"
   logs_dir: data/runs/retrieval
+
+# LlamaIndex baseline (Phase 5): same chunks + embeddings, standard LlamaIndex hybrid retriever.
+llamaindex:
+  table: llamaindex                 # PGVectorStore table name (LlamaIndex prefixes it with data_)
+  bm25_dir: data/index/llamaindex_bm25
+  candidate_k: 100
+  top_k: 10

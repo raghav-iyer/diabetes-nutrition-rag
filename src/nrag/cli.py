@@ -212,14 +212,31 @@ def index(
     typer.echo(build.render_report(report))
 
 
+@app.command("llamaindex-build")
+def llamaindex_build(config: Optional[str] = ConfigOpt):
+    """Build the LlamaIndex baseline (PGVectorStore + BM25) from the indexed chunks."""
+    from nrag.index import store
+    from nrag.retrieve import llamaindex_baseline
+
+    cfg = load_config(config)
+    typer.echo(f"Built: {llamaindex_baseline.build(cfg, store.connect(cfg))}")
+
+
 @app.command()
 def search(
     question: str = typer.Argument(..., help="Question to retrieve evidence for."),
     trace: bool = typer.Option(False, help="Show every pipeline stage with scores."),
+    baseline: bool = typer.Option(False, help="Use the LlamaIndex baseline retriever instead."),
     config: Optional[str] = ConfigOpt,
 ):
     """Retrieve ranked evidence for a question (Phase 5; no answer generation)."""
     from nrag.retrieve.pipeline import retriever_from_config
+
+    if baseline:
+        from nrag.retrieve.llamaindex_baseline import LlamaIndexBaseline
+        for r in LlamaIndexBaseline(load_config(config)).retrieve(question):
+            typer.echo(f"{r['rank']:>2}. [{r['score']:.4f}] {r['doc_id']}  {r['text'][:100]}")
+        return
 
     res = retriever_from_config(load_config(config)).retrieve(question)
     a = res.analysis
