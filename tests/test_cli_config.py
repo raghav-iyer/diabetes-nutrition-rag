@@ -20,7 +20,7 @@ def test_help_lists_commands():
 
 
 def test_unimplemented_commands_exit_cleanly():
-    result = runner.invoke(app, ["ask", "q"])
+    result = runner.invoke(app, ["eval"])
     assert result.exit_code == 2
 
 
