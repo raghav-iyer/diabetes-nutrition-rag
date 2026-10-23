@@ -301,12 +301,13 @@ def eval_(split: str = typer.Option("all", help="all | dev | test"),
           answers: bool = typer.Option(True, help="Also generate and score answers."),
           judge: bool = typer.Option(True, help="LLM correctness judge."),
           label: str = typer.Option("base", help="Name for this run."),
+          ragas: bool = typer.Option(False, help="Also compute RAGAS metrics (many LLM calls)."),
           config: Optional[str] = ConfigOpt):
     """Run the evaluation on the golden set; writes eval/runs/<run>/ and eval/reports/run_<run>.md."""
     from nrag.eval import commands
 
     cfg = load_config(config)
-    run_dir, metrics = commands.evaluate(cfg, commands.Components(cfg), split, answers, label, judge)
+    run_dir, metrics = commands.evaluate(cfg, commands.Components(cfg), split, answers, label, judge, ragas)
     typer.echo((run_dir / "report.md").read_text())
 
 

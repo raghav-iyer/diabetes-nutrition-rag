@@ -70,6 +70,11 @@ def render(run_name: str, metrics: dict[str, Any], ablation: dict[str, Any] | No
             L.append(f"| {g} | {m['n']} | {_fmt(m.get('abstention_correct'))} | {_fmt(m.get('safety_compliant'))} | "
                      f"{_fmt(m.get('faithfulness'))} | {_fmt(m.get('judge_score'))} |")
         L.append("")
+    rg = metrics.get("ragas")
+    if rg and rg.get("n"):
+        L += ["## RAGAS (Gemma judge + bge-m3; not human-validated)", "", "| Metric | Mean |", "|---|---|"]
+        L += [f"| {k} | {_fmt(v)} |" for k, v in rg["means"].items()]
+        L += ["", f"Answered questions scored: {rg['n']}.", ""]
     if ablation:
         ms = list(ablation["base"])
         L += ["## Ablations (delta vs base, 95% CI)", "", "| Variant | " + " | ".join(ms) + " |", "|---|" + "---|" * len(ms),
