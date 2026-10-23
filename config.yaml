@@ -376,3 +376,31 @@ llamaindex:
   bm25_dir: data/index/llamaindex_bm25
   candidate_k: 100
   top_k: 10
+
+# Phase 6: answer generation and safety.
+generation:
+  prompt_version: answer_v1
+  max_sources: 10                   # retrieved results passed to the model
+  max_source_chars: 1800            # per source (chunk text, or parent section when short enough)
+  max_tokens: 1500
+  verify_citations: true            # second LLM pass: does each cited source support its claim?
+  drop_unsupported: true            # drop claims the verifier marks unsupported (else keep and flag)
+  strong_designs: [guideline, meta_analysis, systematic_review, rct]   # "strong" needs at least one of these cited
+  india_note: "Most of this evidence comes from studies outside India and South Asia; results may not transfer fully."
+  disclaimer: "This summarises published research and is not medical advice. Please talk to your doctor or dietitian before making changes."
+  cache_dir: data/cache/llm/answers
+
+safety:
+  pregnancy_terms: '\b(pregnan\w*|antenatal|prenatal|trimester|expecting|lactat\w*|breast ?feed\w*|nursing mother|gestational)\b'
+  pregnancy_risk_topics:            # with a pregnancy/lactation term: guideline position + confirm with clinician
+    supplements: '\b(supplement\w*|vitamin|folic|folate|iron tablet|iodine|calcium|omega|fish oil|dha|multivitamin|herbal|ayurved\w*)\b'
+    medicines: '\b(medic\w*|drug|tablet|metformin|insulin|aspirin|pill)\b'
+    alcohol: '\b(alcohol|wine|beer|drink(ing)? (alcohol|wine|beer))\b'
+    high_mercury_fish: '\b(mercury|tuna|shark|swordfish|king mackerel|surmai|fish)\b'
+    food_safety: '\b(listeria\w*|raw (milk|egg|meat|fish)|unpasteuri[sz]ed|soft cheese|paneer|sprouts|food poisoning)\b'
+    gdm_management: '\b(gestational diabetes|gdm|sugar in pregnancy|blood sugar)\b'
+  disordered_eating: '\b(purg\w*|vomit\w* after|laxative\w*|starv\w*|stop eating|not eat(ing)? (at all|for days)|binge\w*|(500|600|700|800) ?(kcal|calories)|very low calorie|fear of (gaining|weight gain)|too fat|hate my body|lose \d+ ?kg in (a|one|two|\d) (week|weeks))\b'
+  individual_advice: '\b(should i (take|stop|start|increase|reduce)|my (dose|dosage|medication|medicine)|how (much|many) (mg|units|iu|tablets)|diagnos\w* me|do i have)\b'
+  dose_pattern: '\b\d+(\.\d+)?\s?(mg|mcg|µg|iu|units?|g/day|kcal(/day)?|calories( a| per)? day)\b'
+  support_resources: "If food, eating or weight is causing you distress, please reach out to a doctor, a registered dietitian or a mental-health professional. In India you can call the Tele-MANAS helpline: 14416 or 1-800-891-4416 (free, 24x7)."
+  clinician_note: "Please confirm this with your doctor or midwife before acting on it; they can advise for your specific situation."

@@ -256,9 +256,26 @@ def search(
 
 
 @app.command()
-def ask(question: str = typer.Argument(..., help="Question to answer.")):
-    """Answer a question with cited, evidence-ranked sources (Phase 6/8)."""
-    _not_yet(6)
+def ask(
+    question: str = typer.Argument(..., help="Question to answer."),
+    trace: bool = typer.Option(False, help="Show retrieval, safety and citation-check details."),
+    config: Optional[str] = ConfigOpt,
+):
+    """Answer a question with cited, evidence-labelled research (Phase 6)."""
+    from nrag.generate.answer import answerer_from_config
+
+    out = answerer_from_config(load_config(config)).answer(question)
+    typer.echo(out["markdown"])
+    if trace:
+        typer.echo(f"\n--- status: {out['status']} | safety: {out['safety']['mode']} {out['safety']['categories']}")
+        if out.get("retrieval"):
+            typer.echo(f"retrieval: {out['retrieval']['status']} timings={out['retrieval']['timings']}")
+        for v in out["verification"]:
+            typer.echo(f"claim {v['claim']}: {v['supported']} ({v['reason']})")
+        if out["answer"]:
+            typer.echo(f"notes: {out['answer'].get('notes')} safety_flags: {out['answer'].get('safety_flags')}")
+        if out["errors"]:
+            typer.echo(f"errors: {out['errors']}")
 
 
 @app.command("eval")
