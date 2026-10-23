@@ -180,3 +180,13 @@ def test_run_variants_and_report():
     md = report.render("r1", {"n_questions": 2, "n_retrieval_labelled": 2, "label_sources": {"silver_labels": 4}},
                        ablation=res, failures=[], failure_counts={})
     assert "| worse | -0.250" in md and "Caveat" in md
+
+
+
+def test_ragas_samples_skip_abstained_and_contextless_rows():
+    from nrag.eval.ragas_eval import samples_from_rows
+    rows = [{"question_id": "a", "question": "q", "direct_answer": "ans", "contexts": ["c"], "abstained": False},
+            {"question_id": "b", "question": "q", "direct_answer": "ans", "contexts": [], "abstained": False},
+            {"question_id": "c", "question": "q", "direct_answer": None, "contexts": ["c"], "abstained": True}]
+    samples, ids = samples_from_rows(rows, {"a": "ref"})
+    assert ids == ["a"] and samples[0].reference == "ref" and samples[0].retrieved_contexts == ["c"]

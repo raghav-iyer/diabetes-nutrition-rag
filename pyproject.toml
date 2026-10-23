@@ -21,6 +21,7 @@ pdf = ["pymupdf>=1.24", "pdfplumber>=0.11"]
 llm = ["anthropic>=0.40"]
 search = ["sentence-transformers>=3.0", "psycopg[binary]>=3.2", "pgvector>=0.3", "bm25s>=0.2", "PyStemmer>=2.2",
           "openpyxl>=3.1"]
+ragas = ["ragas>=0.4", "langchain-openai>=0.2", "langchain-huggingface>=0.1", "langchain-community>=0.3,<0.4"]
 baseline = ["llama-index-core>=0.12", "llama-index-vector-stores-postgres>=0.4", "llama-index-retrievers-bm25>=0.5",
             "llama-index-embeddings-huggingface>=0.4"]
 reports = ["matplotlib>=3.8"]

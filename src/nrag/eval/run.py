@@ -49,6 +49,8 @@ def evaluate_item(item, retriever, answerer=None, judge_chat=None, judge_cache: 
         row["answer_status"] = out["status"]
         row["markdown"] = out.get("markdown")
         row["sources"] = list((out.get("sources") or {}).keys())
+        row["contexts"] = out.get("contexts") or []
+        row["direct_answer"] = (out.get("answer") or {}).get("direct_answer")
         row["cited"] = sorted({x for c in ((out.get("answer") or {}).get("claims") or []) for x in c.get("citations", [])})
         row["verification"] = out.get("verification")
         row["safety"] = out.get("safety")

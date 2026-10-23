@@ -123,7 +123,7 @@ def import_labels(cfg) -> dict[str, Any]:
 
 
 def evaluate(cfg, comp: Components, split: str = "all", answers: bool = True, label: str = "base",
-             judge: bool = True) -> tuple[Path, dict[str, Any]]:
+             judge: bool = True, ragas: bool = False) -> tuple[Path, dict[str, Any]]:
     ec = cfg["eval"]
     items = [i for i in golden_items(cfg) if split == "all" or golden.split(i.id) == split]
     by_id = {i.id: i for i in golden_items(cfg)}
@@ -142,6 +142,13 @@ def evaluate(cfg, comp: Components, split: str = "all", answers: bool = True, la
     metrics = run_mod.summarise(rows, by_id)
     metrics["tuning"] = {"alpha": run_mod.tune_alpha(rows, by_id, ec["alphas"], cfg["retrieval"]),
                          "threshold": run_mod.tune_threshold(rows, by_id, ec["thresholds"])}
+    if answers and ragas:
+        from nrag.eval import ragas_eval
+        metrics["ragas"] = ragas_eval.evaluate_rows(cfg, rows, {k: v.reference_answer for k, v in by_id.items()},
+                                                    comp.endpoint, comp.model)
+        for r in rows:
+            r.update({f"ragas_{k}": v for k, v in (metrics["ragas"].get("per_question") or {}).get(r["question_id"], {}).items()})
+        metrics["ragas"].pop("per_question", None)
     fails = fail_mod.analyse(rows, by_id)
     metrics["failures"] = {"n": len(fails), "counts": fail_mod.counts(fails)}
     run_dir = run_mod.save_run(rows, metrics, resolve_path(ec["runs_dir"]), label,

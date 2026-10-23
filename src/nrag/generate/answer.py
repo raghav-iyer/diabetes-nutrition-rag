@@ -153,6 +153,7 @@ class Answerer:
 
         source_text, sources = pack_sources(ret.results, gc["max_sources"], gc["max_source_chars"])
         out["sources"] = {k: {kk: v for kk, v in d.items() if kk not in ("texts", "body")} for k, d in sources.items()}
+        out["contexts"] = [d["body"] for d in sources.values()]         # exactly what the generator saw (RAGAS)
         system, user = load_prompt(gc["prompt_version"])
         extra = "\n".join(f"- {i}" for i in pre.instructions)
         messages = [{"role": "system", "content": system.replace("{extra_rules}", extra)},
