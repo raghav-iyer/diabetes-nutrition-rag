@@ -137,3 +137,23 @@ def test_semantic_does_not_split_on_ties():
     text = para(6)
     pieces = ch.split_semantic(text, TOK, {**C, "min_tokens": 5}, lambda ss: np.ones((len(ss), 2)) / np.sqrt(2))
     assert len(pieces) == 2                              # only the token budget splits it (60 words, max 50)
+
+
+
+def test_embedding_progress_is_saved_incrementally(tmp_path):
+    calls = []
+
+    def flaky(texts):
+        calls.append(len(texts))
+        if len(calls) == 3:
+            raise RuntimeError("interrupted")
+        return np.ones((len(texts), 2), dtype=np.float32)
+
+    e = Embedder("m", EmbeddingCache(tmp_path / "e.sqlite"), encode_fn=flaky)
+    e.flush_every = 2
+    with pytest.raises(RuntimeError):
+        e.encode([f"t{i}" for i in range(6)])
+    assert calls == [2, 2, 2]
+    e2 = Embedder("m", EmbeddingCache(tmp_path / "e.sqlite"), encode_fn=lambda ts: np.ones((len(ts), 2), dtype=np.float32))
+    e2.encode([f"t{i}" for i in range(6)])
+    assert e2.stats == {"cached": 4, "computed": 2}           # the first two batches survived the crash

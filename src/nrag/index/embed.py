@@ -58,6 +58,7 @@ class Embedder:
         self._model = None
         self._device = device
         self._max_tokens = max_tokens
+        self.flush_every = 512
 
     def _model_encode(self, texts: list[str]) -> np.ndarray:
         if self._encode_fn is not None:
@@ -76,11 +77,15 @@ class Embedder:
         keys = [EmbeddingCache.key(self.model_name, t) for t in texts]
         found = self.cache.get_many(list(dict.fromkeys(keys)))
         missing = list(dict.fromkeys(t for t, k in zip(texts, keys) if k not in found))
-        if missing:
-            vecs = self._model_encode(missing)
-            new = {EmbeddingCache.key(self.model_name, t): v for t, v in zip(missing, vecs)}
+        # Save every `flush_every` texts so an interrupted run resumes instead of starting over.
+        for i in range(0, len(missing), self.flush_every):
+            part = missing[i:i + self.flush_every]
+            vecs = self._model_encode(part)
+            new = {EmbeddingCache.key(self.model_name, t): v for t, v in zip(part, vecs)}
             self.cache.put_many(new)
             found.update(new)
+            if len(missing) > self.flush_every:
+                print(f"  embedded {min(i + self.flush_every, len(missing))}/{len(missing)}", flush=True)
         self.stats["computed"] += len(missing)
         self.stats["cached"] += len(texts) - len(missing)
         return np.stack([found[k] for k in keys])
