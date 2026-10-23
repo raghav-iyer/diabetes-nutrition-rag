@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import json
 from typing import List, Optional
 
 import typer
@@ -209,6 +210,32 @@ def index(
     strategies = list(cfg["index"]["strategies"]) if all_strategies else (strategy or None)
     report = build.run(cfg, strategies, index_type, only_extracted)
     typer.echo(build.render_report(report))
+
+
+@app.command()
+def search(
+    question: str = typer.Argument(..., help="Question to retrieve evidence for."),
+    trace: bool = typer.Option(False, help="Show every pipeline stage with scores."),
+    config: Optional[str] = ConfigOpt,
+):
+    """Retrieve ranked evidence for a question (Phase 5; no answer generation)."""
+    from nrag.retrieve.pipeline import retriever_from_config
+
+    res = retriever_from_config(load_config(config)).retrieve(question)
+    a = res.analysis
+    typer.echo(f"Status: {res.status}{' (after one retry)' if res.retried else ''}")
+    typer.echo(f"Understood: population={a['population_tags']} topics={a['topics']} intent={a['intent']} "
+               f"answerable={a['answerable']}")
+    typer.echo(f"Rewritten: {a['rewritten_query']}\n")
+    for r in res.results:
+        typer.echo(f"{r['rank']:>2}. [{r['final_score']:.3f} | rerank {r['rerank_score']:.3f} | q {r['quality_score'] or 0:.2f}] "
+                   f"{r['design']} {r['year']}  {r['title'][:90]}")
+        typer.echo(f"    {r['doc_id']} | {r['kind']}/{r['section']} | {r.get('url') or ''}")
+    if trace:
+        for k, v in res.stages.items():
+            shown = v if not isinstance(v, list) else v[:10]
+            typer.echo(f"\n[{k}] {json.dumps(shown, default=str)[:1500]}")
+        typer.echo(f"\nTimings (s): {res.timings}")
 
 
 @app.command()
