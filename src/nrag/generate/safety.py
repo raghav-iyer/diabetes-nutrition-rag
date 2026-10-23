@@ -70,34 +70,34 @@ def supportive_reply(a: SafetyAssessment, disclaimer: str) -> str:
             + "\n\n".join(a.notes) + f"\n\n_{disclaimer}_")
 
 
-def strip_doses(text: str, dose_pattern: str) -> tuple[str, int]:
-    """Remove sentences that state individual doses or calorie targets."""
+def redact_doses(text: str, dose_pattern: str, replacement: str) -> tuple[str, int]:
+    """Replace individual amounts (e.g. "30-60 mg", "1800 kcal/day") with `replacement`.
+    Sentences survive, so a guideline position ("WHO recommends daily iron") is kept."""
     rx = _rx(dose_pattern)
-    kept, removed = [], 0
-    for sent in re.split(r"(?<=[.!?])\s+", text):
-        if rx.search(sent):
-            removed += 1
-        else:
-            kept.append(sent)
-    return " ".join(kept).strip(), removed
+    out, n = rx.subn(replacement, text or "")
+    # Collapse repeats like "[amount] and [amount]" into one.
+    out = re.sub(rf"(\s*\(?{re.escape(replacement)}\)?)(\s*(and|,|or)\s*\(?{re.escape(replacement)}\)?)+", r"\1", out)
+    return out, n
 
 
 def check_answer(answer: dict[str, Any], a: SafetyAssessment, sc: dict[str, Any]) -> dict[str, Any]:
     """Post-generation check on the structured answer (mutates and returns it)."""
     flags = answer.setdefault("safety_flags", [])
-    if a.restricted:
-        for key in ("direct_answer",):
-            answer[key], n = strip_doses(answer.get(key) or "", sc["dose_pattern"])
-            if n:
-                flags.append(f"removed_{n}_dose_sentence(s)_from_{key}")
-        kept = []
-        for claim in answer.get("claims") or []:
-            text, n = strip_doses(claim["text"], sc["dose_pattern"])
-            if n and not text:
-                flags.append("dropped_dose_claim")
-                continue
-            if n:
-                flags.append("removed_dose_from_claim")
-            kept.append({**claim, "text": text})
-        answer["claims"] = kept
+    if not a.restricted:
+        return answer
+    pat, rep = sc["dose_pattern"], sc["dose_redaction"]
+    # Every free-text field, not just the answer and claims (doses leaked via "conflicts" before).
+    for key in ("direct_answer", "conflicts", "missing"):
+        answer[key], n = redact_doses(answer.get(key) or "", pat, rep)
+        if n:
+            flags.append(f"redacted_{n}_amount(s)_in_{key}")
+    strength = answer.get("evidence_strength") or {}
+    if strength.get("explanation"):
+        strength["explanation"], n = redact_doses(strength["explanation"], pat, rep)
+        if n:
+            flags.append(f"redacted_{n}_amount(s)_in_strength")
+    for claim in answer.get("claims") or []:
+        claim["text"], n = redact_doses(claim["text"], pat, rep)
+        if n:
+            flags.append(f"redacted_{n}_amount(s)_in_claim")
     return answer

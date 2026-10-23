@@ -41,14 +41,38 @@ def test_supportive_reply_has_resources_and_no_diet_advice(cfg):
     assert "14416" in text and "diet plan" in text and "disclaimer" in text
 
 
-def test_strip_doses_and_check_answer(cfg):
-    text, n = safety.strip_doses("Iron helps anaemia. Take 60 mg daily. Ask your doctor.", cfg["safety"]["dose_pattern"])
-    assert n == 1 and "60 mg" not in text and text.startswith("Iron helps")
+@pytest.mark.parametrize("text, expected_n", [
+    ("Take 60 mg daily.", 1),
+    ("WHO recommends 30–60 mg of iron and 400 µg of folic acid.", 2),
+    ("Aim for 1800 kcal/day.", 1),
+    ("A dose of 0.4 mg folate.", 1),
+    ("120 mg elemental iron and 2800 µg folic acid weekly.", 2),
+    ("The trial enrolled 240 women for 12 weeks.", 0),
+])
+def test_redact_doses(cfg, text, expected_n):
+    out, n = safety.redact_doses(text, cfg["safety"]["dose_pattern"], cfg["safety"]["dose_redaction"])
+    assert n == expected_n
+    if n:
+        assert "mg" not in out and "µg" not in out and "kcal" not in out and cfg["safety"]["dose_redaction"] in out
+
+
+def test_check_answer_redacts_every_field_and_keeps_guideline_position(cfg):
     a = safety.assess_question("iron supplements in pregnancy?", cfg["safety"])
-    ans = {"direct_answer": "Guidelines recommend iron. Aim for 1800 kcal/day.", "claims": [
-        {"text": "Use 30 mg of iron.", "citations": ["X"]}, {"text": "Iron reduces anaemia.", "citations": ["X"]}]}
+    ans = {"direct_answer": "WHO recommends daily iron (30-60 mg) for all pregnant women.",
+           "claims": [{"text": "Use 30 mg of iron.", "citations": ["X"]}, {"text": "Iron reduces anaemia.", "citations": ["X"]}],
+           "conflicts": "An intermittent regimen of 120 mg iron weekly is an option.", "missing": "",
+           "evidence_strength": {"label": "strong", "explanation": "WHO: 60 mg."}}
     out = safety.check_answer(ans, a, cfg["safety"])
-    assert "kcal" not in out["direct_answer"] and len(out["claims"]) == 1 and out["safety_flags"]
+    assert out["direct_answer"].startswith("WHO recommends daily iron") and "mg" not in out["direct_answer"]
+    assert "mg" not in out["conflicts"] and "mg" not in out["evidence_strength"]["explanation"]
+    assert len(out["claims"]) == 2 and "mg" not in out["claims"][0]["text"]
+    assert any("conflicts" in f for f in out["safety_flags"])
+
+
+def test_clean_claim_removes_reference_markers():
+    from nrag.generate.answer import clean_claim
+    assert clean_claim("Iron prevents anaemia [16].") == "Iron prevents anaemia."
+    assert clean_claim("Reduces risk [31,32, 33] and [2-4] here [PMID:123].") == "Reduces risk and here."
 
 
 def test_check_answer_leaves_normal_answers_alone(cfg):

@@ -9,6 +9,7 @@ from __future__ import annotations
 
 import hashlib
 import json
+import re
 from pathlib import Path
 from typing import Any, Literal
 
@@ -211,6 +212,15 @@ class _Checks(BaseModel):
     checks: list[Support] = Field(default_factory=list)
 
 
+REF_MARKERS = re.compile(r"\s*\[(?:\d+(?:\s*[-–,]\s*\d+)*|(?:PMID|GUIDELINE):[^\]]+)\]")
+
+
+def clean_claim(text: str) -> str:
+    """Drop the source paper's own reference markers ("[21]", "[2, 3]") and inline ids the model
+    copied into the claim text; citations are rendered separately."""
+    return REF_MARKERS.sub("", text).strip()
+
+
 def render(a: dict[str, Any], sources: dict[str, dict], pre: safety.SafetyAssessment, disclaimer: str) -> str:
     lines = [a["direct_answer"].strip(), ""]
     if a["claims"]:
@@ -218,7 +228,7 @@ def render(a: dict[str, Any], sources: dict[str, dict], pre: safety.SafetyAssess
         for c in a["claims"]:
             cites = " ".join(f"[{x}]" for x in c["citations"])
             partial = " _(partly supported)_" if c.get("support") == "partial" else ""
-            lines.append(f"- {c['text']} {cites}{partial}")
+            lines.append(f"- {clean_claim(c['text'])} {cites}{partial}")
         lines.append("")
     s = a["evidence_strength"]
     lines.append(f"**Strength of evidence: {s['label']}.** {s['explanation']}".strip())
