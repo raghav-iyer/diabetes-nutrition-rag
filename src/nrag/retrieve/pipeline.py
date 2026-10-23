@@ -67,7 +67,7 @@ class Retriever:
             if m is None:
                 continue
             cands.append({**m, "fused_score": score, "ranks": ranks})
-        stages[f"{tag}fused"] = [(c["chunk_id"], round(c["fused_score"], 5)) for c in cands[:LOG_TOP]]
+        stages[f"{tag}fused"] = [(c["chunk_id"], c["doc_id"], round(c["fused_score"], 5)) for c in cands[:LOG_TOP]]
 
         # Filters and population boost.
         f = rc["filters"]
@@ -77,7 +77,7 @@ class Retriever:
             kept = []
             for c in cands:
                 if f["exclude_superseded"] and c.get("superseded"):
-                    removed.append((c["chunk_id"], "superseded"))
+                    removed.append((c["chunk_id"], c["doc_id"], "superseded"))
                     continue
                 c["population_match"] = bool(qpop & set(c.get("population_tags") or []))
                 if c["population_match"]:
@@ -85,7 +85,7 @@ class Retriever:
                 kept.append(c)
             cands = sorted(kept, key=lambda c: -c["fused_score"])
         stages[f"{tag}filtered_out"] = removed
-        stages[f"{tag}after_filters"] = [(c["chunk_id"], round(c["fused_score"], 5)) for c in cands[:LOG_TOP]]
+        stages[f"{tag}after_filters"] = [(c["chunk_id"], c["doc_id"], round(c["fused_score"], 5)) for c in cands[:LOG_TOP]]
 
         # Cross-encoder rerank of the top_n.
         rr = rc["rerank"]
@@ -100,8 +100,10 @@ class Retriever:
             for c in pool:
                 c["rerank_score"] = c["fused_score"] / top if top else 0.0      # rank proxy in [0, 1]
         timings[f"{tag}rerank"] = round(time.monotonic() - t, 2)
-        stages[f"{tag}reranked"] = sorted(((c["chunk_id"], round(c["rerank_score"], 4)) for c in pool),
-                                          key=lambda x: -x[1])
+        # Full candidate detail, so alpha / threshold / guideline bonus can be tuned offline from logs.
+        stages[f"{tag}reranked"] = sorted(([c["chunk_id"], c["doc_id"], round(c["rerank_score"], 4),
+                                            c.get("quality_score"), c.get("source_type")] for c in pool),
+                                          key=lambda x: -x[2])
 
         # Evidence-aware final ranking.
         fc = rc["final"]

@@ -125,7 +125,8 @@ class Answerer:
                                                                    "Return corrected JSON only."}]
         return None, errors
 
-    def answer(self, question: str) -> dict[str, Any]:
+    def answer(self, question: str, retrieval=None) -> dict[str, Any]:
+        """`retrieval`: an existing RetrievalResult for this question (the evaluator passes it in)."""
         gc, sc = self.gc, self.sc
         pre = safety.assess_question(question, sc)
         out: dict[str, Any] = {"question": question, "safety": pre.__dict__, "status": None, "sources": {},
@@ -133,7 +134,7 @@ class Answerer:
         if pre.mode == "supportive_only":
             out.update(status="supportive_only", markdown=safety.supportive_reply(pre, sc["support_disclaimer"]))
             return out
-        ret = self.retriever.retrieve(question)
+        ret = retrieval if retrieval is not None else self.retriever.retrieve(question)
         out["retrieval"] = {"status": ret.status, "analysis": ret.analysis, "retried": ret.retried,
                             "timings": ret.timings}
         pre = safety.assess_question(question, sc, ret.analysis)        # re-check with the extracted population
