@@ -1,0 +1,1089 @@
+run,question_id,question,reference_answer,system_answer,judge_score,judge_reason,your_score,notes
+20261023-151354_base,ge05,Is dietary treatment alone as effective as metformin for managing gestational diabetes?,Diet is first-line; metformin or insulin is added when diet alone does not reach targets. Comparative evidence depends on the population.,"The effectiveness of dietary treatment alone compared to metformin depends on the specific goal. While some evidence suggests lifestyle interventions are as effective as metformin for preventing type 2 diabetes in women with a history of gestational diabetes, other research indicates that diet alone may be the least effective regimen for preventing gestational diabetes in overweight or obese women.
+
+**What the evidence shows**
+- In the Diabetes Prevention Program, both metformin and intensive lifestyle interventions were shown to be equally effective interventions for reducing diabetes risk. [PMID:34348719]
+- Diet intervention alone was found to be the least effective regimen for preventing gestational diabetes in overweight/obese women, and nutritional manipulation in pregnancy cannot reduce the risk of GDM. [PMID:35745114]
+- In a study of women with gestational diabetes, the diet-only group had less impaired glucose tolerance and a lower incidence of diabetes one year postpartum compared to those treated with metformin or insulin. [PMID:26439816]
+- Most diets, except for high unsaturated or high monounsaturated fatty acid diets, showed fasting glucose improvement compared to gestational weight gain advice alone. [PMID:28771519]
+- Adding metformin to lifestyle modifications can lead to greater improvements in glycaemic control and a more pronounced reduction in diabetes risk compared to lifestyle changes alone. [PMID:42711998]
+
+**Strength of evidence: mixed.** Evidence is conflicting; some studies suggest lifestyle and metformin are equally effective for long-term diabetes prevention, while others suggest diet alone is less effective than other interventions for preventing GDM in specific populations.
+
+**Where studies disagree:** There is a conflict regarding the comparative effectiveness of diet and metformin. One study (PMID:34348719) notes that metformin and lifestyle interventions were equally effective in preventing type 2 diabetes in women with a history of GDM. However, a systematic review and network meta-analysis (PMID:35745114) found that diet intervention alone was the least effective regimen for preventing GDM in overweight/obese women. Additionally, a prospective follow-up study (PMID:26439816) reported that the diet-only group had a lower incidence of diabetes one year postpartum than the metformin group.
+
+_Most of this evidence comes from studies outside India and South Asia; results may not transfer fully._
+
+**Please confirm this with your doctor or midwife before acting on it; they can advise for your specific situation.**
+
+**Sources**
+- [PMID:34348719] Experiences of using a digital type 2 diabetes prevention application designed to support women with previous gestational diabetes. (2021, rct) https://pubmed.ncbi.nlm.nih.gov/34348719/
+- [PMID:35745114] Prevention of Gestational Diabetes Mellitus and Gestational Weight Gain Restriction in Overweight/Obese Pregnant Women: A Systematic Review and Network Meta-Analysis. (2022, systematic_review) https://pubmed.ncbi.nlm.nih.gov/35745114/
+- [PMID:26439816] The effects of metformin treatment of gestational diabetes on maternal weight and glucose tolerance postpartum--a prospective follow-up study. (2016, rct) https://pubmed.ncbi.nlm.nih.gov/26439816/
+- [PMID:28771519] The effects of various diets on glycemic outcomes during pregnancy: A systematic review and network meta-analysis. (2017, systematic_review) https://pubmed.ncbi.nlm.nih.gov/28771519/
+- [PMID:42711998] Evidence-based ranking of diabetes prevention in prediabetes: A comprehensive network meta-analysis of 378 randomised controlled trials. (2026, meta_analysis) https://pubmed.ncbi.nlm.nih.gov/42711998/
+
+_This summarises published research and is not medical advice. Please talk to your doctor or dietitian before making changes._",0,"The system answer addresses the prevention of type 2 diabetes and the prevention of gestational diabetes, rather than answering the specific question about the comparative effectiveness of diet vs. metformin for managing an existing case of gestational diabetes.",,
+20261023-151354_base,ma12,Does iron-folic acid supplementation reduce anaemia in pregnant women in India?,"Iron-folic acid supplementation reduces anaemia, but adherence in India is often low.","In India, iron-folic acid (IFA) supplementation has been shown to reduce anemia prevalence in adolescent girls. For pregnant women, research indicates that combining iron with B12 and folate can lead to greater increases in hemoglobin than iron alone, though some reviews note that the impact of daily supplementation on preventing anemia can be heterogeneous or non-significant.
+
+**What the evidence shows**
+- In India, an intervention combining iron-folic acid supplementation with intermittent deworming resulted in a substantial drop in anemia prevalence among adolescent girls. [PMID:25415364]
+- In studies conducted in Delhi and Vellore, India, pregnant women receiving [amount withheld] of iron along with B12 and folate showed the best results in hemoglobin increases. [PMID:33912132]
+- The group receiving B12 and folate in addition to [amount withheld] of iron showed a greater increase in haemoglobin than the group receiving [amount withheld] of iron alone. [PMID:33912132]
+- The intake of IFA supplements and/or other public health and nutrition-specific interventions reduces the risk of anemia among pregnant women in low- and middle-income countries. [PMID:39545365]
+- An analysis of ten trials supported the use of iron-folic acid to reduce anemia, specifically finding that weekly supplementation reduced anemia by 30% compared to a placebo, though daily supplementation showed a non-significant impact. [PMID:32110886]
+- Among pregnant women, folic acid supplementation at [amount withheld]/d significantly reduced the development of megaloblastic anaemia, but its effects on mean haemoglobin concentration and prevention of anemia were heterogeneous. [PMID:41612855]
+
+**Strength of evidence: moderate.** Evidence includes systematic reviews and meta-analyses showing benefits in specific populations and settings, though results for daily supplementation and hemoglobin levels can be inconsistent or show low certainty.
+
+**Where studies disagree:** There is disagreement regarding the efficacy of daily versus weekly supplementation; one systematic review found weekly supplementation significantly reduced anemia while daily supplementation had a non-significant impact (PMID:32110886). Additionally, while some studies show benefits, another review reported that the effects of folic acid on mean hemoglobin concentration and anemia prevention among pregnant women were heterogeneous (PMID:41612855).
+
+**Please confirm this with your doctor or midwife before acting on it; they can advise for your specific situation.**
+
+**Specific amounts are left out on purpose: your doctor or midwife will advise the right amount for you.**
+
+**Sources**
+- [PMID:25415364] Preconception care: nutritional risks and interventions. (2014, meta_analysis) https://pubmed.ncbi.nlm.nih.gov/25415364/
+- [PMID:33912132] Maternal Vitamin B12 Status During Pregnancy and Its Association With Outcomes of Pregnancy and Health of the Offspring: A Systematic Review and Implications for Policy in India. (2021, systematic_review) https://pubmed.ncbi.nlm.nih.gov/33912132/
+- [PMID:39545365] Effect of Nutrition Education During Pregnancy on Iron-Folic Acid Supplementation Compliance and Anemia in Low- and Middle-Income Countries: A Systematic Review and Meta-analysis. (2025, meta_analysis) https://pubmed.ncbi.nlm.nih.gov/39545365/
+- [PMID:32110886] Effects of Preconception Care and Periconception Interventions on Maternal Nutritional Status and Birth Outcomes in Low- and Middle-Income Countries: A Systematic Review. (2020, systematic_review) https://pubmed.ncbi.nlm.nih.gov/32110886/
+- [PMID:41612855] Folate and global health umbrella review series, part 1: methodological framework and syntheses on anaemia and neural tube defects. (2026, systematic_review) https://pubmed.ncbi.nlm.nih.gov/41612855/
+
+_This summarises published research and is not medical advice. Please talk to your doctor or dietitian before making changes._",1,"The answer correctly identifies that the impact can be heterogeneous or non-significant, but it fails to directly confirm the primary effect mentioned in the reference and instead focuses on adolescent girls and B12 combinations.",,
+20261023-151354_base,ma05,Are multiple micronutrient supplements better than iron and folic acid alone in pregnancy?,Multiple micronutrient supplements modestly reduce low birth weight and small-for-gestational-age births compared with iron-folic acid alone.,"The World Health Organization (WHO) recommends multiple micronutrient (MMN) supplementation during pregnancy and the postnatal period. Evidence suggests that MMN can reduce the risk of low birth weight, preterm birth, small-for-gestational-age (SGA) births, and stillbirths compared to iron and folic acid (IFA) alone.
+
+**What the evidence shows**
+- The 2020 updated WHO guideline recommends multiple-micronutrient (MMN) supplementation, including IFA, during pregnancy and the postnatal period. [PMID:41470911]
+- MMS has been shown to reduce the risk of low birth weight (LBW), SGA births, preterm births, and stillbirths compared to IFA, with greater benefits in underweight and anemic pregnant women. [PMID:40306386] [PMID:41010519]
+- Antenatal supplementation with multiple micronutrients, including iron and folic acid, has been shown to improve motor and cognitive function of offspring at 3.5 years more effectively than supplementation with iron and folic acid alone. [PMID:29728086]
+- Meta-analyses have found that MMS compared with IFA alone reduces adverse birth outcomes, and these effects appear consistent regardless of the gestational age assessment method used. [PMID:37002655]
+- One meta-analysis reported no significant difference in overall effect size between MMN and IFA for certain outcomes, with an effect size of SMD = 0.05 (p > 0.05). [PMID:42129691]
+- MMS may promote better infant growth up to 6 months of age. [PMID:41010519]
+
+**Strength of evidence: strong.** The WHO provides a recommendation for MMN, and multiple meta-analyses and systematic reviews consistently show benefits for birth outcomes like LBW and preterm birth.
+
+**Where studies disagree:** There is some variation in reported significance; while most sources highlight the benefits of MMS over IFA for birth outcomes, one meta-analysis reported no statistically significant difference in overall effect size (SMD = 0.05, p > 0.05) [PMID:42129691]. Additionally, the WHO previously considered evidence for LBW, preterm birth, and SGA inconsistent, though more recent analyses suggest these effects are consistent across different gestational age assessment methods [PMID:37002655].
+
+_Most of this evidence comes from studies outside India and South Asia; results may not transfer fully._
+
+**Please confirm this with your doctor or midwife before acting on it; they can advise for your specific situation.**
+
+**Sources**
+- [PMID:41470911] Long-Term Effects of Multiple-Micronutrient Supplementation During Pregnancy, Lactation, and Early Childhood on the Cognitive Development of Children Aged 4-14 Years: A Systematic Review of Randomized Controlled Trials. (2025, systematic_review) https://pubmed.ncbi.nlm.nih.gov/41470911/
+- [PMID:40306386] Effect of prenatal multiple micronutrient supplementation compared with iron and folic acid supplementation on size at birth and subsequent growth through 24 mo of age: a systematic review and meta-analysis. (2025, meta_analysis) https://pubmed.ncbi.nlm.nih.gov/40306386/
+- [PMID:41010519] Acceptability of Antenatal Multiple Micronutrient Supplementation (MMS) Compared to Iron and Folic Acid (IFA) Supplementation in Pregnant Individuals: A Narrative Review. (2025, systematic_review) https://pubmed.ncbi.nlm.nih.gov/41010519/
+- [PMID:29728086] The effect of universal maternal antenatal iron supplementation on neurodevelopment in offspring: a systematic review and meta-analysis. (2018, meta_analysis) https://pubmed.ncbi.nlm.nih.gov/29728086/
+- [PMID:37002655] Antenatal multiple micronutrient supplements versus iron-folic acid supplements and birth outcomes: Analysis by gestational age assessment method. (2023, meta_analysis) https://pubmed.ncbi.nlm.nih.gov/37002655/
+- [PMID:42129691] Impact of maternal micronutrient supplementation on pregnancy outcomes in developing countries: a systematic review and meta-analysis. (2026, meta_analysis) https://pubmed.ncbi.nlm.nih.gov/42129691/
+
+_This summarises published research and is not medical advice. Please talk to your doctor or dietitian before making changes._",2,"The system answer correctly identifies that MMN reduces the risk of low birth weight and SGA births compared to IFA alone, aligning with the reference's main point.",,
+20261023-151354_base,ge09,Does excessive gestational weight gain increase the risk of gestational diabetes?,Higher early gestational weight gain is associated with increased gestational diabetes risk.,"The provided sources do not explicitly state that excessive gestational weight gain (GWG) increases the risk of developing gestational diabetes (GDM). However, they note that overweight and obesity are major risk factors for GDM, and that excessive weight gain is common among women already diagnosed with GDM.
+
+**What the evidence shows**
+- Overweight and obesity are leading global health burdens and constitute major risk factors for GDM. [PMID:35745114]
+- Among overweight and obese pregnant women, the risk of developing GDM is more than twofold higher than for non-obese women. [PMID:35745114]
+- Excessive gestational weight gain is common in women diagnosed with gestational diabetes due to shared pathophysiology involving insulin resistance, particularly in women who are already obese. [PMID:41098669]
+- Interpregnancy weight gain is associated with a higher risk of GDM in a subsequent pregnancy. [PMID:33491318]
+
+**Strength of evidence: moderate.** The evidence regarding obesity as a risk factor for GDM is supported by systematic reviews and meta-analyses, though the specific causal link between excessive weight gain *during* a single pregnancy and the onset of GDM is not directly addressed in the provided texts.
+
+_Most of this evidence comes from studies outside India and South Asia; results may not transfer fully._
+
+**Please confirm this with your doctor or midwife before acting on it; they can advise for your specific situation.**
+
+**Sources**
+- [PMID:35745114] Prevention of Gestational Diabetes Mellitus and Gestational Weight Gain Restriction in Overweight/Obese Pregnant Women: A Systematic Review and Network Meta-Analysis. (2022, systematic_review) https://pubmed.ncbi.nlm.nih.gov/35745114/
+- [PMID:41098669] Gestational weight gain according to treatment in gestational diabetes: a systematic review and meta-analysis. (2025, meta_analysis) https://pubmed.ncbi.nlm.nih.gov/41098669/
+- [PMID:33491318] Interpregnancy Weight Change and Gestational Diabetes Mellitus: A Systematic Review and Meta-Analysis. (2021, meta_analysis) https://pubmed.ncbi.nlm.nih.gov/33491318/
+
+_This summarises published research and is not medical advice. Please talk to your doctor or dietitian before making changes._",0,"The system answer incorrectly states that the sources do not explicitly link excessive weight gain to increased risk, whereas the reference confirms the association.",,
+20261023-151354_base,ma13,Does breastfeeding help mothers lose weight after delivery?,Breastfeeding is associated with modestly greater postpartum weight loss in some studies; findings are inconsistent.,"Yes, breastfeeding is associated with greater postpartum weight loss and reduced weight retention. Specifically, breastfeeding for more than 3 months or exclusively for 6 months has been linked to lower likelihoods of sustained weight retention.
+
+**What the evidence shows**
+- Breastfeeding is associated with greater postpartum weight loss. [PMID:27029489]
+- Exclusive breastfeeding for 6 months, and to any extent for 12 months, reduces weight retention at 6 months postpartum, regardless of pre-pregnancy BMI. [PMID:27029489]
+- Mothers who breastfed for more than 3 months had a lower likelihood of sustained weight retention after pregnancy. [PMID:25201481]
+- Breastfeeding for less than 6 months is associated with greater weight retention at 6 months postpartum. [PMID:34207523]
+- The association between breastfeeding initiation and lower postpartum weight retention (PPWR) and fat percentage was observed specifically in women with overweight and obesity. [PMID:34208162]
+
+**Strength of evidence: strong.** Multiple sources, including a study protocol referencing several studies and a large prospective cohort, consistently link breastfeeding to improved postpartum weight outcomes.
+
+_Most of this evidence comes from studies outside India and South Asia; results may not transfer fully._
+
+**Sources**
+- [PMID:27029489] Lifestyle INtervention for Diabetes prevention After pregnancy (LINDA-Brasil): study protocol for a multicenter randomized controlled trial. (2016, rct) https://pubmed.ncbi.nlm.nih.gov/27029489/
+- [PMID:25201481] Socioeconomic disparities in prepregnancy BMI and impact on maternal and neonatal outcomes and postpartum weight retention: the EFHL longitudinal birth cohort study. (2014, prospective_cohort) https://pubmed.ncbi.nlm.nih.gov/25201481/
+- [PMID:34207523] Modifiable Determinants of Postpartum Weight Loss in Women with Obesity: A Secondary Analysis of the UPBEAT Trial. (2021, rct) https://pubmed.ncbi.nlm.nih.gov/34207523/
+- [PMID:34208162] Evolution of Postpartum Weight and Body Composition after Excessive Gestational Weight Gain: The Role of Lifestyle Behaviors-Data from the INTER-ACT Control Group. (2021, rct) https://pubmed.ncbi.nlm.nih.gov/34208162/
+
+_This summarises published research and is not medical advice. Please talk to your doctor or dietitian before making changes._",1,"The system answer correctly identifies the association but fails to mention that findings are inconsistent, presenting the benefit as a more definitive fact than the reference suggests.",,
+20261023-151354_base,ma07,Does vitamin D supplementation in pregnancy reduce the risk of preeclampsia?,"Some meta-analyses report lower preeclampsia risk with vitamin D, but trial evidence is limited and inconsistent.","Evidence regarding vitamin D supplementation and preeclampsia is mixed. While several meta-analyses suggest that supplementation reduces the risk of preeclampsia, one recent meta-analysis found no effect when using a strict, standardized outcome definition.
+
+**What the evidence shows**
+- Vitamin D supplementation significantly reduced the risk of preeclampsia by 44.8% (RR = 0.55). [PMID:39716171]
+- Vitamin D administration in pregnancy was associated with a reduced risk of preeclampsia (OR 0.37). [PMID:31526611]
+- Vitamin D supplementation of [amount withheld]/day or less reduced the risk of preeclampsia (RR = 0.29). [PMID:35796578]
+- A primary analysis using a strict, standardized outcome definition found no effect of vitamin D supplementation on the risk of preeclampsia. [PMID:38950419]
+- Vitamin D supplementation showed a beneficial effect on preeclampsia risk in a sensitivity analysis that included trials regardless of outcome definitions. [PMID:38950419]
+- Vitamin D supplementation at a dose of 2,[amount withheld] or higher is preventive for pre-eclampsia. [PMID:38461819]
+
+**Strength of evidence: mixed.** Multiple meta-analyses report a significant reduction in preeclampsia risk, but a recent 2025 meta-analysis found no effect when applying strict outcome definitions.
+
+**Where studies disagree:** There is a conflict between recent meta-analyses. PMID:38950419 (2025) reports no effect on preeclampsia when using a strict, standardized outcome definition, whereas PMID:39716171 (2024) and PMID:31526611 (2020) report significant risk reductions. PMID:38950419 notes that its sensitivity analysis (which included various outcome definitions) did show a beneficial effect.
+
+_Most of this evidence comes from studies outside India and South Asia; results may not transfer fully._
+
+**Please confirm this with your doctor or midwife before acting on it; they can advise for your specific situation.**
+
+**Specific amounts are left out on purpose: your doctor or midwife will advise the right amount for you.**
+
+**Sources**
+- [PMID:39716171] Efficacy of vitamin D supplementation on the incidence of preeclampsia: a systematic review and meta-analysis. (2024, meta_analysis) https://pubmed.ncbi.nlm.nih.gov/39716171/
+- [PMID:31526611] Vitamin D supplementation and incident preeclampsia: A systematic review and meta-analysis of randomized clinical trials. (2020, meta_analysis) https://pubmed.ncbi.nlm.nih.gov/31526611/
+- [PMID:35796578] Vitamin D supplementation higher than 2000 IU/day compared to lower dose on maternal-fetal outcome: Systematic review and meta-analysis. (2022, meta_analysis) https://pubmed.ncbi.nlm.nih.gov/35796578/
+- [PMID:38950419] The Effects of Vitamin D Supplementation During Pregnancy on Maternal, Neonatal, and Infant Health: A Systematic Review and Meta-analysis. (2025, meta_analysis) https://pubmed.ncbi.nlm.nih.gov/38950419/
+- [PMID:38461819] The Influence of Vitamin D on Pregnancy and Outcomes: Current Knowledge and Future Perspectives. (2024, systematic_review) https://pubmed.ncbi.nlm.nih.gov/38461819/
+
+_This summarises published research and is not medical advice. Please talk to your doctor or dietitian before making changes._",2,"The system answer correctly identifies that evidence is mixed and accurately reflects the nuance that while meta-analyses suggest a benefit, the trial evidence is inconsistent.",,
+20261023-151354_base,we09,Does a Mediterranean diet help with weight loss?,Mediterranean diets produce weight loss similar to other diets when calories are restricted.,"Yes, the Mediterranean diet is effective for weight loss and can lead to greater weight reduction than control groups or low-fat diets. However, its effectiveness compared to low-carbohydrate diets is debated, with some evidence suggesting low-carbohydrate diets may be more effective for weight loss.
+
+**What the evidence shows**
+- Mediterranean diets resulted in significantly greater weight loss than control groups, with differences ranging from 0.3 kg to 1.8 kg over 4–24 weeks. [PMID:34796367]
+- Mediterranean diets were found to be marginally more effective than low-fat diets (LFDs) for weight loss. [PMID:34796367]
+- In overweight or obese adults, the Mediterranean diet resulted in greater weight loss than low-fat diets at 12 months or longer. [PMID:26721635]
+- One network meta-analysis found that low-carbohydrate diets exhibited a significant decrease in weight loss compared to the Mediterranean diet. [PMID:39255914]
+- In a study of participants in the Middle East and North Africa, the Mediterranean diet resulted in a mean weight loss of 4.6 kg among those who completed the intervention. [PMID:33369151]
+- For individuals with type 2 diabetes, a Mediterranean-style diet led to greater reductions in body weight and body mass index compared to control diets. [PMID:25369829]
+
+**Strength of evidence: strong.** Multiple meta-analyses and systematic reviews consistently show the Mediterranean diet's effectiveness for weight loss, although results vary when compared to other specific dietary patterns.
+
+**Where studies disagree:** There is disagreement regarding how the Mediterranean diet compares to low-carbohydrate diets. One network meta-analysis reported that low-carbohydrate diets were more effective for weight loss than the Mediterranean diet (PMID:39255914), while another systematic review noted that Mediterranean diets produced similar weight loss to other comparator diets like low-carbohydrate diets at 12 months or longer (PMID:26721635).
+
+_Most of this evidence comes from studies outside India and South Asia; results may not transfer fully._
+
+**Sources**
+- [PMID:34796367] Diets for weight management in adults with type 2 diabetes: an umbrella review of published meta-analyses and systematic review of trials of diets for diabetes remission. (2022, systematic_review) https://pubmed.ncbi.nlm.nih.gov/34796367/
+- [PMID:26721635] Systematic Review of the Mediterranean Diet for Long-Term Weight Loss. (2016, systematic_review) https://pubmed.ncbi.nlm.nih.gov/26721635/
+- [PMID:39255914] Comparison of weight loss effects among overweight/obese adults: A network meta-analysis of mediterranean, low carbohydrate, and low-fat diets. (2024, systematic_review) https://pubmed.ncbi.nlm.nih.gov/39255914/
+- [PMID:33369151] A systematic review of randomized controlled trials of dietary interventions for weight loss in adults in the Middle East and north Africa region. (2021, meta_analysis) https://pubmed.ncbi.nlm.nih.gov/33369151/
+- [PMID:25369829] Effects of Mediterranean-style diet on glycemic control, weight loss and cardiovascular risk factors among type 2 diabetes individuals: a meta-analysis. (2015, meta_analysis) https://pubmed.ncbi.nlm.nih.gov/25369829/
+
+_This summarises published research and is not medical advice. Please talk to your doctor or dietitian before making changes._",1,"The system answer claims the diet can lead to greater weight reduction than low-fat diets, whereas the reference states it produces weight loss similar to other diets when calories are restricted.",,
+20261023-151354_base,di03,Is a higher intake of whole grains associated with a lower risk of type 2 diabetes?,Higher whole-grain intake is associated with lower type 2 diabetes risk in cohort studies and meta-analyses.,"Yes, a higher intake of whole grains is consistently associated with a lower risk of type 2 diabetes. Multiple systematic reviews and meta-analyses indicate that both high versus low intake and dose-response relationships show a significant reduction in risk.
+
+**What the evidence shows**
+- A high intake of whole grains is associated with a lower risk of type 2 diabetes. [PMID:40122387]
+- Total whole grain consumption is fully evidenced to be associated with a lower risk of type 2 diabetes. [PMID:39039056]
+- There is convincing evidence of an inverse association between whole grain consumption and risk of type-2 diabetes. [PMID:31964201]
+- A 50 g/day intake of whole grain ingredients is associated with a summary relative risk (RR) of 0.761. [PMID:38664726]
+- Every 30 g/day increase in whole-grain intake significantly reduces the risk of type 2 diabetes by approximately 13%. [PMID:32899917] [PMID:28397016]
+- The association between whole grain intake and type 2 diabetes risk is nonlinear, with the greatest risk reduction occurring at lower intakes (e.g., up to ~50 g/day) and benefits attenuating at higher values. [PMID:38664726] [PMID:28397016]
+
+**Strength of evidence: strong.** Multiple systematic reviews, umbrella reviews, and meta-analyses of prospective cohort studies consistently demonstrate a significant inverse association between whole grain intake and type 2 diabetes risk.
+
+_Most of this evidence comes from studies outside India and South Asia; results may not transfer fully._
+
+**Sources**
+- [PMID:40122387] Umbrella Review of Systematic Reviews and Meta-Analyses on Consumption of Different Food Groups and Risk of Type 2 Diabetes Mellitus and Metabolic Syndrome. (2025, systematic_review) https://pubmed.ncbi.nlm.nih.gov/40122387/
+- [PMID:39039056] Adherence to Mediterranean dietary pattern and the risk of gestational diabetes mellitus: a systematic review and meta-analysis of observational studies. (2024, meta_analysis) https://pubmed.ncbi.nlm.nih.gov/39039056/
+- [PMID:31964201] Whole grain consumption and human health: an umbrella review of observational studies. (2020, systematic_review) https://pubmed.ncbi.nlm.nih.gov/31964201/
+- [PMID:38664726] Effects of whole grains on glycemic control: a systematic review and dose-response meta-analysis of prospective cohort studies and randomized controlled trials. (2024, meta_analysis) https://pubmed.ncbi.nlm.nih.gov/38664726/
+- [PMID:32899917] Preventive Role of Diet Interventions and Dietary Factors in Type 2 Diabetes Mellitus: An Umbrella Review. (2020, systematic_review) https://pubmed.ncbi.nlm.nih.gov/32899917/
+- [PMID:28397016] Food groups and risk of type 2 diabetes mellitus: a systematic review and meta-analysis of prospective studies. (2017, meta_analysis) https://pubmed.ncbi.nlm.nih.gov/28397016/
+
+_This summarises published research and is not medical advice. Please talk to your doctor or dietitian before making changes._",2,The system answer correctly identifies the association and aligns with the reference's mention of meta-analyses.,,
+20261023-151354_base,we04,What dietary strategies help people maintain weight loss after a diet?,"Higher protein, lower glycaemic index diets, continued self-monitoring and support help weight-loss maintenance in trials.","Effective dietary strategies for weight maintenance include increasing protein intake, following low-calorie or low-fat diets, and consuming higher amounts of fiber. Successful maintenance is also associated with behavioral strategies like frequent weight monitoring, regular physical activity, and consistent breakfast consumption.
+
+**What the evidence shows**
+- Increased protein intake has a significant beneficial effect on preventing weight regain. [PMID:31443231]
+- Successful weight-loss maintenance is associated with hypocaloric and hypolipemic (low-fat) diets. [PMID:35334917] [PMID:24383502]
+- Higher fiber intake has been a component of successful weight maintenance interventions. [PMID:24383502]
+- Behavioral factors such as frequent weight monitoring, regular physical activity, and self-monitoring are associated with successful weight maintenance. [PMID:35334917] [PMID:41599940] [PMID:24383502]
+- Daily breakfast consumption is a common eating behavior among people who have successfully maintained weight loss. [PMID:33077809]
+- Intermittent use of formula low-energy diets, such as total diet replacement two days per week, may assist long-term weight-loss maintenance. [PMID:40934815]
+
+**Strength of evidence: strong.** Multiple meta-analyses and systematic reviews consistently identify protein intake, calorie restriction, physical activity, and behavioral self-monitoring as key strategies.
+
+**Where studies disagree:** While one meta-analysis found no significant effect for strategies like green tea, conjugated linoleic acid, or lower glycemic index, it did find a significant benefit for higher protein intake (PMID:31443231). Additionally, while very low-calorie ketogenic diets (VLCKD) may show significant results initially, individuals may tend to regain weight during the reintroduction phase compared to those on standard hypocaloric diets (PMID:36293616).
+
+_Most of this evidence comes from studies outside India and South Asia; results may not transfer fully._
+
+**Sources**
+- [PMID:31443231] Dietary Strategies for Weight Loss Maintenance. (2019, meta_analysis) https://pubmed.ncbi.nlm.nih.gov/31443231/
+- [PMID:35334917] Weight Maintenance after Dietary Weight Loss: Systematic Review and Meta-Analysis on the Effectiveness of Behavioural Intensive Intervention. (2022, meta_analysis) https://pubmed.ncbi.nlm.nih.gov/35334917/
+- [PMID:24383502] Healthy strategies for successful weight loss and weight maintenance: a systematic review. (2014, systematic_review) https://pubmed.ncbi.nlm.nih.gov/24383502/
+- [PMID:41599940] Dietary Patterns During Weight Loss Maintenance vs. Weight Regain: A Secondary Analysis of the Look AHEAD Trial. (2026, rct) https://pubmed.ncbi.nlm.nih.gov/41599940/
+- [PMID:33077809] Determinants favoring weight regain after weight-loss therapy among postmenopausal women. (2020, rct) https://pubmed.ncbi.nlm.nih.gov/33077809/
+- [PMID:40934815] Diet strategies for maintaining substantial therapeutic weight loss: 78-week mixed methods randomised trial. (2025, rct) https://pubmed.ncbi.nlm.nih.gov/40934815/
+
+_This summarises published research and is not medical advice. Please talk to your doctor or dietitian before making changes._",1,"The answer correctly identifies protein and self-monitoring, but includes low-calorie/low-fat diets which are more related to initial weight loss than specific maintenance strategies, and misses the low-glycemic index recommendation.",,
+20261023-151354_base,we07,Do artificial sweeteners help with weight loss?,"Evidence is mixed: short-term trials show small weight benefits when replacing sugar, while some cohort studies associate sweeteners with weight gain.","Evidence from randomized controlled trials (RCTs) suggests that low-calorie sweeteners (LCS) can modestly reduce body weight, BMI, fat mass, and waist circumference in adults by helping to reduce energy intake. However, observational studies show inconsistent results, with some finding no association with weight or even a slight association with higher BMI.
+
+**What the evidence shows**
+- Systematic reviews of RCTs indicate that the use of low-calorie sweeteners (LNCS) may help in the reduction of energy intake and thus in weight loss in adults. [PMID:29941818]
+- In RCTs, low-calorie sweeteners modestly but significantly reduced body weight (-0.80 kg), BMI (-0.24 kg/m²), fat mass (-1.10 kg), and waist circumference (-0.83 cm). [PMID:24944060]
+- Among prospective cohort studies, LCS intake was not associated with body weight or fat mass, but was significantly associated with slightly higher BMI. [PMID:24944060]
+- In the absence of energy restrictions, switching to artificially sweetened beverages (ASBs) is not an effective strategy for weight loss. [PMID:26503493]
+- Replacement of sugar-sweetened beverages with non-caloric artificially sweetened beverages has been shown to reduce weight gain and fat accumulation in normal weight children. [PMID:27880804]
+- Evidence regarding the long-term metabolic effects of LNCS exposure initiated at early ages is inconsistent and contradictory, with some cases associating them with a possible increase in BMI and fat accumulation. [PMID:29941818]
+
+**Strength of evidence: mixed.** While RCTs consistently show modest weight and fat reduction, prospective cohort studies show no association or a slight increase in BMI, and long-term effects remain unclear.
+
+**Where studies disagree:** There is a conflict between RCTs and observational studies: RCTs show significant modest reductions in weight and BMI (PMID:24944060), whereas prospective cohort studies show no association with weight or a slight association with higher BMI (PMID:24944060, PMID:29941818). Additionally, while some evidence suggests benefits for children (PMID:27880804), other findings suggest switching to ASBs is not an effective weight loss strategy without energy restriction (PMID:26503493).
+
+**Sources**
+- [PMID:29941818] Ibero⁻American Consensus on Low- and No-Calorie Sweeteners: Safety, Nutritional Aspects and Benefits in Food and Beverages. (2018, guideline) https://pubmed.ncbi.nlm.nih.gov/29941818/
+- [PMID:24944060] Low-calorie sweeteners and body weight and composition: a meta-analysis of randomized controlled trials and prospective cohort studies. (2014, meta_analysis) https://pubmed.ncbi.nlm.nih.gov/24944060/
+- [PMID:26503493] Sugar and artificially sweetened beverage consumption and adiposity changes: National longitudinal study. (2015, cohort) https://pubmed.ncbi.nlm.nih.gov/26503493/
+- [PMID:27880804] Dietary Intake and Eating Behaviours of Obese New Zealand Children and Adolescents Enrolled in a Community-Based Intervention Programme. (2016, rct) https://pubmed.ncbi.nlm.nih.gov/27880804/
+
+_This summarises published research and is not medical advice. Please talk to your doctor or dietitian before making changes._",2,"The system answer correctly identifies that evidence is mixed, noting modest weight reduction in controlled trials and inconsistent or positive associations with BMI in observational studies.",,
+20261023-151354_base,ge04,Does myo-inositol supplementation prevent gestational diabetes?,"Several trials, mainly from one region, report lower GDM rates with myo-inositol, but evidence certainty is low.","Multiple meta-analyses indicate that myo-inositol supplementation can significantly reduce the risk of developing gestational diabetes mellitus (GDM) in pregnant women. However, some individual trials and specific subgroups, such as overweight or obese women, have shown varying or uncertain results.
+
+**What the evidence shows**
+- Myo-inositol supplementation substantially reduces the risk of gestational diabetes mellitus, with studies reporting risk reductions of approximately 44% to 66%. [PMID:42242341] [PMID:37836508] [PMID:33745021]
+- In women with gestational diabetes, myo-inositol supplementation can decrease the requirement for insulin treatment and improve insulin resistance (HOMA-IR). [PMID:39115013] [PMID:41792927]
+- Myo-inositol has been associated with reduced risks of preeclampsia, gestational hypertension, preterm birth, and neonatal hypoglycemia. [PMID:37836508] [PMID:41792927]
+- In a randomized clinical trial of pregnant individuals with PCOS, myo-inositol did not significantly reduce the composite outcome of gestational diabetes, preeclampsia, or preterm birth. [PMID:40920401]
+- For overweight and obese pregnant women, a standard dose of 4g of myo-inositol may reduce GDM incidence, but the certainty of evidence is low to very low. [PMID:38045667]
+- The NiPPeR trial found that myo-inositol supplementation before pregnancy did not reduce GDM, and subgroup analyses for higher-risk women did not show benefit, though the study was not powered for these subgroups. [PMID:41712055]
+
+**Strength of evidence: moderate.** While several meta-analyses consistently show a significant reduction in GDM risk, individual trials and specific subgroups (like PCOS or overweight/obese populations) show conflicting or low-certainty results.
+
+**Where studies disagree:** There is disagreement between large meta-analyses and specific trials. Meta-analyses (e.g., PMID:37836508, PMID:42242341) report significant GDM risk reduction, whereas the NiPPeR trial (PMID:41712055) and a PCOS-specific RCT (PMID:40920401) did not find significant benefits for their specific study populations or composite outcomes. Additionally, the certainty of evidence for myo-inositol's benefit in overweight/obese women is noted as low to very low (PMID:38045667).
+
+_Most of this evidence comes from studies outside India and South Asia; results may not transfer fully._
+
+**Please confirm this with your doctor or midwife before acting on it; they can advise for your specific situation.**
+
+**Sources**
+- [PMID:42242341] The effect of myo-inositol supplementation on gestational diabetes mellitus prevention: a systematic review and meta-analysis. (2026, meta_analysis) https://pubmed.ncbi.nlm.nih.gov/42242341/
+- [PMID:37836508] Myoinositols Prevent Gestational Diabetes Mellitus and Related Complications: A Systematic Review and Meta-Analysis of Randomized Controlled Trials. (2023, meta_analysis) https://pubmed.ncbi.nlm.nih.gov/37836508/
+- [PMID:33745021] Dietary supplementation for gestational diabetes prevention and management: a meta-analysis of randomized controlled trials. (2021, meta_analysis) https://pubmed.ncbi.nlm.nih.gov/33745021/
+- [PMID:39115013] Influence of myo-inositol on metabolic status for gestational diabetes: a meta-analysis of randomized controlled trials. (2024, meta_analysis) https://pubmed.ncbi.nlm.nih.gov/39115013/
+- [PMID:41792927] Efficacy of inositol supplementation for the prevention and treatment of gestational diabetes in pregnant women: Results from an umbrella meta-analysis. (2026, meta_analysis) https://pubmed.ncbi.nlm.nih.gov/41792927/
+- [PMID:40920401] Myo-inositol Supplementation to Prevent Pregnancy Complications in Polycystic Ovary Syndrome: A Randomized Clinical Trial. (2025, rct) https://pubmed.ncbi.nlm.nih.gov/40920401/
+- [PMID:38045667] The Efficacy and Safety of Myo-inositol Supplementation for the Prevention of Gestational Diabetes Mellitus in Overweight and Obese Pregnant Women: A Systematic Review and Meta-Analysis. (2023, meta_analysis) https://pubmed.ncbi.nlm.nih.gov/38045667/
+- [PMID:41712055] Preconception Interventions in Women at High Risk of Developing Gestational Diabetes: A Systematic Review. (2026, systematic_review) https://pubmed.ncbi.nlm.nih.gov/41712055/
+
+_This summarises published research and is not medical advice. Please talk to your doctor or dietitian before making changes._",1,"The system answer correctly identifies the reduction in risk but fails to mention the low certainty of the evidence, which is a key qualification in the reference answer.",,
+20261023-151354_base,ge06,Is a low-carbohydrate diet better than a standard diet for women with gestational diabetes?,Trials comparing carbohydrate amounts in GDM are small; no single diet is clearly superior.,"Current evidence suggests that a low-carbohydrate diet does not significantly differ from usual or standard care for most maternal and fetal outcomes in women with gestational diabetes. While some studies show no difference in glycemic control or birth weight, other research indicates that low-glycemic index or low-glycemic load diets may offer specific benefits that low-carbohydrate diets do not.
+
+**What the evidence shows**
+- Low-carbohydrate and low-glycaemic index diets do not differ from usual care for most maternal and foetal outcomes in gestational diabetes mellitus. [PMID:38218096]
+- A low-carbohydrate diet did not significantly differ from usual care for fasting blood glucose, insulin requirement, birthweight, caesarean delivery, macrosomia, large-for-gestational-age, or small-for-gestational-age infants. [PMID:38218096]
+- Low-carbohydrate diets did not improve average glucose concentration or HbA1c levels. [PMID:39972237]
+- A conventional lower-carbohydrate diet (40% carbohydrate, 45% fat) showed no difference in weight gain or time in range compared to a complex-carbohydrate diet (60% carbohydrate, 25% fat). [PMID:39972237]
+- A randomized controlled trial found no difference in newborn adiposity, birth weight, or cord C-peptide levels between a low-carbohydrate diet and a higher-complex-carbohydrate diet. [PMID:37643311]
+- Low-carbohydrate diets did not change maternal or newborn outcomes compared to control diets. [PMID:25414390]
+- A low-glycaemic load diet reduced the risk of macrosomia. [PMID:38218096]
+- A low-glycaemic index diet was associated with reduced insulin use and lower newborn birth weight compared to a control diet. [PMID:25414390]
+
+**Strength of evidence: moderate.** Multiple systematic reviews and meta-analyses of randomized controlled trials consistently show that low-carbohydrate diets do not provide significant advantages over standard care for most outcomes in GDM.
+
+**Where studies disagree:** There is a distinction between carbohydrate quantity and quality; while low-carbohydrate diets (quantity) often show no significant difference from standard care, low-glycemic index or low-glycemic load diets (quality) have been associated with improved outcomes such as reduced insulin use, lower birth weight, and reduced macrosomia risk.
+
+_Most of this evidence comes from studies outside India and South Asia; results may not transfer fully._
+
+**Please confirm this with your doctor or midwife before acting on it; they can advise for your specific situation.**
+
+**Sources**
+- [PMID:38218096] Impact of carbohydrate quantity and quality on maternal and pregnancy outcomes in gestational diabetes mellitus: A systematic review and meta-analysis. (2024, meta_analysis) https://pubmed.ncbi.nlm.nih.gov/38218096/
+- [PMID:39972237] Reduced-energy diet in women with gestational diabetes: the dietary intervention in gestational diabetes DiGest randomized clinical trial. (2025, rct) https://pubmed.ncbi.nlm.nih.gov/39972237/
+- [PMID:37643311] Randomization to a Provided Higher-Complex-Carbohydrate Versus Conventional Diet in Gestational Diabetes Mellitus Results in Similar Newborn Adiposity. (2023, rct) https://pubmed.ncbi.nlm.nih.gov/37643311/
+- [PMID:25414390] Dietary intervention in patients with gestational diabetes mellitus: a systematic review and meta-analysis of randomized clinical trials on maternal and newborn outcomes. (2014, meta_analysis) https://pubmed.ncbi.nlm.nih.gov/25414390/
+
+_This summarises published research and is not medical advice. Please talk to your doctor or dietitian before making changes._",2,"The system answer correctly identifies that there is no significant difference in outcomes between low-carbohydrate and standard diets, aligning with the reference's conclusion that no single diet is clearly superior.",,
+20261023-151354_base,ge10,What dietary approaches help manage gestational diabetes in Indian women?,Evidence from India is limited; medical nutrition therapy with controlled carbohydrate and low-GI foods is used.,"Common dietary approaches for managing gestational diabetes include low-glycemic index (Low-GI) diets, low-glycemic load (Low-GL) diets, low-carbohydrate diets, and the Dietary Approaches to Stop Hypertension (DASH) diet. Other mentioned strategies include the Mediterranean diet and diets higher in complex carbohydrates and lower in fats.
+
+**What the evidence shows**
+- Common dietary interventions for managing GDM both domestically and internationally include low-glycemic index (Low-GI) diets, the Dietary Approaches to Stop Hypertension (DASH) diet, low-carbohydrate diets, and low-glycemic load (Low-GL) diets. [PMID:40458173]
+- Low-GI diets have been associated with better postprandial glucose regulation. [PMID:40458173]
+- The DASH diet has shown promise in reducing blood pressure and improving metabolic outcomes in GDM patients. [PMID:40458173]
+- Consumption of food with low glycaemic index (GI) improves maternal glucose control and can reduce neonatal glycaemic loads. [PMID:35010884]
+- Low–glycemic index (GI) diets have been shown to attenuate glycemic excursions while mitigating the need for pharmacological interventions. [PMID:42275571]
+- A Mediterranean-style diet could be beneficial in reducing gestational weight gain and the incidence of GDM in high-risk pregnant women. [PMID:35010884]
+- Previous reviews indicated common dietary practices include diets higher in complex carbohydrates and lower in fats, as well as diets enriched with extra virgin olive oil, oat bran, and supplements like probiotics and vitamin D. [PMID:39796477]
+- Combined diet and exercise interventions reduced fasting and postprandial blood glucose levels when compared to dietary interventions alone. [PMID:31405707]
+
+**Strength of evidence: moderate.** While several systematic reviews and meta-analyses support various dietary patterns like Low-GI and DASH, some studies note a lack of clear evidence for specific optimal strategies or find no significant association between specific dietary intakes and continuous glucose monitoring metrics.
+
+**Where studies disagree:** There is some disagreement in the literature regarding the strength of evidence; while some sources highlight the benefits of specific diets (Low-GI, DASH, Mediterranean), one meta-analysis noted that a clear benefit for dietary strategies had not been demonstrated in recent meta-analyses, often due to small participant numbers. Additionally, a secondary analysis of the DiGest trial found no significant associations between dietary intake, diet quality (DASH score), or physical activity and continuous glucose monitoring metrics.
+
+_Most of this evidence comes from studies outside India and South Asia; results may not transfer fully._
+
+**Please confirm this with your doctor or midwife before acting on it; they can advise for your specific situation.**
+
+**Sources**
+- [PMID:40458173] Comparative efficacy of dietary interventions for glycemic control and pregnancy outcomes in gestational diabetes: a network meta-analysis of randomized controlled trials. (2025, systematic_review) https://pubmed.ncbi.nlm.nih.gov/40458173/
+- [PMID:35010884] Effectiveness and Usability of Digital Tools to Support Dietary Self-Management of Gestational Diabetes Mellitus: A Systematic Review. (2021, systematic_review) https://pubmed.ncbi.nlm.nih.gov/35010884/
+- [PMID:42275571] WeChat-Delivered Mobile Medical Nutrition Therapy Intervention in Gestational Diabetes Mellitus: Randomized Controlled Trial. (2026, rct) https://pubmed.ncbi.nlm.nih.gov/42275571/
+- [PMID:39796477] Nutritional Strategies Prescribed During Pregnancy and Weight Gain in Women with Gestational Diabetes Mellitus: A Systematic Review of Observational Studies. (2024, systematic_review) https://pubmed.ncbi.nlm.nih.gov/39796477/
+- [PMID:31405707] Dietary and exercise interventions and glycemic control and maternal and newborn outcomes in women diagnosed with gestational diabetes: Systematic review. (2019, systematic_review) https://pubmed.ncbi.nlm.nih.gov/31405707/
+
+_This summarises published research and is not medical advice. Please talk to your doctor or dietitian before making changes._",1,"The answer correctly identifies low-GI and low-carbohydrate approaches, but fails to mention the key qualification that evidence specific to Indian women is limited.",,
+20261023-151354_base,we01,Do high-protein diets lead to more weight loss than standard-protein diets?,"High-protein diets give modestly greater weight and fat loss in some trials, with small differences overall.","Evidence is mixed, but several meta-analyses suggest that high-protein diets lead to small but favorable increases in weight loss and fat mass loss compared to standard-protein diets. However, some individual studies and trials have found no significant difference in weight loss between the two dietary approaches.
+
+**What the evidence shows**
+- A meta-analysis of 54 RCTs found that high-protein diets led to more weight loss (SMD -0.13) and greater reductions in fat mass (SMD -0.14) compared to lower protein diets. [PMID:34120735]
+- In people with type 2 diabetes, a meta-analysis showed that high-protein diets achieved a moderately greater weight loss of -1.12 kg compared to low protein diets. [PMID:32019211]
+- A meta-analysis of studies with at least 12 months of follow-up found that a higher protein, lower carbohydrate diet was associated with better weight and fat loss, though the effect size was small. [PMID:24472635]
+- In a study of adults with visceral obesity, differences in protein proportion did not significantly affect waist circumference. [PMID:30241565]
+- The PREVIEW trial found that weight loss maintenance and changes in body composition were similar between high-protein and standard-protein diets in overweight or obese individuals with prediabetes. [PMID:41094026]
+- One study of adults with type 2 diabetes showed that weight loss decreased homogeneously among both standard and high-protein energy-restricted diets. [PMID:31255349]
+
+**Strength of evidence: mixed.** While multiple meta-analyses report small benefits for weight and fat loss with high-protein diets, several randomized controlled trials and a recent large trial (PREVIEW) found no significant difference in weight loss outcomes.
+
+**Where studies disagree:** There is disagreement between meta-analyses and specific clinical trials. Meta-analyses (PMID:34120735, PMID:32019211, PMID:24472635) generally report small but significant advantages for high-protein diets regarding weight and fat loss. Conversely, specific studies like the PREVIEW trial (PMID:41094026) and research on adults with visceral obesity (PMID:30241565) found no significant difference in weight loss or waist circumference between high and standard protein diets.
+
+_Most of this evidence comes from studies outside India and South Asia; results may not transfer fully._
+
+**Sources**
+- [PMID:34120735] Is protein the forgotten ingredient: Effects of higher compared to lower protein diets on cardiometabolic risk factors. A systematic review and meta-analysis of randomised controlled trials. (2021, meta_analysis) https://pubmed.ncbi.nlm.nih.gov/34120735/
+- [PMID:32019211] The Effects of Different Quantities and Qualities of Protein Intake in People with Diabetes Mellitus. (2020, meta_analysis) https://pubmed.ncbi.nlm.nih.gov/32019211/
+- [PMID:24472635] Long term weight maintenance after advice to consume low carbohydrate, higher protein diets--a systematic review and meta analysis. (2014, meta_analysis) https://pubmed.ncbi.nlm.nih.gov/24472635/
+- [PMID:30241565] Comparison of low calorie high protein and low calorie standard protein diet on waist circumference of adults with visceral obesity and weight cycling. (2018, rct) https://pubmed.ncbi.nlm.nih.gov/30241565/
+- [PMID:41094026] Long-term effects of dietary protein and carbohydrate quality on prediabetes remission: results from the PREVIEW randomised multinational diabetes prevention trial. (2026, rct) https://pubmed.ncbi.nlm.nih.gov/41094026/
+- [PMID:31255349] High-protein energy-restricted diets induce greater improvement in glucose homeostasis but not in adipokines comparing to standard-protein diets in early-onset diabetic adults with overweight or obesity. (2020, rct) https://pubmed.ncbi.nlm.nih.gov/31255349/
+
+_This summarises published research and is not medical advice. Please talk to your doctor or dietitian before making changes._",2,"The system answer correctly identifies that the effect is small/modest and acknowledges the mixed nature of the evidence, aligning with the reference.",,
+20261023-151354_base,we06,Is time-restricted eating more effective than daily calorie restriction for weight loss?,Trials show time-restricted eating gives weight loss similar to daily calorie restriction when calories are matched.,"Evidence on whether time-restricted eating (TRE) is more effective than daily calorie restriction (CR) is mixed. Some meta-analyses suggest that combining TRE with CR leads to significantly greater reductions in body weight, body fat mass, and waist circumference, while other reviews find that the majority of studies show no additional benefits or that TRE is comparable to CR.
+
+**What the evidence shows**
+- A meta-analysis found that combining TRE with CR resulted in significantly greater reductions in body weight, body fat mass, and waist circumference compared to CR alone. [PMID:38068769]
+- One meta-analysis concluded that intermittent fasting (IF) regimens, including TRE, result in similar weight loss to continuous energy restriction (CER). [PMID:36349432]
+- A systematic review found that while some studies reported greater weight loss with CR + TRE, the majority of studies did not find additional benefits. [PMID:38383703]
+- In a one-year RCT with Chinese participants, early TRE combined with daily calorie restriction had similar effects to calorie restriction alone for weight loss and body fat reduction. [PMID:38337642]
+- Some well-designed RCTs have reported no significant advantage of TRE over standard dietary advice for weight loss or metabolic improvement. [PMID:41526965]
+- An exploratory network analysis ranked alternate day fasting (ADF) as the most effective for weight loss, followed by CER and then TRE. [PMID:36349432]
+
+**Strength of evidence: mixed.** Different meta-analyses and systematic reviews provide conflicting results, with some showing superior weight loss for TRE+CR and others finding it comparable or non-superior to CR alone.
+
+**Where studies disagree:** There is disagreement between studies: PMID:38068769 reports that TRE with CR is significantly more effective for weight, fat mass, and waist circumference, whereas PMID:38383703 states that the majority of studies found no additional benefits from adding TRE to CR. Additionally, PMID:36349432 ranks TRE as less effective than CER, while other sources suggest they are comparable.
+
+_Most of this evidence comes from studies outside India and South Asia; results may not transfer fully._
+
+**Sources**
+- [PMID:38068769] Effectiveness of Time-Restricted Eating with Caloric Restriction vs. Caloric Restriction for Weight Loss and Health: Meta-Analysis. (2023, meta_analysis) https://pubmed.ncbi.nlm.nih.gov/38068769/
+- [PMID:36349432] A meta-analysis comparing the effectiveness of alternate day fasting, the 5:2 diet, and time-restricted eating for weight loss. (2023, meta_analysis) https://pubmed.ncbi.nlm.nih.gov/36349432/
+- [PMID:38383703] Does time-restricted eating add benefits to calorie restriction? A systematic review. (2024, systematic_review) https://pubmed.ncbi.nlm.nih.gov/38383703/
+- [PMID:38337642] Effect of Intermittent Fasting on Cardiometabolic Health in the Chinese Population: A Meta-Analysis of Randomized Controlled Trials. (2024, meta_analysis) https://pubmed.ncbi.nlm.nih.gov/38337642/
+- [PMID:41526965] Time-restricted eating in overweight and obese adults: an evidence summary and clinical recommendations. (2026, systematic_review) https://pubmed.ncbi.nlm.nih.gov/41526965/
+
+_This summarises published research and is not medical advice. Please talk to your doctor or dietitian before making changes._",1,"The system answer correctly identifies that results are mixed and that TRE is often comparable to CR, but it introduces a claim about combining TRE with CR that is not addressed in the reference.",,
+20261023-151354_base,ge02,Do diet and exercise interventions in early pregnancy prevent gestational diabetes?,Combined diet and exercise interventions modestly reduce gestational diabetes risk in meta-analyses.,"Lifestyle interventions, including diet and physical activity, have been shown to prevent gestational diabetes (GDM). Evidence suggests that interventions initiated during the first trimester or early weeks of gestation show promising results.
+
+**What the evidence shows**
+- Lifestyle interventions prevent gestational diabetes, though effects vary by diagnostic criteria. [PMID:41494781]
+- Interventions provided during the early weeks of gestation showed promising results. [PMID:37973902]
+- Exercise interventions during pregnancy decrease the incidence of GDM, particularly when they are initiated during the first trimester of pregnancy. [PMID:36156844]
+- Physical activity based interventions were found to be most effective in preventing gestational diabetes. [PMID:41494781]
+- Exercise interventions during pregnancy significantly reduce the risk of GDM compared to conventional care. [PMID:41152871]
+- Specific exercise types such as aerobic exercise, yoga, and combined diet and exercise guidance significantly reduce the risk of GDM. [PMID:41152871]
+
+**Strength of evidence: strong.** Multiple systematic reviews and meta-analyses consistently show that lifestyle and exercise interventions reduce the risk of GDM.
+
+**Where studies disagree:** There is some disagreement regarding pre-pregnancy interventions; one meta-analysis found that pre-pregnancy diet and/or physical activity interventions were not associated with a significant difference in GDM rates (PMID:40318041), whereas other research suggests lifestyle interventions are effective (PMID:41494781, PMID:37973902). Additionally, while some reviews suggest a possible protective effect for combined diet and exercise, others note that results for combined interventions are not entirely clear due to heterogeneity (PMID:35631207).
+
+_Most of this evidence comes from studies outside India and South Asia; results may not transfer fully._
+
+**Please confirm this with your doctor or midwife before acting on it; they can advise for your specific situation.**
+
+**Sources**
+- [PMID:41494781] Effects of lifestyle interventions in pregnancy on gestational diabetes: individual participant data and network meta-analysis. (2026, systematic_review) https://pubmed.ncbi.nlm.nih.gov/41494781/
+- [PMID:37973902] Effectiveness of pre-pregnancy lifestyle in preventing gestational diabetes mellitus-a systematic review and meta-analysis of 257,876 pregnancies. (2023, meta_analysis) https://pubmed.ncbi.nlm.nih.gov/37973902/
+- [PMID:36156844] Exercise during pregnancy for preventing gestational diabetes mellitus and hypertensive disorders: An umbrella review of randomised controlled trials and an updated meta-analysis. (2023, meta_analysis) https://pubmed.ncbi.nlm.nih.gov/36156844/
+- [PMID:41152871] Preventive effects of different types of exercises during pregnancy on gestational diabetes: a systematic review and network meta-analysis. (2025, systematic_review) https://pubmed.ncbi.nlm.nih.gov/41152871/
+
+_This summarises published research and is not medical advice. Please talk to your doctor or dietitian before making changes._",2,"The system answer correctly identifies that lifestyle interventions prevent gestational diabetes and notes the effectiveness of early intervention, aligning with the reference's main point.",,
+20261023-151354_base,ma06,Does omega-3 fish oil supplementation in pregnancy reduce preterm birth?,"Several meta-analyses find omega-3 supplementation reduces early preterm birth, but results across trials are not fully consistent.","Evidence regarding whether omega-3 supplementation reduces preterm birth is conflicting. While some meta-analyses suggest it may reduce the risk of preterm delivery or early preterm birth, other large meta-analyses found no significant association.
+
+**What the evidence shows**
+- One meta-analysis found that dietary fish oil was associated with a 22% reduced risk for early preterm delivery and a 10% reduction in preterm delivery. [PMID:27012494]
+- An umbrella review of meta-analyses reported favorable effects of omega-3 supplementation on preterm delivery, though it noted the certainty of evidence was low. [PMID:35104631]
+- A meta-analysis of 26 trials involving 20,124 women found almost no association between omega-3 supplementation and a lower risk of preterm delivery. [PMID:32942938]
+- A meta-analysis of nine randomized trials found that women receiving omega-3 had a similar rate of preterm birth before 37 weeks of gestation compared to the control group. [PMID:25730231]
+- A meta-analysis of two randomized controlled trials found that women receiving omega-3 had similar rates of preterm birth at <37 weeks and <34 weeks of gestation compared to control subjects. [PMID:25757636]
+- Exploratory analysis of the ORIP trial indicated that omega-3 supplementation reduced the odds of early preterm birth (<34 weeks) for women with low total omega-3 status in early pregnancy. [PMID:37068907]
+
+**Strength of evidence: mixed.** Multiple meta-analyses report conflicting results, with some showing benefits for preterm birth reduction and others finding no significant association.
+
+**Where studies disagree:** There is a disagreement between studies: some meta-analyses (PMID:27012494, PMID:35104631) suggest omega-3 supplementation reduces the risk of preterm or early preterm birth, whereas other meta-analyses (PMID:32942938, PMID:25730231, PMID:25757636) found no significant association. A more recent meta-analysis of 26 trials (PMID:32942938) found almost no association, while an exploratory analysis of the ORIP trial (PMID:37068907) suggests specific subgroups, such as women with low omega-3 status, may benefit from reduced early preterm birth risk.
+
+_Most of this evidence comes from studies outside India and South Asia; results may not transfer fully._
+
+**Please confirm this with your doctor or midwife before acting on it; they can advise for your specific situation.**
+
+**Sources**
+- [PMID:27012494] Fish oil supplementation improves pregnancy outcomes and size of the newborn: a meta-analysis of 21 randomized controlled trials. (2016, meta_analysis) https://pubmed.ncbi.nlm.nih.gov/27012494/
+- [PMID:35104631] The effects of omega-3 polyunsaturated fatty acids supplementation in pregnancy, lactation, and infancy: An umbrella review of meta-analyses of randomized trials. (2022, systematic_review) https://pubmed.ncbi.nlm.nih.gov/35104631/
+- [PMID:32942938] Association between omega-3 fatty acid supplementation and lower risk of preterm delivery: a systematic review and meta-analysis. (2022, meta_analysis) https://pubmed.ncbi.nlm.nih.gov/32942938/
+- [PMID:25730231] Omega-3 long chain polyunsaturated fatty acids to prevent preterm birth: a systematic review and meta-analysis. (2015, meta_analysis) https://pubmed.ncbi.nlm.nih.gov/25730231/
+- [PMID:25757636] Omega-3 supplementation to prevent recurrent preterm birth: a systematic review and metaanalysis of randomized controlled trials. (2015, meta_analysis) https://pubmed.ncbi.nlm.nih.gov/25757636/
+- [PMID:37068907] Identifying women who may benefit from higher dose omega-3 supplementation during pregnancy to reduce their risk of prematurity: exploratory analyses from the ORIP trial. (2023, rct) https://pubmed.ncbi.nlm.nih.gov/37068907/
+
+_This summarises published research and is not medical advice. Please talk to your doctor or dietitian before making changes._",2,"The system answer correctly identifies that the evidence is conflicting and notes that while some meta-analyses show a reduction, others do not, which aligns with the reference's point about inconsistent results.",,
+20261023-151354_base,ge11,"Is gestational diabetes more common in South Asian women, and does diet modify the risk?",South Asian women have higher gestational diabetes risk; diet quality is associated with risk in cohort studies.,"Yes, South Asian women have a higher prevalence of gestational diabetes (GDM) compared to other ethnic groups and the general population. While dietary intake is considered a substantial modifiable risk factor for GDM, research on whether specific dietary interventions can prevent it in this population has shown mixed or inconclusive results.
+
+**What the evidence shows**
+- Gestational diabetes (GDM) prevalence is increasing globally and particularly in South Asia. [PMID:35234881]
+- Certain populations, such as Asian and Hispanic women, exhibit a higher prevalence of GDM compared to other ethnic groups. [PMID:39519467]
+- South Asian women have a significantly higher risk of GDM compared to women from the general population. [PMID:33486538]
+- In one study, South Asian women had a much higher prevalence of GDM (15%) compared to white European women (1%). [PMID:32407330]
+- The risk of GDM in South Asian women is higher even at lower BMI levels compared to the general population. [PMID:33486538]
+- Dietary intake is suggested to be a substantial modifiable risk for GDM. [PMID:33237938]
+- South Asian diets are often rich in high-glycemic foods, such as polished white rice, refined-flour flatbreads, potatoes, and deep-fried snacks, which contribute to an elevated glycemic load. [PMID:41264097]
+- A recent large randomized controlled trial of a 12-month pragmatic lifestyle intervention for preventing glycemic deterioration among 1,612 South Asian women with recent GDM failed to demonstrate a benefit. [PMID:38542731]
+
+**Strength of evidence: mixed.** While there is strong evidence that South Asian women have a higher risk of GDM, evidence regarding the effectiveness of diet/lifestyle interventions to prevent it in this specific population is inconsistent.
+
+**Where studies disagree:** There is a conflict regarding the effectiveness of lifestyle interventions for South Asian women with recent GDM; while a 2020 meta-analysis suggested lifestyle interventions implemented within 3 years after pregnancy could reduce the risk of postpartum diabetes, a more recent large randomized controlled trial (1,612 South Asian women) failed to demonstrate a benefit.
+
+**Please confirm this with your doctor or midwife before acting on it; they can advise for your specific situation.**
+
+**Sources**
+- [PMID:35234881] Effects of a Lifestyle Intervention to Prevent Deterioration in Glycemic Status Among South Asian Women With Recent Gestational Diabetes: A Randomized Clinical Trial. (2022, rct) https://pubmed.ncbi.nlm.nih.gov/35234881/
+- [PMID:39519467] Are Maternal Dietary Patterns During Pregnancy Associated with the Risk of Gestational Diabetes Mellitus? A Systematic Review of Observational Studies. (2024, systematic_review) https://pubmed.ncbi.nlm.nih.gov/39519467/
+- [PMID:33486538] BMI and risk of gestational diabetes among women of South Asian and Chinese ethnicity: a population-based study. (2021, cohort) https://pubmed.ncbi.nlm.nih.gov/33486538/
+- [PMID:32407330] Ethnic differences in maternal diet in pregnancy and infant eczema. (2020, cohort) https://pubmed.ncbi.nlm.nih.gov/32407330/
+- [PMID:33237938] Associations between diet quality, blood pressure, and glucose levels among pregnant women in the Asian megacity of Jakarta. (2020, rct) https://pubmed.ncbi.nlm.nih.gov/33237938/
+- [PMID:41264097] Diabetes Self-Care among South Asians in Western Countries: A Systematic Review. (2026, systematic_review) https://pubmed.ncbi.nlm.nih.gov/41264097/
+- [PMID:38542731] Randomised Controlled Trial of a Customised Text Messaging and Activity Monitor Program for Lifestyle Improvement after Gestational Diabetes. (2024, rct) https://pubmed.ncbi.nlm.nih.gov/38542731/
+
+_This summarises published research and is not medical advice. Please talk to your doctor or dietitian before making changes._",2,"The system answer correctly identifies the higher risk in South Asian women and acknowledges the association between diet and risk, while providing appropriate nuance regarding intervention research.",,
+20261023-151354_base,di10,Do lifestyle programmes prevent type 2 diabetes in Asian Indians with prediabetes?,Yes. Lifestyle intervention trials in Asian Indians with prediabetes (e.g. D-CLIP) reduced progression to diabetes.,"Yes, lifestyle programmes are effective in preventing type 2 diabetes in Asian Indians with prediabetes. Evidence shows that culturally tailored interventions, including yoga, dietary counseling, and mobile-based behavioral support, can significantly reduce the incidence of diabetes.
+
+**What the evidence shows**
+- Culturally adapted lifestyle interventions show strong efficacy in reversing prediabetes and reducing progression to type 2 diabetes mellitus (T2DM). [PMID:41387277]
+- Yoga-based protocols have yielded notable declines in HbA1c and stress biomarkers. [PMID:41387277]
+- A yoga-based lifestyle protocol (YLP) showed a relative risk reduction (RRR) of 63.81% in preventing diabetes in a high-risk Indian cohort. [PMID:34177805]
+- In a previous RCT in India, delivering customized, tailored SMS messages based on the transtheoretical model reduced the incidence of type 2 diabetes by 36% over 2 years in working Asian Indian men with persistent prediabetes. [PMID:31919539]
+- Lifestyle interventions are highly effective in Asian populations. [PMID:26475162]
+- A meta-analysis of RCTs involving 1816 participants (including two trials from India) reported that lifestyle modifications may be effective among South Asian populations. [PMID:31201437] [PMID:36068618]
+
+**Strength of evidence: strong.** Multiple systematic reviews, meta-analyses, and randomized controlled trials consistently demonstrate the efficacy of lifestyle interventions in reducing diabetes incidence among South Asian and Indian populations.
+
+**Sources**
+- [PMID:41387277] ""Preventing the Progression: The Power of Lifestyle Interventions in Prediabetic Individuals-A Systematic Review"". (2026, systematic_review) https://pubmed.ncbi.nlm.nih.gov/41387277/
+- [PMID:34177805] Effectiveness of a Yoga-Based Lifestyle Protocol (YLP) in Preventing Diabetes in a High-Risk Indian Cohort: A Multicenter Cluster-Randomized Controlled Trial (NMB-Trial). (2021, rct) https://pubmed.ncbi.nlm.nih.gov/34177805/
+- [PMID:31919539] A pragmatic and scalable strategy using mobile technology to promote sustained lifestyle changes to prevent type 2 diabetes in India and the UK: a randomised controlled trial. (2020, rct) https://pubmed.ncbi.nlm.nih.gov/31919539/
+- [PMID:26475162] Lifestyle interventions in preventing new type 2 diabetes in Asian populations. (2016, meta_analysis) https://pubmed.ncbi.nlm.nih.gov/26475162/
+- [PMID:31201437] Effects of dietary and physical activity interventions on the risk of type 2 diabetes in South Asians: meta-analysis of individual participant data from randomised controlled trials. (2019, meta_analysis) https://pubmed.ncbi.nlm.nih.gov/31201437/
+- [PMID:36068618] The iHealth-T2D study: a cluster randomised trial for the prevention of type 2 diabetes amongst South Asians with central obesity and prediabetes-a statistical analysis plan. (2022, rct) https://pubmed.ncbi.nlm.nih.gov/36068618/
+
+_This summarises published research and is not medical advice. Please talk to your doctor or dietitian before making changes._",2,"The system answer correctly identifies that lifestyle programmes are effective and provides relevant examples of interventions, aligning with the reference's conclusion.",,
+20261023-151354_base,we05,Is a low-carbohydrate diet more effective than a low-fat diet for weight loss over 12 months?,"Over 12 months, low-carbohydrate and low-fat diets produce similar weight loss on average.","Evidence regarding whether low-carbohydrate diets are more effective than low-fat diets for weight loss over 12 months is mixed. Some meta-analyses suggest low-carbohydrate diets lead to significantly greater weight loss, while others find no significant difference or that the diets are equally effective at long-term durations.
+
+**What the evidence shows**
+- A meta-analysis of weight loss trials found that low-carbohydrate interventions led to significantly greater weight loss than low-fat interventions (WMD 1.15 kg) for long-term effects (≥1 year). [PMID:26527511]
+- One meta-analysis reported that very-low-carbohydrate ketogenic diets with at least 12 months of follow-up resulted in greater weight loss than low-fat diets, with a mean difference of -0.91 kg. [PMID:42588148]
+- A systematic review and meta-analysis found that the difference in weight loss between low-carbohydrate and low-fat diets diminished over time, with the weight mean difference (WMD) decreasing to 0.83 kg at more than 12 months. [PMID:33317019]
+- Four high-quality meta-analyses reported that low-carbohydrate diets and higher-carbohydrate diets were equally effective for weight loss at all durations. [PMID:34796367]
+- A meta-analysis of randomized controlled trials found that low-carbohydrate diets were associated with significant weight reduction at 3-4 and 6-8 months, but showed no difference at 10-14 and 18-30 months. [PMID:35373905]
+- In a comparison of named diet programs, low-carbohydrate diets were associated with 7.25 kg of weight loss at 12 months, while low-fat diets were associated with 7.27 kg. [PMID:25182101]
+
+**Strength of evidence: mixed.** While some meta-analyses show a significant advantage for low-carbohydrate diets, others report no significant difference at long-term follow-up or find that high-quality evidence suggests equal effectiveness.
+
+**Where studies disagree:** There is disagreement between studies: some meta-analyses (PMID:26527511, PMID:42588148) report low-carbohydrate diets are more effective for long-term weight loss, whereas others (PMID:34796367, PMID:35373905) find no significant difference at 10-14 months or beyond. High-quality meta-analyses tend to find smaller or no differences, while lower-quality syntheses often report larger advantages for low-carbohydrate diets (PMID:42588148, PMID:34796367).
+
+_Most of this evidence comes from studies outside India and South Asia; results may not transfer fully._
+
+**Sources**
+- [PMID:26527511] Effect of low-fat diet interventions versus other diet interventions on long-term weight change in adults: a systematic review and meta-analysis. (2015, meta_analysis) https://pubmed.ncbi.nlm.nih.gov/26527511/
+- [PMID:42588148] Do Ketogenic Diets Produce Greater Weight Loss than Higher-Carbohydrate Diets Under Comparable Prescribed Energy Conditions? A Systematic Review and Meta-Analysis of Randomized Controlled Trials. (2026, meta_analysis) https://pubmed.ncbi.nlm.nih.gov/42588148/
+- [PMID:33317019] The Effect of Low-Fat and Low-Carbohydrate Diets on Weight Loss and Lipid Levels: A Systematic Review and Meta-Analysis. (2020, meta_analysis) https://pubmed.ncbi.nlm.nih.gov/33317019/
+- [PMID:34796367] Diets for weight management in adults with type 2 diabetes: an umbrella review of published meta-analyses and systematic review of trials of diets for diabetes remission. (2022, systematic_review) https://pubmed.ncbi.nlm.nih.gov/34796367/
+- [PMID:35373905] Effectiveness of low-carbohydrate diets for long-term weight loss in obese individuals: A meta-analysis of randomized controlled trials. (2022, meta_analysis) https://pubmed.ncbi.nlm.nih.gov/35373905/
+- [PMID:25182101] Comparison of weight loss among named diet programs in overweight and obese adults: a meta-analysis. (2014, meta_analysis) https://pubmed.ncbi.nlm.nih.gov/25182101/
+
+_This summarises published research and is not medical advice. Please talk to your doctor or dietitian before making changes._",2,"The system answer correctly identifies that the diets are often found to be equally effective, which aligns with the reference's main point.",,
+20261023-151354_base,di15,Does higher dietary fibre intake reduce the risk of type 2 diabetes?,"Higher dietary fibre intake, especially cereal fibre, is associated with a lower risk of type 2 diabetes.","Yes, higher dietary fiber intake is associated with a reduced risk of developing type 2 diabetes. Specifically, cereal fiber has been shown to significantly decrease this risk, whereas the benefits of fruit and vegetable fiber for prevention have shown less consistent or borderline results.
+
+**What the evidence shows**
+- High intake of dietary fiber significantly reduces the risk of type 2 diabetes mellitus (T2DM). [PMID:32899917] [PMID:34684594]
+- Every 10 g/day increase in fiber intake significantly reduces the risk of T2DM by approximately 9%. [PMID:32899917]
+- High intake of cereal fiber significantly decreases the risk of T2DM, while high intake of fruit and vegetable fiber showed no significant benefit in prevention. [PMID:32899917]
+- An analysis of 17 prospective cohort studies reported that every 2 g increase in cereal fiber intake per day was associated with a 6% reduction in the risk of developing type 2 diabetes. [PMID:31398841]
+- Cereal fiber provides greater protection than either fruit or vegetable fiber. [PMID:31242690]
+- In the general Japanese population, higher dietary fiber intake is associated with a lower risk of developing type 2 diabetes. [PMID:36364883]
+- Whole grains, which contain high levels of soluble dietary fibers, can lower fasting glucose concentrations and blunt the glycemic response of meals by increasing viscosity and slowing gastric emptying. [PMID:40122387]
+
+**Strength of evidence: strong.** Multiple systematic reviews and meta-analyses consistently show that high fiber intake, particularly cereal fiber, reduces the risk of type 2 diabetes.
+
+**Where studies disagree:** There is some disagreement regarding the specific benefits of fruit and vegetable fiber; some sources report only a 'borderline reduced risk' (PMID:40122387) or 'no significant benefit' (PMID:32899917) for diabetes prevention, while others note that cereal fiber is more effective (PMID:31242690). Additionally, one study noted that the relationship between total dietary fiber and type 2 diabetes risk may be non-linear (PMID:36364883).
+
+_Most of this evidence comes from studies outside India and South Asia; results may not transfer fully._
+
+**Sources**
+- [PMID:32899917] Preventive Role of Diet Interventions and Dietary Factors in Type 2 Diabetes Mellitus: An Umbrella Review. (2020, systematic_review) https://pubmed.ncbi.nlm.nih.gov/32899917/
+- [PMID:34684594] Dietary Fibre Intake in Relation to Asthma, Rhinitis and Lung Function Impairment-A Systematic Review of Observational Studies. (2021, systematic_review) https://pubmed.ncbi.nlm.nih.gov/34684594/
+- [PMID:31398841] Metabolic Effects of Resistant Starch Type 2: A Systematic Literature Review and Meta-Analysis of Randomized Controlled Trials. (2019, meta_analysis) https://pubmed.ncbi.nlm.nih.gov/31398841/
+- [PMID:31242690] Dietary Glycemic Index and Load and the Risk of Type 2 Diabetes: Assessment of Causal Relations. (2019, meta_analysis) https://pubmed.ncbi.nlm.nih.gov/31242690/
+- [PMID:36364883] Effects of Additional Dietary Fiber Supplements on Pregnant Women with Gestational Diabetes: A Systematic Review and Meta-Analysis of Randomized Controlled Studies. (2022, meta_analysis) https://pubmed.ncbi.nlm.nih.gov/36364883/
+- [PMID:40122387] Umbrella Review of Systematic Reviews and Meta-Analyses on Consumption of Different Food Groups and Risk of Type 2 Diabetes Mellitus and Metabolic Syndrome. (2025, systematic_review) https://pubmed.ncbi.nlm.nih.gov/40122387/
+
+_This summarises published research and is not medical advice. Please talk to your doctor or dietitian before making changes._",2,The system answer correctly identifies the association and includes the specific detail about cereal fiber mentioned in the reference.,,
+20261023-151354_base,we10,Do dietary interventions reduce body weight in Indian adults with obesity?,Trials in Indian adults show modest weight reduction with structured dietary and lifestyle interventions.,"Yes, dietary interventions have been shown to reduce BMI and body weight in South Asian adults. In a meta-analysis of South Asian studies, only four out of 19 adult studies reported no reduction in BMI from baseline to follow-up.
+
+**What the evidence shows**
+- In a meta-analysis of South Asian adults, only four out of 19 studies reporting BMI did not show a reduction from baseline to follow-up. [PMID:25584423] _(partly supported)_
+- Two community-based interventions in India with low adult baseline BMI (21 kg/m2) were associated with relatively small changes in BMI (+0.2 kg/m2 and −0.09 kg/m2). [PMID:25584423]
+- In South Asian populations, interventions focusing on diet and physical activity individually may have a lower impact than combined interventions. [PMID:39113943]
+- Separate dietary and physical activity interventions in India have been moderately effective in the short term but have not provided long-term solutions for adolescent obesity. [PMID:39113943]
+
+**Strength of evidence: moderate.** Evidence from meta-analyses of South Asian populations shows that most studies report BMI reductions, though effectiveness varies by baseline BMI and intervention type.
+
+**Sources**
+- [PMID:25584423] Diet and physical activity interventions to prevent or treat obesity in South Asian children and adults: a systematic review and meta-analysis. (2015, meta_analysis) https://pubmed.ncbi.nlm.nih.gov/25584423/
+- [PMID:39113943] Effect of a pragmatic lifestyle modification intervention on physical activity levels and body mass index among obese and overweight adolescents in Udupi, India: a cluster randomized trial. (2024, rct) https://pubmed.ncbi.nlm.nih.gov/39113943/
+
+_This summarises published research and is not medical advice. Please talk to your doctor or dietitian before making changes._",2,The system answer correctly identifies that dietary interventions reduce weight and provides supporting evidence that aligns with the reference's conclusion.,,
+20261023-151354_base,di07,Does eating eggs increase the risk of type 2 diabetes?,Evidence is mixed: some cohorts report higher risk with high egg intake (mainly in US studies) while others report no association.,"Evidence regarding egg consumption and type 2 diabetes (T2D) risk is mixed and varies by geographic region. While some studies and meta-analyses suggest an increased risk, particularly in US-based studies, others show no significant association or even potential benefits when combined with healthy dietary patterns.
+
+**What the evidence shows**
+- The intake of eggs had no clear association with risk of type 2 diabetes, though a dose-response curve showed an increased risk when intake reached 1 egg or more per day. [PMID:40122387]
+- In a meta-analysis of 16 prospective cohort studies, each 1 egg/d increase was associated with a higher T2D risk among US studies (RR: 1.18), but not among European or Asian studies. [PMID:32453379]
+- One serving per day of eggs was associated with an increased risk of T2D in a non-linear model. [PMID:28397016]
+- In the Jackson Heart Study among African Americans, egg consumption was positively associated with prevalent diabetes, but prospective analysis did not show an association with the incidence of diabetes. [PMID:25971658]
+- Higher egg intakes combined with healthy dietary patterns (including dairy, fish, fruits, vegetables, and whole grains) were associated with beneficial effects on fasting glucose. [PMID:36771213]
+- In a randomized controlled trial (DIABEGG study), a high-egg diet compared to a low-egg diet showed no differences in glycemic control in people with prediabetes or T2D. [PMID:25833969] [PMID:29741558]
+
+**Strength of evidence: mixed.** Observational studies and meta-analyses show conflicting results, with some indicating increased risk (primarily in US cohorts) and others showing no association or benefits depending on dietary context.
+
+**Where studies disagree:** There is a disagreement between large-scale observational studies and randomized controlled trials. Meta-analyses of US cohorts suggest a higher T2D risk with egg consumption (PMID:32453379), whereas randomized controlled trials (DIABEGG study) found no adverse effects on glycemic control in people with prediabetes or T2D (PMID:25833969, PMID:29741558). Additionally, geographic differences exist, as the increased risk seen in US studies was not observed in European or Asian studies (PMID:32453379).
+
+_Most of this evidence comes from studies outside India and South Asia; results may not transfer fully._
+
+**Sources**
+- [PMID:40122387] Umbrella Review of Systematic Reviews and Meta-Analyses on Consumption of Different Food Groups and Risk of Type 2 Diabetes Mellitus and Metabolic Syndrome. (2025, systematic_review) https://pubmed.ncbi.nlm.nih.gov/40122387/
+- [PMID:32453379] Egg consumption and risk of type 2 diabetes: findings from 3 large US cohort studies of men and women and a systematic review and meta-analysis of prospective cohort studies. (2020, meta_analysis) https://pubmed.ncbi.nlm.nih.gov/32453379/
+- [PMID:28397016] Food groups and risk of type 2 diabetes mellitus: a systematic review and meta-analysis of prospective studies. (2017, meta_analysis) https://pubmed.ncbi.nlm.nih.gov/28397016/
+- [PMID:25971658] Egg consumption and risk of type 2 diabetes among African Americans: The Jackson Heart Study. (2016, prospective_cohort) https://pubmed.ncbi.nlm.nih.gov/25971658/
+- [PMID:36771213] Egg Intake Is Associated with Lower Risks of Impaired Fasting Glucose and High Blood Pressure in Framingham Offspring Study Adults. (2023, prospective_cohort) https://pubmed.ncbi.nlm.nih.gov/36771213/
+- [PMID:25833969] The effect of a high-egg diet on cardiovascular risk factors in people with type 2 diabetes: the Diabetes and Egg (DIABEGG) study-a 3-mo randomized controlled trial. (2015, rct) https://pubmed.ncbi.nlm.nih.gov/25833969/
+- [PMID:29741558] Effect of a high-egg diet on cardiometabolic risk factors in people with type 2 diabetes: the Diabetes and Egg (DIABEGG) Study-randomized weight-loss and follow-up phase. (2018, rct) https://pubmed.ncbi.nlm.nih.gov/29741558/
+
+_This summarises published research and is not medical advice. Please talk to your doctor or dietitian before making changes._",2,The system answer correctly identifies that the evidence is mixed and accurately notes the specific finding regarding increased risk in US-based studies.,,
+20261023-151354_base,ge07,Does breastfeeding reduce the risk of type 2 diabetes after gestational diabetes?,Longer breastfeeding is associated with a lower risk of later type 2 diabetes in women with prior gestational diabetes.,"Yes, breastfeeding appears to reduce the risk of developing type 2 diabetes in women with a history of gestational diabetes. Evidence suggests that longer and more exclusive breastfeeding may be particularly beneficial for preventing the progression to type 2 diabetes.
+
+**What the evidence shows**
+- Breastfeeding may reduce the risk of progression to type 2 diabetes mellitus (T2DM) in women with gestational diabetes mellitus (GDM). [PMID:25333677] [PMID:41367270]
+- Women with previous GDM who did not breastfeed had a greater risk of developing Type 2 diabetes mellitus compared to women with no history of GDM. [PMID:34609211]
+- Breastfeeding may improve several metabolic markers and decrease the risk of developing diabetes in women with previous GDM. [PMID:34813377]
+- Subjects in the breastfeeding group had a lower incidence of diabetes (RR: 0.611) and lower fasting plasma glucose levels than the non-breastfeeding group. [PMID:34813377]
+- Longer lactation (more than 4 to 12 weeks postpartum) was associated with a risk reduction of type 2 diabetes mellitus compared to shorter lactation. [PMID:28072911]
+- Exclusive lactation for more than 6 to 9 weeks postpartum also showed a lower risk of type 2 diabetes mellitus compared to exclusive formula feeding. [PMID:28072911]
+
+**Strength of evidence: strong.** Multiple meta-analyses of observational studies consistently show that breastfeeding reduces the risk of type 2 diabetes and improves metabolic markers in women with previous gestational diabetes.
+
+_Most of this evidence comes from studies outside India and South Asia; results may not transfer fully._
+
+**Please confirm this with your doctor or midwife before acting on it; they can advise for your specific situation.**
+
+**Sources**
+- [PMID:25333677] Interventions to modify the progression to type 2 diabetes mellitus in women with gestational diabetes: a systematic review of literature. (2014, systematic_review) https://pubmed.ncbi.nlm.nih.gov/25333677/
+- [PMID:41367270] Beyond Gestational Diabetes: Maternal and Offspring Health and Lifestyle 3 Years Postnatally in a Secondary Analysis of the UPBEAT Trial Cohort. (2026, rct) https://pubmed.ncbi.nlm.nih.gov/41367270/
+- [PMID:34609211] Protective Influence of Breastfeeding on Cardiovascular Risk Factors in Women With Previous Gestational Diabetes Mellitus and Their Children: A Systematic Review and Meta-Analysis. (2022, meta_analysis) https://pubmed.ncbi.nlm.nih.gov/34609211/
+- [PMID:34813377] Metabolic Effects of Breastfeeding in Women with Previous Gestational Diabetes Mellitus: A Meta-Analysis. (2021, meta_analysis) https://pubmed.ncbi.nlm.nih.gov/34813377/
+- [PMID:28072911] Potential protective effect of lactation against incidence of type 2 diabetes mellitus in women with previous gestational diabetes mellitus: A systematic review and meta-analysis. (2017, meta_analysis) https://pubmed.ncbi.nlm.nih.gov/28072911/
+
+_This summarises published research and is not medical advice. Please talk to your doctor or dietitian before making changes._",2,The system answer correctly identifies the protective effect of breastfeeding and includes the important qualification regarding duration mentioned in the reference.,,
+20261023-151354_base,di05,Is a low-carbohydrate diet better than a low-fat diet for preventing type 2 diabetes in people with prediabetes?,Evidence comparing low-carbohydrate and low-fat diets for diabetes prevention is limited; both can improve glycaemia when they lead to weight loss.,"Evidence is mixed regarding whether a low-carbohydrate diet is better than a low-fat diet for preventing or managing prediabetes. While low-carbohydrate diets can be effective for short-term weight loss and glucose management, some studies suggest that a healthy low-fat diet (such as a Nordic diet) may be more effective for long-term glycemic control and metabolic markers in people with prediabetes.
+
+**What the evidence shows**
+- Low-carbohydrate diets are effective for weight loss and glucose management in the short term (<1 year). [PMID:41094026]
+- A healthy low-fat Nordic diet induced moderate weight reduction and improved long-term glycemic control compared to an anti-lipogenic low-carbohydrate high polyunsaturated fat diet in people with prediabetes. [PMID:41390743]
+- The healthy low-fat Nordic diet was overall the most effective diet for the treatment of T2D and prediabetes, including improving multiple metabolic disorders. [PMID:41390743]
+- Successful diabetes prevention studies involving lifestyle intervention have been based on a prudent, higher-carbohydrate diet (45-65% of energy) with moderate protein and moderate glycaemic index. [PMID:41094026]
+- A high-protein diet (30 E%) with increased intake of low-fat animal foods was more effective for prediabetes remission than a high-carbohydrate diet (15 E% as protein) for 6 months. [PMID:41094026]
+
+**Strength of evidence: mixed.** Studies show conflicting results, with some highlighting short-term benefits of low-carbohydrate diets and others finding low-fat or Mediterranean patterns more effective for long-term management.
+
+**Where studies disagree:** There is disagreement between studies: some suggest low-carbohydrate diets are effective for short-term glucose management (PMID:41094026), while a 1-year randomized trial found a healthy low-fat Nordic diet was more effective for long-term glycemic control and metabolic markers in prediabetes than a low-carbohydrate high polyunsaturated fat diet (PMID:41390743). Additionally, while some reviews suggest low-carbohydrate diets may promote favorable HbA1c outcomes in type 2 diabetes (PMID:29269890), other systematic reviews found no significant differences in glycemic control between low-carbohydrate and low-fat diets for the majority of cases (PMID:30952576).
+
+_Most of this evidence comes from studies outside India and South Asia; results may not transfer fully._
+
+**Sources**
+- [PMID:41094026] Long-term effects of dietary protein and carbohydrate quality on prediabetes remission: results from the PREVIEW randomised multinational diabetes prevention trial. (2026, rct) https://pubmed.ncbi.nlm.nih.gov/41094026/
+- [PMID:41390743] Effects of an anti-lipogenic low-carbohydrate high polyunsaturated fat diet or a healthy Nordic diet versus usual care on liver fat and cardiometabolic disorders in type 2 diabetes or prediabetes: a randomized controlled trial (NAFLDiet). (2025, rct) https://pubmed.ncbi.nlm.nih.gov/41390743/
+
+_This summarises published research and is not medical advice. Please talk to your doctor or dietitian before making changes._",2,The system answer correctly identifies that evidence is mixed/limited and captures the nuance that both approaches can be effective depending on the context.,,
+20261023-151354_base,ma08,Is it safe to eat fish during pregnancy given concerns about mercury?,Guidelines encourage low-mercury fish in pregnancy and advise avoiding high-mercury species; the user should confirm with their clinician.,"Current dietary guidance encourages pregnant and lactating people to consume seafood while prioritizing low-mercury options. While high methylmercury exposure can be harmful to a fetus, recent research suggests that higher seafood intake may be associated with positive neurocognitive development in children.
+
+**What the evidence shows**
+- Recent dietary guidance encourages pregnant and lactating people to consume 8–12 ounces/wk of seafood, while still prioritizing low-mercury options. [PMID:40374262]
+- High exposure to methylmercury can be harmful to a fetus or infant and have adverse impacts on various developmental outcomes. [PMID:40374262]
+- Higher seafood intake during pregnancy and lactation may be associated with positive neurocognitive development in the child. [PMID:40374262]
+- In some countries with much higher seafood consumption than the United States, higher blood methylmercury concentrations in pregnant people were not associated with delayed neurocognitive development in children aged 9 months to 9 years. [PMID:40374262]
+- Fish is a source of essential nutrients for healthy fetal development, including iodine, long-chain omega-3 polyunsaturated fatty acids (LCn-3PUFAs), and vitamins A, D, and B12. [PMID:25793632]
+- Fish consumption has documented health benefits for fetal health, including improved neurodevelopment, increased birth weight, and a reduced risk of spontaneous abortion. [PMID:25793632]
+- Fish is a potential source of contaminants including mercury, polychlorinated biphenyls (PCBs), and dioxins. [PMID:25793632] [PMID:24295221]
+- Moderate exposure to aluminium, cadmium, mercury, and lithium during pregnancy and early childhood may cause effects on the offspring's immune system, resulting in ANA positivity and juvenile idiopathic arthritis (JIA). [PMID:31266504]
+
+**Strength of evidence: moderate.** Guidelines and systematic reviews suggest benefits and provide intake recommendations, though some studies show potential risks regarding contaminants and immune system effects.
+
+**Where studies disagree:** There is a tension between the potential neurocognitive benefits of seafood (DHA/nutrients) and the risks of methylmercury and other contaminants. While some studies suggest higher seafood intake supports neurodevelopment, other research explores links between heavy metal exposure and immune system issues like JIA or potential links to increased allergy sensitization.
+
+_Most of this evidence comes from studies outside India and South Asia; results may not transfer fully._
+
+**Please confirm this with your doctor or midwife before acting on it; they can advise for your specific situation.**
+
+**Sources**
+- [PMID:40374262] Seafood During Pregnancy and Lactation and Child Neurocognitive Development: A Systematic Review. (2025, systematic_review) https://pubmed.ncbi.nlm.nih.gov/40374262/
+- [PMID:25793632] Fish intake during pregnancy and foetal neurodevelopment--a systematic review of the evidence. (2015, systematic_review) https://pubmed.ncbi.nlm.nih.gov/25793632/
+- [PMID:24295221] Maternal fish and shellfish consumption and wheeze, eczema and food allergy at age two: a prospective cohort study in Brittany, France. (2013, prospective_cohort) https://pubmed.ncbi.nlm.nih.gov/24295221/
+- [PMID:31266504] Heavy metals in fish and its association with autoimmunity in the development of juvenile idiopathic arthritis: a prospective birth cohort study. (2019, prospective_cohort) https://pubmed.ncbi.nlm.nih.gov/31266504/
+
+_This summarises published research and is not medical advice. Please talk to your doctor or dietitian before making changes._",2,The answer correctly identifies the recommendation to prioritize low-mercury options while acknowledging the benefits and risks associated with seafood consumption.,,
+20261023-151354_base,ma01,Does folic acid supplementation around conception reduce neural tube defects?,Yes. Folic acid supplementation before conception and in early pregnancy reduces the risk of neural tube defects.,"Yes, folic acid supplementation during the periconceptional period (around conception) can prevent neural tube defects (NTDs). Guidelines and meta-analyses recommend daily supplementation for women who are planning or capable of pregnancy to reduce this risk.
+
+**What the evidence shows**
+- Daily folic acid supplementation in the periconceptional period can prevent neural tube defects. [PMID:28097362]
+- For all women who could become pregnant, a low daily dosage of folic acid is recommended before conception and throughout pregnancy and breastfeeding. [PMID:35691683]
+- An umbrella review of systematic reviews and meta-analyses found that the pooled effect of either folic acid or multivitamin supplementation for the prevention of NTD globally was 0.43. [PMID:39074459]
+- Folic acid supplementation before pregnancy has been shown to reduce the risk of neural tube defects. [PMID:33743119]
+- The neural tube typically closes between 21 and 28 days after conception, making sufficient folate levels crucial for successful closure. [PMID:42082233] [PMID:41754157]
+- In addition to folic acid, vitamin B12 is also essential for the prevention of NTDs. [PMID:40573151]
+
+**Strength of evidence: strong.** The conclusion is supported by multiple clinical guidelines and high-level evidence, including an umbrella review of systematic reviews and meta-analyses.
+
+_Most of this evidence comes from studies outside India and South Asia; results may not transfer fully._
+
+**Please confirm this with your doctor or midwife before acting on it; they can advise for your specific situation.**
+
+**Sources**
+- [PMID:28097362] Folic Acid Supplementation for the Prevention of Neural Tube Defects: US Preventive Services Task Force Recommendation Statement. (2017, guideline) https://pubmed.ncbi.nlm.nih.gov/28097362/
+- [PMID:35691683] Guideline No. 427: Folic Acid and Multivitamin Supplementation for Prevention of Folic Acid-Sensitive Congenital Anomalies. (2022, guideline) https://pubmed.ncbi.nlm.nih.gov/35691683/
+- [PMID:39074459] Preconception Folic Acid and Multivitamin Supplementation for the Prevention of Neural Tube Defect: An Umbrella Review of Systematic Review and Meta-analysis. (2025, meta_analysis) https://pubmed.ncbi.nlm.nih.gov/39074459/
+- [PMID:33743119] Prenatal Folic Acid Supplements and Offspring's Autism Spectrum Disorder: A Meta-analysis and Meta-regression. (2022, meta_analysis) https://pubmed.ncbi.nlm.nih.gov/33743119/
+- [PMID:42082233] Does previous pregnancy experience improve folic acid supplementation uptake? A systematic review and meta-analysis. (2026, meta_analysis) https://pubmed.ncbi.nlm.nih.gov/42082233/
+- [PMID:41754157] Best Evidence Summary of Folic Acid Supplementation for Prevention of Neural Tube Defects in Women of Childbearing Age. (2026, systematic_review) https://pubmed.ncbi.nlm.nih.gov/41754157/
+- [PMID:40573151] Beyond Folate: The Emerging Role of Maternal Vitamin B12 in Neural Tube Development. (2025, meta_analysis) https://pubmed.ncbi.nlm.nih.gov/40573151/
+
+_This summarises published research and is not medical advice. Please talk to your doctor or dietitian before making changes._",2,"The system answer correctly identifies that folic acid supplementation around conception reduces the risk of neural tube defects, aligning with the reference.",,
+20261023-151354_base,di04,Do sugar-sweetened beverages increase the risk of type 2 diabetes?,Higher intake of sugar-sweetened beverages is associated with a higher risk of type 2 diabetes.,"Yes, the consumption of sugar-sweetened beverages (SSBs) is strongly associated with an increased risk of type 2 diabetes (T2DM). This association is also observed in pregnant women, who face an increased risk of gestational diabetes mellitus (GDM) with higher SSB intake.
+
+**What the evidence shows**
+- The intake of sugar-sweetened beverages was strongly associated with an increased risk of metabolic syndrome and type 2 diabetes. [PMID:40122387]
+- Sugar-sweetened beverages (SSBs) are positively associated with T2DM risk. [PMID:41305558]
+- Sugar sweetened beverages significantly increased the risk of T2DM. [PMID:32899917]
+- Meta-evidence for the association between sugar-sweetened beverages (SSB) and T2D risk was graded as 'high'. [PMID:28397016]
+- Higher sugar sweetened beverage (SSB) intake was associated with GDM risk. [PMID:29849003]
+- The strongest association for GDM risk was observed for sugar sweetened cola. [PMID:29849003]
+
+**Strength of evidence: strong.** Multiple systematic reviews, meta-analyses, and umbrella reviews consistently report a strong or high-quality association between sugar-sweetened beverages and type 2 diabetes risk.
+
+**Where studies disagree:** While most evidence links SSBs to T2DM, one study noted that the development of dietary guidelines is sometimes hindered by inconsistent findings regarding the specific amounts, sources, and forms of sugar used in studies.
+
+_Most of this evidence comes from studies outside India and South Asia; results may not transfer fully._
+
+**Sources**
+- [PMID:40122387] Umbrella Review of Systematic Reviews and Meta-Analyses on Consumption of Different Food Groups and Risk of Type 2 Diabetes Mellitus and Metabolic Syndrome. (2025, systematic_review) https://pubmed.ncbi.nlm.nih.gov/40122387/
+- [PMID:41305558] Nutritional Determinants of Type 2 Diabetes Mellitus in the European Union: A Systematic Review. (2025, systematic_review) https://pubmed.ncbi.nlm.nih.gov/41305558/
+- [PMID:32899917] Preventive Role of Diet Interventions and Dietary Factors in Type 2 Diabetes Mellitus: An Umbrella Review. (2020, systematic_review) https://pubmed.ncbi.nlm.nih.gov/32899917/
+- [PMID:28397016] Food groups and risk of type 2 diabetes mellitus: a systematic review and meta-analysis of prospective studies. (2017, meta_analysis) https://pubmed.ncbi.nlm.nih.gov/28397016/
+- [PMID:29849003] Associations of Diet and Physical Activity with Risk for Gestational Diabetes Mellitus: A Systematic Review and Meta-Analysis. (2018, meta_analysis) https://pubmed.ncbi.nlm.nih.gov/29849003/
+
+_This summarises published research and is not medical advice. Please talk to your doctor or dietitian before making changes._",2,The system answer correctly identifies the association between sugar-sweetened beverages and an increased risk of type 2 diabetes.,,
+20261023-151354_base,di09,Does replacing white rice with brown rice improve blood sugar markers in Indian adults?,"A randomised trial in India found brown rice improved some diabetes risk markers (e.g. HbA1c) in subgroups, with limited overall effect.","Yes, replacing white rice with brown rice has been shown to improve several blood sugar markers in overweight Indian adults. Specifically, studies observed reductions in HbA1c, fasting insulin, and 24-hour glycemic responses (incremental area under the curve) when substituting brown rice for white rice.
+
+**What the evidence shows**
+- In overweight Asian Indians, substituting brown rice for white rice resulted in a 19.8% lower 5-day average incremental area under the curve (IAUC) for glucose and a 57% lower percentage change in fasting insulin. [PMID:24447043]
+- Among participants in a trial in Chennai, a significant reduction in HbA1c was observed in the brown rice group specifically among those with metabolic syndrome. [PMID:31006420]
+- Brown rice can help stabilize blood sugar in a sustained manner because it releases sugars more slowly than polished white rice. [PMID:31936428]
+- Replacing regular white rice with a high-fiber white rice variety elicited a 34% lower 24-hour glycemic response and a 30% lower insulin response in overweight, non-diabetic Asian Indians. [PMID:30844309]
+- Substituting brown rice for white rice showed a potential benefit on HbA1c among participants with metabolic syndrome and improvements in HbA1c and LDL-cholesterol among participants with a BMI ≥ 25 kg/m2. [PMID:31006420]
+
+**Strength of evidence: moderate.** Multiple randomized controlled trials in Indian populations consistently show improvements in glycemic markers like HbA1c, insulin, and glucose area under the curve when substituting brown rice for white rice.
+
+**Sources**
+- [PMID:24447043] Effect of brown rice, white rice, and brown rice with legumes on blood glucose and insulin responses in overweight Asian Indians: a randomized controlled trial. (2014, rct) https://pubmed.ncbi.nlm.nih.gov/24447043/
+- [PMID:31006420] Substituting brown rice for white rice on diabetes risk factors in India: a randomised controlled trial. (2019, rct) https://pubmed.ncbi.nlm.nih.gov/31006420/
+- [PMID:31936428] The Effect of a Low GI Diet on Truncal Fat Mass and Glycated Hemoglobin in South Indians with Type 2 Diabetes-A Single Centre Randomized Prospective Study. (2020, rct) https://pubmed.ncbi.nlm.nih.gov/31936428/
+- [PMID:30844309] Effect of a Novel High Fiber Rice Diet on 24-Hour Glycemic Responses in Asian Indians Using Continuous Glucose Monitoring: A Randomized Clinical Trial. (2019, rct) https://pubmed.ncbi.nlm.nih.gov/30844309/
+
+_This summarises published research and is not medical advice. Please talk to your doctor or dietitian before making changes._",2,The system answer correctly identifies the improvement in specific markers like HbA1c and aligns with the reference's findings regarding the positive effect on blood sugar markers in the specified population.,,
+20261023-151354_base,ma04,Do dietary interventions in pregnancy reduce excessive gestational weight gain?,Diet and lifestyle interventions in pregnancy modestly reduce gestational weight gain.,"Yes, dietary interventions are effective in reducing gestational weight gain (GWG). Evidence shows they can provide an approximately 23% relative reduction in GWG compared to control groups, though effects may be less consistent among women with overweight or obesity.
+
+**What the evidence shows**
+- Dietary interventions are effective in reducing GWG, although their effects may be less consistent among women with overweight or obesity. [PMID:42514327]
+- Pregnancy-related dietary interventions have shown an approximately 23% relative reduction in GWG compared with control groups. [PMID:42514327]
+- Dietary interventions have a modest effect on gestational weight gain. [PMID:34074261]
+- Diet and mixed interventions reduced excessive weight gain. [PMID:31375602]
+- Diet and exercise interventions can reduce excessive gestational weight gain by 20%. [PMID:30626345]
+- Behavioral counseling interventions aimed at promoting healthy weight gain and preventing excess gestational weight gain in pregnancy have a moderate net benefit for pregnant persons. [PMID:34032823]
+
+**Strength of evidence: strong.** Multiple meta-analyses and clinical guidelines consistently demonstrate that dietary and behavioral interventions reduce gestational weight gain.
+
+**Where studies disagree:** There is some variation in reported effectiveness: one meta-analysis notes a 23% relative reduction in GWG [PMID:42514327], while another suggests diet and exercise interventions can reduce excessive GWG by 20% [PMID:30626345]. Additionally, while some reviews show dietary strategies reduce GWG, some clinical trials specifically in women with gestational diabetes mellitus (GDM) reported no significant effect on GWG [PMID:39796477].
+
+_Most of this evidence comes from studies outside India and South Asia; results may not transfer fully._
+
+**Sources**
+- [PMID:42514327] Effect of Lifestyle Interventions on Gestational Weight Gain Among Pregnant Women with Overweight: A Systematic Review and Meta-Analysis of Randomized Controlled Trials. (2026, meta_analysis) https://pubmed.ncbi.nlm.nih.gov/42514327/
+- [PMID:34074261] The effects of dietary and lifestyle interventions among pregnant women with overweight or obesity on early childhood outcomes: an individual participant data meta-analysis from randomised trials. (2021, meta_analysis) https://pubmed.ncbi.nlm.nih.gov/34074261/
+- [PMID:31375602] Impact of maternal education on response to lifestyle interventions to reduce gestational weight gain: individual participant data meta-analysis. (2019, meta_analysis) https://pubmed.ncbi.nlm.nih.gov/31375602/
+- [PMID:30626345] Gestational weight gain and group prenatal care: a systematic review and meta-analysis. (2019, meta_analysis) https://pubmed.ncbi.nlm.nih.gov/30626345/
+- [PMID:34032823] Behavioral Counseling Interventions for Healthy Weight and Weight Gain in Pregnancy: US Preventive Services Task Force Recommendation Statement. (2021, guideline) https://pubmed.ncbi.nlm.nih.gov/34032823/
+
+_This summarises published research and is not medical advice. Please talk to your doctor or dietitian before making changes._",2,The system answer correctly identifies that dietary interventions reduce gestational weight gain and provides additional context that aligns with the reference's implication of modest effects.,,
+20261023-151354_base,ma11,Does nutritional supplementation for pregnant women in India improve birth weight?,Some trials in India report improved birth weight with food or micronutrient supplementation; results vary.,"Yes, nutritional supplementation can improve birth weight in India, particularly when multiple micronutrients or lipid-based nutrient supplements (LNS) are initiated before conception or in early pregnancy. However, results can vary depending on the type of supplement and the timing of the intervention.
+
+**What the evidence shows**
+- Multiple micronutrient-fortified small-quantity lipid-based nutrient supplementation (SQ-LNS), especially when started before conception or in early pregnancy, significantly improves birth size outcomes, including birth weight and length. [PMID:40339908]
+- In a secondary analysis of the Women First trial in South Asia (including India), a lipid-based micronutrient supplement started ≥3 months before conception resulted in a mean birth weight increase of 89g compared to no supplementation. [PMID:31995570]
+- Combining nutrition education with iron and folic acid (IFA) supplementation has shown higher effects in India than using either intervention alone. [PMID:29021370]
+- A cluster trial in India involving protein-calorie supplementation showed a 61g difference in birth weight between intervention and control arms. [PMID:32692751]
+- Nutritional supplements did not alter birth weight in pregnant women with a BMI ≥ 25 kg/m2. [PMID:41871887]
+
+**Strength of evidence: moderate.** Multiple randomized controlled trials and secondary analyses in India and South Asia show benefits for specific supplements like LNS and protein-calorie interventions, though results vary by supplement type and timing.
+
+**Where studies disagree:** There is variability in the effectiveness of supplements; while the Women First trial showed benefits for small-quantity LNS, other studies in different regions (like Niger or Malawi) using different quantities of LNS found no impact on birth weight. Additionally, while some interventions improve birth weight in undernourished populations, supplements did not show an effect on birth weight in overweight or obese pregnant women.
+
+**Please confirm this with your doctor or midwife before acting on it; they can advise for your specific situation.**
+
+**Sources**
+- [PMID:40339908] Hemoglobin During Pregnancy Does Not Mediate the Relationship between Nutrition Supplements and Intrauterine Growth: A Secondary Data Analysis of Women First Preconception Nutrition Trial. (2025, rct) https://pubmed.ncbi.nlm.nih.gov/40339908/
+- [PMID:31995570] Preconception nutrition intervention improved birth length and reduced stunting and wasting in newborns in South Asia: The Women First Randomized Controlled Trial. (2020, rct) https://pubmed.ncbi.nlm.nih.gov/31995570/
+- [PMID:29021370] Integrating Nutrition Interventions into an Existing Maternal, Neonatal, and Child Health Program Increased Maternal Dietary Diversity, Micronutrient Intake, and Exclusive Breastfeeding Practices in Bangladesh: Results of a Cluster-Randomized Program Evaluation. (2017, rct) https://pubmed.ncbi.nlm.nih.gov/29021370/
+- [PMID:32692751] Effect of supplemental nutrition in pregnancy on offspring's risk of cardiovascular disease in young adulthood: Long-term follow-up of a cluster trial from India. (2020, controlled_trial) https://pubmed.ncbi.nlm.nih.gov/32692751/
+- [PMID:41871887] Effects of Nutritional Supplement Intake on Pregnancy Outcomes in Overweight and Obese Women: A Systematic Review and Meta-Analysis. (2026, meta_analysis) https://pubmed.ncbi.nlm.nih.gov/41871887/
+
+_This summarises published research and is not medical advice. Please talk to your doctor or dietitian before making changes._",2,"The system answer correctly identifies that supplementation can improve birth weight while acknowledging that results vary, matching the reference's main points.",,
+20261023-151354_base,di02,Does following a Mediterranean diet lower the risk of developing type 2 diabetes?,Cohort studies and some trials link Mediterranean-style diets with a lower risk of type 2 diabetes.,"Yes, following a Mediterranean diet is associated with a lower risk of developing type 2 diabetes (T2D) in adults. Evidence also suggests it can reduce the incidence of gestational diabetes in pregnant women.
+
+**What the evidence shows**
+- Adherence to the Mediterranean diet is inversely associated with the incidence of type 2 diabetes. [PMID:40122387]
+- High adherence to the Mediterranean diet is associated with a lower risk of type 2 diabetes, with an updated meta-analysis covering nearly one million participants. [PMID:41241045]
+- An energy-reduced Mediterranean diet combined with physical activity resulted in a 31% lower incidence of diabetes compared to an ad libitum Mediterranean diet in overweight or obese adults. [PMID:40854218]
+- Mediterranean diet interventions significantly reduce glycated hemoglobin (HbA1c), LDL cholesterol, and triglycerides. [PMID:41381307]
+- Introducing a Mediterranean diet during pregnancy is associated with a significant reduction in the incidence of gestational diabetes. [PMID:38889571]
+
+**Strength of evidence: strong.** Multiple large-scale meta-analyses and randomized controlled trials consistently show a reduced risk of type 2 diabetes and gestational diabetes associated with the Mediterranean diet.
+
+_Most of this evidence comes from studies outside India and South Asia; results may not transfer fully._
+
+**Sources**
+- [PMID:40122387] Umbrella Review of Systematic Reviews and Meta-Analyses on Consumption of Different Food Groups and Risk of Type 2 Diabetes Mellitus and Metabolic Syndrome. (2025, systematic_review) https://pubmed.ncbi.nlm.nih.gov/40122387/
+- [PMID:41241045] Adherence to Mediterranean Diet and Risk of Type 2 Diabetes: An Updated Systematic Review and Dose-Response Meta-analysis. (2025, meta_analysis) https://pubmed.ncbi.nlm.nih.gov/41241045/
+- [PMID:40854218] Comparison of an Energy-Reduced Mediterranean Diet and Physical Activity Versus an Ad Libitum Mediterranean Diet in the Prevention of Type 2 Diabetes : A Secondary Analysis of a Randomized Controlled Trial. (2025, rct) https://pubmed.ncbi.nlm.nih.gov/40854218/
+- [PMID:41381307] Mediterranean diet, gut microbiota, and type 2 diabetes: A systematic review and meta-analysis of intervention trials. (2026, meta_analysis) https://pubmed.ncbi.nlm.nih.gov/41381307/
+- [PMID:38889571] Introduction of the Mediterranean diet in pregnancy and the incidence of gestational diabetes mellitus: A systematic review of randomised controlled trials and meta-analysis. (2024, meta_analysis) https://pubmed.ncbi.nlm.nih.gov/38889571/
+
+_This summarises published research and is not medical advice. Please talk to your doctor or dietitian before making changes._",2,"The system answer correctly identifies the association between a Mediterranean diet and a lower risk of type 2 diabetes, matching the reference's main point.",,
+20261023-151354_base,ge13,Is it safe to fast for religious reasons if I have gestational diabetes?,Fasting with GDM carries risks; the answer should give general evidence (likely limited) and advise confirming with a clinician.,"Religious guidelines, such as those in Islam, exempt pregnant women from fasting if it poses health risks to themselves or their babies. While some evidence suggests short fasting periods may be well-tolerated with proper monitoring, there is no consensus on the impact of Ramadan fasting on pregnancy and birth outcomes.
+
+**What the evidence shows**
+- Islam states that pregnant women are exempt from fasting during Ramadan when abstinence from food and fluids could pose health risks to themselves or their unborn babies. [PMID:42249458] [PMID:34684451]
+- In women with gestational diabetes, continuous glucose monitoring (CGM) can be valuable during fasting to detect glycemic swings and prevent hypoglycemia or ketoacidosis. [PMID:41305597]
+- For patients with gestational diabetes, eating six meals a day has led to better glycemic control than eating three meals a day in an isocaloric trial. [PMID:36771469]
+- There is currently no consensus on the impact of Ramadan fasting during pregnancy on pregnancy and birth outcomes, and no evidence-based guidelines exist for Muslim women regarding this practice. [PMID:39785103] [PMID:34684451]
+- In populations with adequate post-fasting nutrition, fasting seems to be well tolerated and safe for most women, though risks like fetal growth restriction may increase in low-resource settings where dehydration or limited caloric intake is common. [PMID:41305597]
+- A meta-analysis found that Ramadan fasting was associated with favorable short-term maternal outcomes, such as lower fasting glycemia, but did not affect birth weight or gestational age. [PMID:36771469]
+
+**Strength of evidence: mixed.** While some studies suggest fasting may be well-tolerated or associated with certain favorable maternal outcomes, systematic reviews and umbrella reviews report no consensus and a lack of sufficient evidence regarding pregnancy and birth outcomes.
+
+**Where studies disagree:** There is disagreement in the literature regarding the effects of Ramadan fasting; some studies report contradicting outcomes, and an umbrella review notes there is no consensus on its impact on pregnancy and birth outcomes.
+
+**Please confirm this with your doctor or midwife before acting on it; they can advise for your specific situation.**
+
+**Sources**
+- [PMID:42249458] The influence of culture and religion on the self-management of type 2 diabetes in South Asian migrants: a systematic review. (2026, systematic_review) https://pubmed.ncbi.nlm.nih.gov/42249458/
+- [PMID:34684451] Ramadan Fasting during Pregnancy and Health Outcomes in Offspring: A Systematic Review. (2021, systematic_review) https://pubmed.ncbi.nlm.nih.gov/34684451/
+- [PMID:41305597] Intermittent Fasting During Pregnancy and Neonatal Birth Weight: A Systematic Review and Meta-Analysis. (2025, meta_analysis) https://pubmed.ncbi.nlm.nih.gov/41305597/
+- [PMID:36771469] Chrononutrition during Pregnancy and Its Association with Maternal and Offspring Outcomes: A Systematic Review and Meta-Analysis of Ramadan and Non-Ramadan Studies. (2023, meta_analysis) https://pubmed.ncbi.nlm.nih.gov/36771469/
+- [PMID:39785103] Impacts of Ramadan fasting during pregnancy on pregnancy and birth outcomes: An umbrella review. (2025, systematic_review) https://pubmed.ncbi.nlm.nih.gov/39785103/
+
+_This summarises published research and is not medical advice. Please talk to your doctor or dietitian before making changes._",2,"The answer correctly identifies that evidence is limited/lacks consensus and implies the need for caution, aligning with the reference's requirement to discuss general evidence and risks.",,
+20261023-151354_base,we02,Does intermittent fasting lead to weight loss in adults with obesity?,"Intermittent fasting produces weight loss in adults with obesity, generally similar to continuous calorie restriction.","Yes, intermittent fasting (IF) leads to significant weight loss in adults with overweight or obesity. Most studies show that IF is comparable in effectiveness to continuous energy restriction (CER) for reducing body weight and adiposity.
+
+**What the evidence shows**
+- Most intermittent fasting diet regimens induce significant weight loss that is comparable to continuous energy restriction (CER) diets with similar absolute energy restriction. [PMID:40367516] [PMID:39501676]
+- Intermittent fasting significantly reduces body weight (MD: -3.73 kg) and BMI (MD: -1.04 kg/m²) in overweight and obese adults. [PMID:40731344]
+- In adults with overweight or obesity, intermittent fasting significantly reduces body weight, BMI, fat mass, waist circumference, and visceral fat compared to control diets. [PMID:39501676]
+- Intermittent fasting interventions, specifically time-restricted eating (TRE) and alternate-day modified fasting (ADMF), produce greater reductions in weight, BMI, fat mass, and waist circumference compared to ad libitum eating. [PMID:41202521]
+- In overweight and obese middle-aged and elderly people without metabolic disease, intermittent fasting significantly reduced body weight (MD: -2.05 kg) and BMI (MD: -0.73 kg/m²) compared to a regular diet. [PMID:38308923]
+- Weight loss acts as a critical mediator for testosterone improvement across various dietary interventions. [PMID:42588040]
+
+**Strength of evidence: strong.** Multiple recent meta-analyses of randomized controlled trials consistently demonstrate the efficacy of intermittent fasting for weight loss in adults with obesity.
+
+**Where studies disagree:** While most evidence shows IF is comparable to continuous energy restriction, one study noted that severe continuous energy restriction may be the most effective regimen for weight loss based on moderate-certainty evidence.
+
+_Most of this evidence comes from studies outside India and South Asia; results may not transfer fully._
+
+**Sources**
+- [PMID:40367516] Comparison of Different Intermittent Fasting Patterns or Different Extents of Calorie Restriction for Weight Loss and Metabolic Improvement in Adults: A Systematic Review and Network Meta-Analysis of Randomized Controlled Trials. (2026, meta_analysis) https://pubmed.ncbi.nlm.nih.gov/40367516/
+- [PMID:39501676] Longer-term effects of intermittent fasting on body composition and cardiometabolic health in adults with overweight and obesity: A systematic review and meta-analysis. (2025, meta_analysis) https://pubmed.ncbi.nlm.nih.gov/39501676/
+- [PMID:40731344] The impact of intermittent fasting on body composition and cardiometabolic outcomes in overweight and obese adults: a systematic review and meta-analysis of randomized controlled trials. (2025, meta_analysis) https://pubmed.ncbi.nlm.nih.gov/40731344/
+- [PMID:41202521] The effects of intermittent fasting on sleep quality and cardiometabolic health outcomes in adults with overweight/obesity status: a systematic review and meta-analysis of randomized controlled trials. (2025, meta_analysis) https://pubmed.ncbi.nlm.nih.gov/41202521/
+- [PMID:38308923] Effectiveness of an intermittent fasting diet versus regular diet on fat loss in overweight and obese middle-aged and elderly people without metabolic disease: a systematic review and meta-analysis of randomized controlled trials. (2024, meta_analysis) https://pubmed.ncbi.nlm.nih.gov/38308923/
+- [PMID:42588040] Dietary Interventions and Testosterone Levels in Obese Men: A Systematic Review Comparing the Mediterranean Diet, Ketogenic Diet, and Intermittent Fasting. (2026, systematic_review) https://pubmed.ncbi.nlm.nih.gov/42588040/
+
+_This summarises published research and is not medical advice. Please talk to your doctor or dietitian before making changes._",2,The system answer correctly identifies that intermittent fasting leads to weight loss and accurately notes its comparability to continuous energy restriction.,,
+20261023-151354_base,di11,Does eating nuts before meals improve glucose control in Asian Indians with prediabetes?,Small randomised crossover trials in Asian Indians with prediabetes found premeal almonds or pistachios lowered post-meal glucose.,"Yes, eating almonds 30 minutes before major meals has been shown to improve glucose control in Asian Indians with prediabetes. Specifically, a 3-month study found that a 20g premeal almond load significantly reduced fasting blood glucose, post-OGTT blood glucose, HbA1c, and HOMA-IR, even reversing prediabetes to normoglycemia in 23.3% of participants.
+
+**What the evidence shows**
+- Incorporation of 20 g of almonds, 30 min before each major meal, leads to significant improvement in fasting and post-75 g oral glucose-load blood glucose, postprandial insulin, HOMA-IR, and HbA1c in participants with prediabetes. [PMID:36963852]
+- In a 3-month study, 23.3% (7 out of 30) of participants in the premeal almond treatment arm achieved a reversal to a normoglycemic state (fasting blood glucose and 2 h post-OGTT glucose levels). [PMID:36963852]
+- A premeal almond load also resulted in significant reductions in body weight, BMI, waist circumference, and skinfold thickness. [PMID:36963852]
+- In Asian Indians with prediabetes, 30 g of pistachios before breakfast and dinner for 12 weeks significantly reduced HbA1c, though it did not significantly change fasting or 2-h post-glucose load plasma glucose. [PMID:39740767]
+- Pistachio supplementation in Asian Indians with prediabetes also led to significant reductions in serum triglycerides, waist circumference, visceral adiposity index, and the atherogenic index. [PMID:39740767]
+
+**Strength of evidence: moderate.** The evidence is based on randomized controlled trials (RCTs) specifically targeting Asian Indians with prediabetes, showing consistent improvements in HbA1c and glucose markers with almond and pistachio preloads.
+
+**Where studies disagree:** There is a slight discrepancy regarding fasting glucose: one RCT found that premeal pistachios did not significantly change fasting glucose (PMID:39740767), whereas another RCT found that premeal almonds significantly reduced fasting blood glucose (PMID:36963852).
+
+**Sources**
+- [PMID:36963852] Premeal almond load decreases postprandial glycaemia, adiposity and reversed prediabetes to normoglycemia: A randomized controlled trial. (2023, rct) https://pubmed.ncbi.nlm.nih.gov/36963852/
+- [PMID:39740767] Effect of Premeal Pistachio Supplementation on Cardiometabolic Risk Factors among Asian Indian Adults with Prediabetes: A Randomized Controlled Trial. (2025, rct) https://pubmed.ncbi.nlm.nih.gov/39740767/
+
+_This summarises published research and is not medical advice. Please talk to your doctor or dietitian before making changes._",2,The system answer correctly identifies that eating almonds before meals improves glucose control in the specified population and provides supporting details that align with the reference.,,
+20261023-151354_base,di06,Are plant-based diets better than usual diets for improving insulin sensitivity in adults at risk of diabetes?,Plant-based dietary patterns are associated with improved insulin sensitivity and lower diabetes risk; trial evidence is smaller.,"Yes, plant-based diets have been shown to improve insulin sensitivity in overweight adults. Evidence indicates that these diets can reduce HOMA-IR and fasting insulin levels in individuals with overweight or obesity.
+
+**What the evidence shows**
+- In people with overweight or obesity, plant-based diets improved HOMA-IR and fasting insulin compared to control diets. [PMID:38999858]
+- A 16-week low-fat plant-based dietary intervention significantly improved beta-cell function and fasting insulin sensitivity in overweight adults with no history of diabetes. [PMID:29425120]
+- Subjects following vegetarian or plant-based diets demonstrated a lower risk of insulin resistance. [PMID:40789787]
+- A low-fat plant-based diet significantly improved insulin resistance and beta cell dysfunction with moderate certainty of evidence. [PMID:37792722]
+- In people with prediabetes, one study comparing vegan and vegetarian diets found no difference in HOMA-IR or fasting insulin. [PMID:38999858]
+- One study of people with type 2 diabetes reported no difference in metabolic glucose clearance or immunoreactive insulin compared to a conventional diabetes diet. [PMID:38999858]
+
+**Strength of evidence: moderate.** Meta-analyses of RCTs show consistent improvements in insulin sensitivity markers for overweight/obese individuals, though results for those with prediabetes or type 2 diabetes are less conclusive.
+
+**Where studies disagree:** While meta-analyses of RCTs show improved HOMA-IR and fasting insulin in overweight/obese populations (PMID:38999858), specific studies within those reviews found no significant difference in insulin markers for individuals specifically with prediabetes or type 2 diabetes (PMID:38999858).
+
+_Most of this evidence comes from studies outside India and South Asia; results may not transfer fully._
+
+**Sources**
+- [PMID:38999858] Effects of Plant-Based Diets on Markers of Insulin Sensitivity: A Systematic Review and Meta-Analysis of Randomised Controlled Trials. (2024, meta_analysis) https://pubmed.ncbi.nlm.nih.gov/38999858/
+- [PMID:29425120] A Plant-Based Dietary Intervention Improves Beta-Cell Function and Insulin Resistance in Overweight Adults: A 16-Week Randomized Clinical Trial. (2018, rct) https://pubmed.ncbi.nlm.nih.gov/29425120/
+- [PMID:40789787] Plant-based diets and risk of type 2 diabetes: systematic review and dose-response meta-analysis. (2025, meta_analysis) https://pubmed.ncbi.nlm.nih.gov/40789787/
+- [PMID:37792722] The effects of plant-based dietary patterns on the risk of developing gestational diabetes mellitus: A systematic review and meta-analysis. (2023, meta_analysis) https://pubmed.ncbi.nlm.nih.gov/37792722/
+
+_This summarises published research and is not medical advice. Please talk to your doctor or dietitian before making changes._",2,"The system answer correctly identifies the positive effect of plant-based diets on insulin sensitivity and provides relevant physiological markers (HOMA-IR, fasting insulin) that align with the reference.",,
+20261023-151354_base,di08,Is intermittent fasting better than daily calorie restriction for preventing type 2 diabetes?,Trials generally find similar improvements in glycaemic markers with intermittent fasting and continuous calorie restriction; long-term diabetes outcomes are uncertain.,"Evidence suggests that intermittent fasting (IF) is generally comparable to continuous energy restriction (CER) or daily calorie restriction (DCR) for weight loss and glycemic control in people with type 2 diabetes. However, some specific studies and reviews indicate that combining a 12-hour night IF regimen with calorie restriction may be more effective for weight loss, body fat reduction, and HbA1c improvement than calorie restriction alone.
+
+**What the evidence shows**
+- Intermittent fasting (IF) demonstrated effects similar to continuous energy restriction diets (CERD) in terms of HbA1c, body weight, BMI, and fasting blood glucose. [PMID:42242847]
+- The effects of isocaloric intermittent fasting (IF) on weight loss and metabolic risk markers for diabetes were generally comparable to daily calorie restriction (DCR). [PMID:36126910]
+- Twelve studies comparing intermittent fasting to calorie restriction found equivalent results. [PMID:32060194]
+- The majority of studies demonstrated insignificant differences between intermittent fasting and continuous energy restriction for glycated hemoglobin (HbA1c) and body composition measures. [PMID:32780629]
+- A 12-hour night intermittent fasting regimen combined with a calorie-restricted diet (IF-CR) is more effective in promoting weight loss, reducing body fat mass, and improving HbA1c levels than a calorie-restricted diet alone in people living with type 2 diabetes. [PMID:41501473]
+- Intermittent fasting (4:3 and 5:2 diets) was superior to daily calorie restriction (DCR) for improving insulin sensitivity in two studies. [PMID:36126910]
+
+**Strength of evidence: moderate.** Multiple systematic reviews and meta-analyses consistently show that IF is comparable to daily calorie restriction, though one randomized clinical trial suggests a combined approach may be superior.
+
+**Where studies disagree:** Most systematic reviews and meta-analyses conclude that intermittent fasting and continuous energy restriction provide comparable results for weight loss and glycemic control (PMID:42242847, PMID:36126910, PMID:32060194, PMID:32780629). However, one randomized clinical trial (PMID:41501473) found that a 12-hour night IF regimen combined with calorie restriction was more effective for weight loss, body fat reduction, and HbA1c improvement than calorie restriction alone.
+
+_Most of this evidence comes from studies outside India and South Asia; results may not transfer fully._
+
+**Sources**
+- [PMID:42242847] Efficacy of intermittent fasting on blood glucose and weight in type 2 diabetes and prediabetes: A comparison with ad libitum and continuous energy restriction diets. (2026, meta_analysis) https://pubmed.ncbi.nlm.nih.gov/42242847/
+- [PMID:36126910] The Effects of Isocaloric Intermittent Fasting vs Daily Caloric Restriction on Weight Loss and Metabolic Risk Factors for Noncommunicable Chronic Diseases: A Systematic Review of Randomized Controlled or Comparative Trials. (2023, systematic_review) https://pubmed.ncbi.nlm.nih.gov/36126910/
+- [PMID:32060194] Intermittent fasting and weight loss: Systematic review. (2020, systematic_review) https://pubmed.ncbi.nlm.nih.gov/32060194/
+- [PMID:32780629] The Effects of Intermittent Fasting on Glycemic Control and Body Composition in Adults with Obesity and Type 2 Diabetes: A Systematic Review. (2020, systematic_review) https://pubmed.ncbi.nlm.nih.gov/32780629/
+- [PMID:41501473] The impact of intermittent fasting during weight reduction in people living with type 2 diabetes mellitus: a randomized clinical trial. (2026, rct) https://pubmed.ncbi.nlm.nih.gov/41501473/
+
+_This summarises published research and is not medical advice. Please talk to your doctor or dietitian before making changes._",2,"The system answer correctly identifies that intermittent fasting is generally comparable to calorie restriction for glycemic control, matching the reference's main point.",,
+20261023-151354_base,ge03,Do probiotics reduce the risk of gestational diabetes?,"Evidence is mixed: some trials show benefit, but larger trials and meta-analyses find no clear reduction.","Evidence regarding whether probiotics reduce the risk of gestational diabetes (GDM) is conflicting. Some meta-analyses suggest probiotics can significantly reduce GDM incidence, particularly in younger women or those with a lower BMI, while other meta-analyses found no significant effect on GDM incidence.
+
+**What the evidence shows**
+- Probiotics may reduce the incidence of GDM, especially in women with a BMI < 26 kg/m2 and women under 30 years of age. [PMID:38642385]
+- Probiotic supplementation has the potential to decrease metabolic parameters that predispose to GDM, such as blood glucose levels, lipid profiles, inflammation, and oxidative markers. [PMID:35243684]
+- A meta-analysis of probiotic yogurt showed a significant association with a reduced risk of gestational diabetes and a reduction in fasting plasma glucose. [PMID:37062185]
+- One meta-analysis found that probiotics do not reduce the incidence of GDM, though they may provide a small reduction in fasting plasma glucose. [PMID:32194215]
+- Another meta-analysis concluded that probiotic supplementation showed no obvious impact on the incidence of GDM, fasting plasma glucose, or 2 h-OGTT. [PMID:36368685]
+
+**Strength of evidence: mixed.** Multiple meta-analyses report conflicting results, with some finding significant reductions in GDM risk and others finding no effect.
+
+**Where studies disagree:** There is a disagreement between meta-analyses regarding the efficacy of probiotics in preventing GDM. Some studies (PMID:38642385, PMID:37062185, PMID:35243684) report a significant reduction in GDM risk or predisposing metabolic parameters, while others (PMID:32194215, PMID:36368685, PMID:35871956) report no significant effect on GDM incidence. Additionally, one study noted that probiotics might increase the risk of preeclampsia in overweight or obese pregnant women (PMID:35871956).
+
+_Most of this evidence comes from studies outside India and South Asia; results may not transfer fully._
+
+**Please confirm this with your doctor or midwife before acting on it; they can advise for your specific situation.**
+
+**Sources**
+- [PMID:38642385] Probiotics for the prevention of gestational diabetes mellitus: A meta-analysis of randomized controlled trials. (2024, meta_analysis) https://pubmed.ncbi.nlm.nih.gov/38642385/
+- [PMID:35243684] The effect of probiotics on gestational diabetes and its complications in pregnant mother and newborn: A systematic review and meta-analysis during 2010-2020. (2022, meta_analysis) https://pubmed.ncbi.nlm.nih.gov/35243684/
+- [PMID:37062185] Effect of probiotic yogurt on gestational diabetes mellitus: A systematic review and meta-analysis. (2023, meta_analysis) https://pubmed.ncbi.nlm.nih.gov/37062185/
+- [PMID:32194215] Effects of probiotic supplementation during pregnancy on metabolic outcomes: A systematic review and meta-analysis of randomized controlled trials. (2020, meta_analysis) https://pubmed.ncbi.nlm.nih.gov/32194215/
+- [PMID:36368685] Probiotic Supplement for the Prevention of Gestational Diabetes: A Meta-Analysis of Randomized Controlled Trials. (2023, meta_analysis) https://pubmed.ncbi.nlm.nih.gov/36368685/
+
+_This summarises published research and is not medical advice. Please talk to your doctor or dietitian before making changes._",2,"The system answer correctly identifies that the evidence is conflicting/mixed, matching the core point of the reference answer.",,
+20261023-151354_base,ge08,Do lifestyle interventions after gestational diabetes prevent later type 2 diabetes?,Postpartum lifestyle interventions reduce weight and may reduce progression to type 2 diabetes after GDM.,"Evidence regarding whether lifestyle interventions prevent type 2 diabetes (T2DM) after gestational diabetes is inconsistent. While some meta-analyses suggest lifestyle interventions can reduce the risk of T2DM or improve weight and BMI, other reviews report no significant reduction in diabetes incidence or suggest the effect may be little to none.
+
+**What the evidence shows**
+- Women with gestational diabetes mellitus (GDM) have an 8-fold increased risk of developing type 2 diabetes. [PMID:41921207]
+- Lifestyle interventions were associated with a reduction in the risk of T2DM, though with a smaller effect size than pharmacological interventions. [PMID:38553834]
+- Postpartum lifestyle changes following GDM were associated with an 11% reduction in diabetes risk, as well as significant improvements in weight, body mass index (BMI), and waist circumference. [PMID:38727771]
+- The effectiveness of lifestyle interventions in preventing T2DM in women with a history of GDM is inconsistent, with reported risk reductions ranging from no beneficial effect to a 43% reduction. [PMID:39771034]
+- One meta-analysis of lifestyle interventions found no significant association with a reduction in the primary outcome of T2DM, though a meta-analysis of four studies reporting hazard ratios suggested a reduction in diabetes incidence. [PMID:39136500]
+- A systematic review of self-care interventions indicated that lifestyle interventions focusing on diet and physical activity may have little to no effect on preventing type 2 diabetes among women with previous GDM. [PMID:40609899]
+
+**Strength of evidence: mixed.** Multiple meta-analyses report conflicting results, with some showing significant risk reduction and others finding no significant effect or inconsistent outcomes.
+
+**Where studies disagree:** There is disagreement across systematic reviews and meta-analyses. Some studies report a reduction in T2DM risk (PMID:38553834, PMID:38727771, PMID:39136500), while others report no significant effect (PMID:40609899, PMID:39136500) or note that effectiveness is inconsistent (PMID:39771034).
+
+_Most of this evidence comes from studies outside India and South Asia; results may not transfer fully._
+
+**Please confirm this with your doctor or midwife before acting on it; they can advise for your specific situation.**
+
+**Sources**
+- [PMID:41921207] Technology-Based Interventions for Prevention of Type 2 Diabetes Following Gestational Diabetes: Systematic Review and Meta-Analysis. (2026, meta_analysis) https://pubmed.ncbi.nlm.nih.gov/41921207/
+- [PMID:38553834] The effectiveness of pharmacological and lifestyle interventions to reduce the risk of diabetes and hyperglycaemia following gestational diabetes: A systematic review and meta-analysis. (2024, meta_analysis) https://pubmed.ncbi.nlm.nih.gov/38553834/
+- [PMID:38727771] Postpartum life interventions to prevent type 2 diabetes in women with gestational diabetes: A systematic review and meta-analysis. (2024, meta_analysis) https://pubmed.ncbi.nlm.nih.gov/38727771/
+- [PMID:39771034] A Systematic Review and Meta-Analysis of Type 2 Diabetes Prevention Through Lifestyle Interventions in Women with a History of Gestational Diabetes-A Summary of Participant and Intervention Characteristics. (2024, meta_analysis) https://pubmed.ncbi.nlm.nih.gov/39771034/
+- [PMID:39136500] The efficacy of interventions to prevent type 2 diabetes among women with recent gestational diabetes mellitus-A living systematic review and meta-analysis. (2024, meta_analysis) https://pubmed.ncbi.nlm.nih.gov/39136500/
+- [PMID:40609899] Effectiveness of self-care interventions for the prevention of type 2 diabetes among women with previous gestational diabetes: a systematic review and meta-analysis. (2025, meta_analysis) https://pubmed.ncbi.nlm.nih.gov/40609899/
+
+_This summarises published research and is not medical advice. Please talk to your doctor or dietitian before making changes._",2,"The system answer correctly identifies that the evidence is inconsistent/mixed, which aligns with the reference's nuanced stance that interventions 'may' reduce progression.",,
+20261023-151354_base,we08,Does eating breakfast help with weight loss?,"Evidence is mixed: observational studies associate breakfast with lower weight, but trials do not show that adding breakfast helps weight loss.","Evidence regarding whether eating breakfast helps with weight loss is conflicting. Some studies suggest that consuming more calories at breakfast can lead to greater weight loss and improved metabolic markers, while a large randomized controlled trial found no significant difference in weight loss between eating or skipping breakfast.
+
+**What the evidence shows**
+- A randomized controlled trial in overweight and obese adults found that recommending eating breakfast versus skipping breakfast had no significant effect on weight loss. [PMID:24898236]
+- In overweight and obese women, a diet with high caloric intake at breakfast resulted in greater weight loss and waist circumference reduction compared to an isocaloric diet with high caloric intake at dinner. [PMID:23512957]
+- Eating most calories earlier in the day, such as at breakfast and lunch, may facilitate weight loss and lead to higher daily satiety. [PMID:36432465]
+- Observational studies have associated breakfast consumption with lower body weight, but systematic reviews have found limited evidence to support breakfast consumption for obesity prevention. [PMID:24898236] [PMID:27792142]
+- Some research suggests that skipping breakfast might actually help people lose weight. [PMID:33077809]
+
+**Strength of evidence: mixed.** Results are inconsistent, with some RCTs showing no benefit to eating breakfast while others show benefits depending on calorie distribution or protein content.
+
+**Where studies disagree:** There is a conflict between a large 16-week RCT which found no significant effect of breakfast recommendations on weight loss (PMID:24898236) and smaller studies or specific dietary patterns that suggest high-calorie breakfasts or high-protein breakfasts are more effective for weight loss (PMID:23512957, PMID:24923232). Additionally, while some observational data suggests breakfast is protective against weight gain, some systematic reviews find insufficient evidence to support this (PMID:27792142).
+
+_Most of this evidence comes from studies outside India and South Asia; results may not transfer fully._
+
+**Sources**
+- [PMID:24898236] The effectiveness of breakfast recommendations on weight loss: a randomized controlled trial. (2014, rct) https://pubmed.ncbi.nlm.nih.gov/24898236/
+- [PMID:23512957] High caloric intake at breakfast vs. dinner differentially influences weight loss of overweight and obese women. (2013, rct) https://pubmed.ncbi.nlm.nih.gov/23512957/
+- [PMID:36432465] Effects of Time-Restricted Feeding and Ramadan Fasting on Body Weight, Body Composition, Glucose Responses, and Insulin Resistance: A Systematic Review of Randomized Controlled Trials. (2022, systematic_review) https://pubmed.ncbi.nlm.nih.gov/36432465/
+- [PMID:27792142] The Energy Content and Composition of Meals Consumed after an Overnight Fast and Their Effects on Diet Induced Thermogenesis: A Systematic Review, Meta-Analyses and Meta-Regressions. (2016, meta_analysis) https://pubmed.ncbi.nlm.nih.gov/27792142/
+- [PMID:33077809] Determinants favoring weight regain after weight-loss therapy among postmenopausal women. (2020, rct) https://pubmed.ncbi.nlm.nih.gov/33077809/
+
+_This summarises published research and is not medical advice. Please talk to your doctor or dietitian before making changes._",2,The system answer correctly identifies that the evidence is conflicting and accurately reflects the distinction between observational associations and randomized controlled trials.,,
+20261023-151354_base,ma03,Does vitamin D supplementation in pregnancy improve birth outcomes?,"Evidence is mixed: vitamin D improves maternal vitamin D status, but effects on birth outcomes are inconsistent.","Evidence regarding the impact of vitamin D supplementation on birth outcomes is conflicting. Some meta-analyses suggest it increases infant birth weight and reduces risks of gestational diabetes, preeclampsia, preterm birth, and low birth weight, while other studies found no significant effect on preterm birth, small-for-gestational-age, or low birth weight.
+
+**What the evidence shows**
+- Vitamin D supplementation may increase infant birth weight by 53g. [PMID:38950419]
+- Vitamin D supplementation may lower the risk of gestational diabetes mellitus (GDM), preeclampsia, preterm delivery (PTD), low birth weight (LBW), small for gestational age (SGA), stillbirth, and neonatal mortality. [PMID:41923026]
+- Vitamin D supplementation may reduce the risk of preeclampsia by 44.8% and preterm labor by 30%. [PMID:39716171]
+- Vitamin D supplementation may increase birth weight and reduce the risk of pre-eclampsia and miscarriage. [PMID:38816412]
+- Antenatal vitamin D supplementation had no effect on the risk of preeclampsia, preterm birth, small-for-gestational age, or low birth weight infants. [PMID:38950419]
+- High-quality evidence suggests vitamin D supplementation during pregnancy did not reduce the risks of preterm birth and small-for-gestational-age infants. [PMID:38816412]
+
+**Strength of evidence: mixed.** Multiple meta-analyses report conflicting results regarding whether supplementation reduces the risk of preterm birth, low birth weight, and preeclampsia.
+
+**Where studies disagree:** There is significant disagreement between studies. One meta-analysis found no effect on the risk of preeclampsia, preterm birth, small-for-gestational age, or low birth weight (PMID:38950419), and another noted high-quality evidence suggests no reduction in preterm birth or SGA risks (PMID:38816412). Conversely, other meta-analyses report significant reductions in the risks of preeclampsia, preterm delivery, low birth weight, and stillbirth (PMID:41923026, PMID:39716171).
+
+_Most of this evidence comes from studies outside India and South Asia; results may not transfer fully._
+
+**Please confirm this with your doctor or midwife before acting on it; they can advise for your specific situation.**
+
+**Sources**
+- [PMID:38950419] The Effects of Vitamin D Supplementation During Pregnancy on Maternal, Neonatal, and Infant Health: A Systematic Review and Meta-analysis. (2025, meta_analysis) https://pubmed.ncbi.nlm.nih.gov/38950419/
+- [PMID:41923026] Vitamin D supplementation during pregnancy and maternal and neonatal outcomes: results from a quantitative umbrella meta-analysis. (2026, meta_analysis) https://pubmed.ncbi.nlm.nih.gov/41923026/
+- [PMID:39716171] Efficacy of vitamin D supplementation on the incidence of preeclampsia: a systematic review and meta-analysis. (2024, meta_analysis) https://pubmed.ncbi.nlm.nih.gov/39716171/
+- [PMID:38816412] Effects of vitamin D in pregnancy on maternal and offspring health-related outcomes: An umbrella review of systematic review and meta-analyses. (2024, systematic_review) https://pubmed.ncbi.nlm.nih.gov/38816412/
+
+_This summarises published research and is not medical advice. Please talk to your doctor or dietitian before making changes._",2,The system answer correctly identifies that the evidence is conflicting/mixed and provides specific examples of the inconsistent findings mentioned in the reference.,,
+20261023-151354_base,ma02,Does iron supplementation during pregnancy reduce maternal anaemia?,Daily iron supplementation in pregnancy reduces maternal anaemia and iron deficiency; amounts should come from a clinician.,"Yes, iron supplementation during pregnancy likely reduces maternal anaemia. Guidelines from the World Health Organization (WHO) recommend iron supplementation to reduce maternal anaemia, and research indicates that both iron-only and iron plus folic acid supplementation can reduce the anaemia burden and improve haemoglobin levels.
+
+**What the evidence shows**
+- The World Health Organization (WHO) recommends that all pregnant women, regardless of iron status, receive iron supplementation alongside folic acid. [PMID:39834271]
+- The WHO currently recommends that [amount withheld] of elemental iron is given daily from as early as possible during pregnancy to reduce maternal anaemia. [PMID:29728086]
+- Daily oral iron supplementation in pregnant women without prior anaemia or iron deficiency probably reduces iron deficiency anaemia at term. [PMID:37403900]
+- Global systematic reviews and meta-analyses demonstrate that iron alone and iron plus folic acid (IFA) supplementation reduce the anaemia burden, improving haemoglobin and ferritin levels. [PMID:39203937]
+- Prophylactic iron supplementation likely results in a large reduction in maternal anaemia during pregnancy. [PMID:39834271]
+- In the treatment of iron deficiency anaemia (IDA), intravenous preparations increase maternal hemoglobin more rapidly and to higher levels than oral supplementation. [PMID:41081933]
+
+**Strength of evidence: strong.** The evidence is supported by WHO guidelines and multiple systematic reviews and meta-analyses showing consistent benefits in reducing anaemia.
+
+**Where studies disagree:** While most evidence supports the reduction of anaemia, some guidelines (such as those in the UK, USA, and Australia) either recommend against or fail to address universal supplementation for women who are not already anaemic, highlighting clinical uncertainty regarding benefits for non-anaemic women.
+
+_Most of this evidence comes from studies outside India and South Asia; results may not transfer fully._
+
+**Please confirm this with your doctor or midwife before acting on it; they can advise for your specific situation.**
+
+**Specific amounts are left out on purpose: your doctor or midwife will advise the right amount for you.**
+
+**Sources**
+- [PMID:39834271] The benefits and harms of oral iron supplementation in non-anaemic pregnant women: a systematic review and meta-analysis. (2025, meta_analysis) https://pubmed.ncbi.nlm.nih.gov/39834271/
+- [PMID:29728086] The effect of universal maternal antenatal iron supplementation on neurodevelopment in offspring: a systematic review and meta-analysis. (2018, meta_analysis) https://pubmed.ncbi.nlm.nih.gov/29728086/
+- [PMID:37403900] Iron supplements in pregnant women with normal iron status: A systematic review and meta-analysis. (2023, meta_analysis) https://pubmed.ncbi.nlm.nih.gov/37403900/
+- [PMID:39203937] Is Oral Iron and Folate Supplementation during Pregnancy Protective against Low Birth Weight and Preterm Birth in Africa? A Systematic Review and Meta-Analysis. (2024, meta_analysis) https://pubmed.ncbi.nlm.nih.gov/39203937/
+- [PMID:41081933] The effect of intravenous iron supplementation compared to oral iron supplementation during pregnancy on neonatal outcomes-a systematic review of randomized controlled trials. (2025, meta_analysis) https://pubmed.ncbi.nlm.nih.gov/41081933/
+
+_This summarises published research and is not medical advice. Please talk to your doctor or dietitian before making changes._",2,The system answer correctly identifies that iron supplementation reduces maternal anaemia and provides supporting context consistent with the reference.,,
+20261023-151354_base,we03,Do meal replacement diets help people with obesity lose weight?,Meal replacement programmes lead to greater weight loss than standard diet advice in trials.,"Yes, meal replacement diets help people with obesity lose weight. Evidence suggests they lead to greater reductions in body weight, BMI, and body fat percentage compared to traditional food-based diets or conventional dietary control.
+
+**What the evidence shows**
+- In people assigned to a diet incorporating meal replacements, the mean weight difference at 1 year was -1.44 kg compared to alternative diets. [PMID:30675990]
+- When meal replacements are used alongside support, weight loss is greater compared to other diets with support (-2.22 kg) or other diets without support (-3.87 kg). [PMID:30675990]
+- In a 90-day trial with Chinese adults, the meal replacement group showed significantly greater reductions in weight (-3.81 kg), BMI (-1.35 kg m-2), and body fat percentage (-2.15%) compared to a dietary control group. [PMID:42108885]
+- For individuals with pre-diabetes and metabolic syndrome features, meal replacements led to greater reductions in body weight (-1.38 kg), BMI (-0.56 kg/m2), waist circumference (-1.17 cm), LDL-c, non-HDL-c, and systolic blood pressure compared to conventional food-based diets. [PMID:38693302]
+- Very low energy diets (VLEDs) composed of total meal replacements are well accepted by users, with adherence facilitated by rapid weight loss, ease of use, and group support. [PMID:30144269]
+- Commercial meal replacements are feasible, have minimal side effects, and facilitate weight loss and liver shrinkage in obese patients awaiting elective surgery. [PMID:27072022]
+
+**Strength of evidence: strong.** Multiple systematic reviews and meta-analyses, as well as randomized controlled trials, consistently show that meal replacements are more effective for weight loss than conventional diets.
+
+_Most of this evidence comes from studies outside India and South Asia; results may not transfer fully._
+
+**Sources**
+- [PMID:30675990] A systematic review and meta-analysis of the effectiveness of meal replacements for weight loss. (2019, meta_analysis) https://pubmed.ncbi.nlm.nih.gov/30675990/
+- [PMID:42108885] Differences in the effects of meal replacement products and traditional dietary control on weight control in obese adults: a 90-day randomized controlled trial. (2026, rct) https://pubmed.ncbi.nlm.nih.gov/42108885/
+- [PMID:38693302] Weight management using meal replacements and cardiometabolic risk reduction in individuals with pre-diabetes and features of metabolic syndrome: A systematic review and meta-analysis of randomized controlled trials. (2024, meta_analysis) https://pubmed.ncbi.nlm.nih.gov/38693302/
+- [PMID:30144269] Experiences of using very low energy diets for weight loss by people with overweight or obesity: a review of qualitative research. (2018, systematic_review) https://pubmed.ncbi.nlm.nih.gov/30144269/
+- [PMID:27072022] Commercial Very Low Energy Meal Replacements for Preoperative Weight Loss in Obese Patients: a Systematic Review. (2016, systematic_review) https://pubmed.ncbi.nlm.nih.gov/27072022/
+
+_This summarises published research and is not medical advice. Please talk to your doctor or dietitian before making changes._",2,"The system answer correctly identifies that meal replacement diets lead to greater weight loss compared to standard dietary approaches, matching the reference's main point.",,
+20261023-151354_base,we11,Is a vegetarian diet effective for weight loss?,Trials and meta-analyses show vegetarian diets lead to modest weight loss compared with omnivorous diets.,"Yes, vegetarian diets are effective for weight loss. Research indicates that vegetarian and vegan diets can lead to greater weight reduction compared to omnivorous or control diets, with specific benefits noted for visceral fat reduction and glycemic control.
+
+**What the evidence shows**
+- Individuals assigned to vegetarian diets lost significantly more weight than those in non-vegetarian groups, with a weighted mean difference of -2.02 kg. [PMID:26138004]
+- Vegetarian diets showed greater weight losses of -1.6 to -2 kg than control diets, though the meta-analyses were of low to critically low quality. [PMID:34796367]
+- In a study of adults with type 2 diabetes, both low-carbohydrate vegan and vegetarian diets markedly reduced body weight (-5.9 kg and -5.23 kg, respectively). [PMID:36156115]
+- A 6-month lacto-ovo-vegetarian diet in Chinese adults with MASLD achieved greater reductions in weight, fat mass, and visceral fat area compared to an omnivore diet. [PMID:40916837]
+- Subgroup analysis of randomized controlled trials showed significant weight reduction in subjects consuming a vegan diet (-2.52 kg) and, to a lesser extent, lacto-ovo-vegetarian diets (-1.48 kg). [PMID:26138004]
+- Vegetarian diets have been shown to be effective for weight loss and particularly for the reduction of visceral fat and subfascial fat in muscle tissue. [PMID:29425120]
+- A systematic review of RCTs found that vegetarian diets showed greater body weight reduction and insulin sensitivity compared to low-fat diets in individuals with type 2 diabetes. [PMID:30952576]
+
+**Strength of evidence: strong.** Multiple meta-analyses and randomized controlled trials consistently demonstrate the effectiveness of vegetarian and vegan diets for weight loss across different populations.
+
+**Where studies disagree:** There is some variation in the reported magnitude of weight loss across studies, and one systematic review noted that published meta-analyses for vegetarian diets were of low to critically low quality.
+
+_Most of this evidence comes from studies outside India and South Asia; results may not transfer fully._
+
+**Sources**
+- [PMID:26138004] Vegetarian Diets and Weight Reduction: a Meta-Analysis of Randomized Controlled Trials. (2016, meta_analysis) https://pubmed.ncbi.nlm.nih.gov/26138004/
+- [PMID:34796367] Diets for weight management in adults with type 2 diabetes: an umbrella review of published meta-analyses and systematic review of trials of diets for diabetes remission. (2022, systematic_review) https://pubmed.ncbi.nlm.nih.gov/34796367/
+- [PMID:36156115] Low-carbohydrate vegan diets in diabetes for weight loss and sustainability: a randomized controlled trial. (2022, rct) https://pubmed.ncbi.nlm.nih.gov/36156115/
+- [PMID:40916837] A vegetarian diet improves hepatic steatosis in MASLD patients through weight loss: a randomized controlled trial in China. (2025, rct) https://pubmed.ncbi.nlm.nih.gov/40916837/
+- [PMID:29425120] A Plant-Based Dietary Intervention Improves Beta-Cell Function and Insulin Resistance in Overweight Adults: A 16-Week Randomized Clinical Trial. (2018, rct) https://pubmed.ncbi.nlm.nih.gov/29425120/
+- [PMID:30952576] Dietary patterns and management of type 2 diabetes: A systematic review of randomised clinical trials. (2019, systematic_review) https://pubmed.ncbi.nlm.nih.gov/30952576/
+
+_This summarises published research and is not medical advice. Please talk to your doctor or dietitian before making changes._",2,"The system answer correctly identifies that vegetarian diets lead to weight loss compared to omnivorous diets, aligning with the reference's main point.",,
+20261023-151354_base,di01,Do lifestyle interventions with diet change reduce progression from prediabetes to type 2 diabetes?,"Yes. Trials of intensive lifestyle programmes (diet change, weight loss, physical activity) consistently reduce progression from prediabetes to type 2 diabetes.","Yes, lifestyle interventions including diet and exercise are highly effective at reducing the progression from prediabetes to type 2 diabetes (T2D). These interventions can also help individuals revert to normoglycemia (normal blood sugar levels).
+
+**What the evidence shows**
+- Intensive lifestyle and behavioural interventions, featuring individualised reduced‐calorie meal plans and exercise, are highly effective in preventing or delaying T2D and improving various cardiometabolic markers. [PMID:42711998]
+- Lifestyle interventions can prevent T2DM progression and even reverse prediabetes to normoglycemia. [PMID:39879607]
+- Lifestyle weight loss interventions reduced progression to type 2 diabetes by 8/100 participants (risk ratio: 0.59). [PMID:39222689]
+- Lifestyle interventions reduced the incident T2D by 41% (RR 0.59) and increased the probability of reverting to normoglycemia by 44% (RR 1.44) in adults with prediabetes. [PMID:39778431]
+- Greater weight loss (%) was associated with larger reductions in diabetes incidence. [PMID:42163067]
+- Achieving ≥ 5% weight loss was associated with higher reversion rates to normoglycemia compared to achieving < 5% weight loss. [PMID:42163067]
+- In a previous RCT in India, customised, tailored SMS messages were effective compared with standard care, reducing the incidence of type 2 diabetes by 36% over 2 years. [PMID:31919539]
+- Dietary counseling and formula diets achieved normoglycemia and metabolic benefits independent of weight loss. [PMID:41387277]
+
+**Strength of evidence: strong.** Multiple meta-analyses of randomized controlled trials consistently show that lifestyle interventions reduce the risk of progressing to type 2 diabetes and increase the rates of reversion to normoglycemia.
+
+**Where studies disagree:** One meta-analysis found that lifestyle interventions significantly benefited those with impaired glucose tolerance (IGT) but found no significant benefit for those with isolated impaired fasting glucose (IFG) or elevated HbA1c. Another study noted that intensive lifestyle interventions (ILI) reduced T2D risk by 22% compared to general advice, but noted a low certainty of evidence and high risk of bias in many included studies.
+
+**Sources**
+- [PMID:42711998] Evidence-based ranking of diabetes prevention in prediabetes: A comprehensive network meta-analysis of 378 randomised controlled trials. (2026, meta_analysis) https://pubmed.ncbi.nlm.nih.gov/42711998/
+- [PMID:39879607] Effectiveness of Different Intervention Modes in Lifestyle Intervention for the Prevention of Type 2 Diabetes and the Reversion to Normoglycemia in Adults With Prediabetes: Systematic Review and Meta-Analysis of Randomized Controlled Trials. (2025, meta_analysis) https://pubmed.ncbi.nlm.nih.gov/39879607/
+- [PMID:39222689] Efficacy of lifestyle weight loss interventions on regression to normoglycemia and progression to type 2 diabetes in individuals with prediabetes: a systematic review and pairwise and dose-response meta-analyses. (2024, meta_analysis) https://pubmed.ncbi.nlm.nih.gov/39222689/
+- [PMID:39778431] Effects of lifestyle interventions on the prevention of type 2 diabetes and reversion to normoglycemia by prediabetes phenotype: A systematic review and meta-analysis of randomized controlled trials. (2025, meta_analysis) https://pubmed.ncbi.nlm.nih.gov/39778431/
+- [PMID:42163067] Identifying Promising Practices in Lifestyle Intervention Programs for the Prediabetes Population: A Meta-Analysis and Meta-Regression of Randomized Controlled Trials. (2026, meta_analysis) https://pubmed.ncbi.nlm.nih.gov/42163067/
+- [PMID:31919539] A pragmatic and scalable strategy using mobile technology to promote sustained lifestyle changes to prevent type 2 diabetes in India and the UK: a randomised controlled trial. (2020, rct) https://pubmed.ncbi.nlm.nih.gov/31919539/
+- [PMID:41387277] ""Preventing the Progression: The Power of Lifestyle Interventions in Prediabetic Individuals-A Systematic Review"". (2026, systematic_review) https://pubmed.ncbi.nlm.nih.gov/41387277/
+
+_This summarises published research and is not medical advice. Please talk to your doctor or dietitian before making changes._",2,"The system answer correctly identifies that lifestyle interventions reduce progression from prediabetes to type 2 diabetes, aligning with the reference answer.",,

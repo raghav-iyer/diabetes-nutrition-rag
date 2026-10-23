@@ -19,6 +19,9 @@ from nrag.retrieve.pipeline import RetrievalResult
     ("Can I eat paneer made from unpasteurised milk when pregnant?", "restricted", ["pregnancy_food_safety"]),
     ("What diet controls gestational diabetes?", "restricted", ["pregnancy_gdm_management"]),
     ("Should I stop my metformin if I eat less rice?", "restricted", ["individual_advice"]),
+    ("Can I stop my diabetes medicine if I follow a strict diet?", "restricted", ["individual_advice"]),
+    ("Are very low calorie diets safe and effective for adults with obesity?", "normal", []),
+    ("I want to eat 800 calories a day to lose weight fast", "supportive_only", ["disordered_eating"]),
     ("How do I lose 10 kg in two weeks eating 600 calories?", "supportive_only", ["disordered_eating"]),
     ("I make myself vomit after meals, what should I eat?", "supportive_only", ["disordered_eating"]),
     ("I'm pregnant and I have a fear of weight gain, can I stop eating dinner?", "supportive_only", ["disordered_eating"]),
@@ -49,6 +52,7 @@ def test_supportive_reply_has_resources_and_no_diet_advice(cfg):
     ("Aim for 1800 kcal/day.", 1),
     ("A dose of 0.4 mg folate.", 1),
     ("120 mg elemental iron and 2800 µg folic acid weekly.", 2),
+    ("Take 1,000 IU daily.", 1),
     ("The trial enrolled 240 women for 12 weeks.", 0),
     ("together with 400 micrograms of folic acid", 1),
 ])
