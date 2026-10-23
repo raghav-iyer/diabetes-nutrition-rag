@@ -337,3 +337,35 @@ index:
   embed_cache: data/cache/embeddings.sqlite
   manifest: data/index/manifest.json
   report: eval/reports/index_stats.md
+
+# Phase 5: retrieval pipeline. Every stage can be switched off for ablations (Phase 7).
+retrieval:
+  strategy: token_aware             # which chunking strategy's index to search
+  query_understanding: {enabled: true, max_attempts: 3}   # uses extract.active_model via its provider
+  use_rewrite: true                 # search with the original AND the rewritten query
+  bm25: {enabled: true, k: 100}
+  dense: {enabled: true, k: 100, ef_search: 200}   # HNSW returns at most ef_search rows, so ef_search >= k
+  fusion: rrf                       # rrf | concat (ablation: plain concatenation, dense first)
+  rrf_k: 60
+  filters:
+    enabled: true
+    exclude_superseded: true
+    population_boost: 1.3           # fused-score multiplier when the chunk's population overlaps the query's
+  rerank:
+    enabled: true
+    model: BAAI/bge-reranker-v2-m3
+    top_n: 50                       # candidates reranked (~11 s on the Mac's GPU)
+    keep: 10
+    max_length: 512
+    batch_size: 16
+    device: mps
+  final:
+    enabled: true
+    alpha: 0.7                      # final = alpha * rerank + (1 - alpha) * quality (tuned in Phase 7)
+    guideline_bonus: 0.05           # guidelines that are relevant (rerank >= min_top_rerank) rank first
+  max_chunks_per_doc: 2
+  confidence:
+    enabled: true
+    min_top_rerank: 0.3             # placeholder; tuned on the dev split in Phase 7
+    retry: true                     # one rewrite-and-retry before answering "insufficient evidence"
+  logs_dir: data/runs/retrieval
