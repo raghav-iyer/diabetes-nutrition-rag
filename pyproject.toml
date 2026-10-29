@@ -5,7 +5,7 @@ build-backend = "hatchling.build"
 [project]
 name = "nutrition-rag"
 version = "0.1.0"
-description = "Evidence-ranked nutrition research RAG (diabetes prevention, weight management, maternal nutrition)"
+description = "Evidence-ranked RAG over nutrition research for diabetes prevention, weight management and maternal nutrition, with an India / South Asia focus. Includes PICO extraction, hybrid retrieval, reranking, safety checks and an ablation-driven eval suite."
 requires-python = ">=3.11"
 dependencies = [
     "requests>=2.31",
