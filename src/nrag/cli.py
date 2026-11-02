@@ -290,7 +290,7 @@ def eval_pool(workers: int = typer.Option(2, help="Concurrent LLM grading reques
 
 @app.command("eval-import-labels")
 def eval_import_labels(config: Optional[str] = ConfigOpt):
-    """Import relevance labels (your_grade overrides the LLM draft) into the golden set."""
+    """Import relevance labels (the tier-2 your_grade overrides the Gemma draft) into the golden set."""
     from nrag.eval import commands
 
     typer.echo(json.dumps(commands.import_labels(load_config(config)), indent=1))
@@ -308,6 +308,17 @@ def eval_(split: str = typer.Option("all", help="all | dev | test"),
 
     cfg = load_config(config)
     run_dir, metrics = commands.evaluate(cfg, commands.Components(cfg), split, answers, label, judge, ragas)
+    typer.echo((run_dir / "report.md").read_text())
+
+
+@app.command("eval-rescore")
+def eval_rescore(run: str = typer.Argument(..., help="Run directory name under eval/runs."),
+                 label: Optional[str] = typer.Option(None, help="Name for the re-scored run."),
+                 config: Optional[str] = ConfigOpt):
+    """Re-score a saved run against the current relevance labels (no retrieval or LLM calls)."""
+    from nrag.eval import commands
+
+    run_dir, _ = commands.rescore(load_config(config), run, label)
     typer.echo((run_dir / "report.md").read_text())
 
 

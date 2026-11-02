@@ -64,7 +64,8 @@ def evaluate_item(item, retriever, answerer=None, judge_chat=None, judge_cache: 
     return row
 
 
-def summarise(rows: list[dict[str, Any]], items_by_id: dict[str, Any]) -> dict[str, Any]:
+def summarise(rows: list[dict[str, Any]], items_by_id: dict[str, Any],
+              label_sources: dict[str, Any] | None = None) -> dict[str, Any]:
     labelled = [r for r in rows if "ndcg@10" in r]
     for r in rows:
         for k in ("abstention_correct", "safety_compliant"):
@@ -76,8 +77,26 @@ def summarise(rows: list[dict[str, Any]], items_by_id: dict[str, Any]) -> dict[s
            "retrieval": rm.aggregate(labelled, RETRIEVAL_KEYS, "topic") if labelled else None,
            "retrieval_by_type": rm.aggregate(labelled, RETRIEVAL_KEYS, "type")["by_type"] if labelled else None,
            "answers": rm.aggregate(rows, ANSWER_KEYS, "type") if any("abstained" in r for r in rows) else None,
-           "label_sources": golden.coverage(list(items_by_id.values())),
+           "label_sources": label_sources or golden.coverage(list(items_by_id.values())),
            "median_seconds": sorted(r["seconds"] for r in rows)[len(rows) // 2] if rows else None}
+    return out
+
+
+def rescore_rows(rows: list[dict[str, Any]], items_by_id: dict[str, Any]) -> list[dict[str, Any]]:
+    """Recompute the label-dependent metrics of a saved run (retrieval metrics from its logged rankings,
+    citation precision/recall) against the current golden labels, without re-running anything."""
+    out = []
+    for r in rows:
+        r = {k: v for k, v in r.items() if k not in RETRIEVAL_KEYS}
+        it =items_by_id[r["question_id"]]
+        if it.graded_relevance and not it.should_abstain:
+            r.update(rm.per_question(r["ranked_docs"], it.graded_relevance))
+        if "abstained" in r and not r["abstained"]:
+            for k in ("citation_precision", "citation_recall"):
+                r.pop(k, None)
+            r.update(answer_metrics.citation_metrics(set(r.get("cited") or []), set(r.get("sources") or []),
+                                                     set(it.relevant_doc_ids)))
+        out.append(r)
     return out
 
 

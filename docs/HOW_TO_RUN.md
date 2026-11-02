@@ -252,6 +252,7 @@ nrag ask "Which Indian diets help prevent type 2 diabetes in adults with prediab
 | File | Run via |
 |---|---|
 | `eval/golden.py` | `nrag eval-pool`, `nrag eval-import-labels` |
+| `eval/run.py` (re-scoring) | `nrag eval-rescore` |
 | `eval/run.py`, `retrieval_metrics.py`, `answer_metrics.py`, `judge.py`, `ragas_eval.py`, `failures.py`, `report.py`, `commands.py` | `nrag eval` |
 | `eval/ablate.py` | `nrag ablate` |
 
@@ -261,7 +262,9 @@ nrag ask "Which Indian diets help prevent type 2 diabetes in adults with prediab
 nrag eval-pool --workers 2
 ```
 
-2. Fill in the `your_grade` column (0 = not relevant … 3 = directly answers it). Then load your labels; they override Gemma's drafts:
+2. A second reviewer fills in the `your_grade` column (0 = not relevant … 3 = directly answers it). By default that is a
+   second LLM (DeepSeek: two-tier labels, `eval.label_review` in `config.yaml`); set `source: human` if a person grades
+   instead. Load the grades; they override Gemma's drafts, and every report states how often the two tiers agree:
 
 ```bash
 nrag eval-import-labels
@@ -291,23 +294,29 @@ nrag eval --split test --label test_only
 nrag ablate
 ```
 
-5. Compare two runs (folder names under `eval/runs/`):
+5. Re-score a saved run after the labels change (no retrieval or LLM calls; saved as a new run):
+
+```bash
+nrag eval-rescore 20261023-165705_base_v3
+```
+
+6. Compare two runs (folder names under `eval/runs/`):
 
 ```bash
 nrag compare 20261023-151354_base my_run
 ```
 
-6. Failure buckets after your corrections in that run's `failures.csv`:
+7. Failure buckets after your corrections in that run's `failures.csv`:
 
 ```bash
 nrag failures 20261023-151354_base
 ```
 
-Human checks the evaluation relies on:
+Checks the evaluation relies on:
 
 | File | What to fill in |
 |---|---|
-| `eval/relevance_labels.csv` | `your_grade` 0–3 per question–paper pair |
+| `eval/relevance_labels.csv` | `your_grade` 0–3 per question–paper pair (done by DeepSeek, tier 2) |
 | `eval/judge_validation.csv` | `your_score` 0–2 per answer (validates the LLM judge) |
 | `eval/runs/<run>/failures.csv` | `your_bucket` if the automatic failure cause is wrong |
 | `eval/golden_set.jsonl` | review questions and reference answers; set `expert_verified: true` |
@@ -362,7 +371,7 @@ pytest tests/test_retrieval.py
 ## Typical order from scratch
 
 `ingest` → `extract` 🌐 → `score` → `summarize-tables` 🌐 → `index` → `llamaindex-build`
-→ `search` / `ask` 🌐 → `eval-pool` 🌐 → *(you label)* → `eval-import-labels` → `eval --ragas` 🌐 → `ablate`
+→ `search` / `ask` 🌐 → `eval-pool` 🌐 → *(tier-2 labels)* → `eval-import-labels` → `eval --ragas` 🌐 → `ablate`
 
 Everything is cached (HTTP responses, LLM outputs, embeddings), so re-running a command only redoes what changed.
 

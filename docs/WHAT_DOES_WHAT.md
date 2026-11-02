@@ -92,7 +92,7 @@ answer with citations, evidence strength and caveats
 
 | File | What it does |
 |---|---|
-| `golden.py` | The golden set (`eval/golden_set.jsonl`, 60 questions: factual, comparison, safety, conflicting, unanswerable, India-specific); a fixed dev/test split; candidate pooling from four systems; model-drafted relevance grades that humans correct |
+| `golden.py` | The golden set (`eval/golden_set.jsonl`, 60 questions: factual, comparison, safety, conflicting, unanswerable, India-specific); a fixed dev/test split; candidate pooling from four systems; **two-tier relevance labels**: Gemma drafts a grade, DeepSeek re-grades it (the reference), and the agreement between the two (kappa) is reported as a measure of label noise |
 | `retrieval_metrics.py` | Recall@k, precision@k, MRR, nDCG@10, by topic and type, with bootstrap confidence intervals |
 | `answer_metrics.py` | Abstention accuracy, safety compliance, faithfulness, citation precision/recall, required phrases, ROUGE-L, similarity to the reference answer |
 | `judge.py` | The model grades correctness against the reference answer with a fixed rubric; validation spreadsheet; agreement (accuracy, Cohen's kappa) |
@@ -126,6 +126,7 @@ answer with citations, evidence strength and caveats
 | Model | Where it runs | Used for |
 |---|---|---|
 | **Gemma 4 26B-A4B** | user's vLLM server (shared) | extraction, query understanding, answers, citation checks, table summaries, relevance drafts, correctness judge, RAGAS |
+| **DeepSeek** | user's own setup | tier-2 relevance labels (re-grades Gemma's drafts; the reference for retrieval metrics) |
 | **bge-m3** | Mac GPU | embeddings for search, semantic chunking, answer similarity, RAGAS |
 | **bge-reranker-v2-m3** | Mac GPU | reranking the top 50 candidates |
 | gpt-oss 20B (Ollama) | Mac | earlier extraction comparison only |

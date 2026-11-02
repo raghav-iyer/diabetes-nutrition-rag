@@ -47,6 +47,16 @@ def cosine(a: np.ndarray, b: np.ndarray) -> float:
     return float(np.dot(a, b) / ((np.linalg.norm(a) * np.linalg.norm(b)) or 1.0))
 
 
+def citation_metrics(cited: set[str], given: set[str], relevant: set[str]) -> dict[str, Any]:
+    """Precision of cited ids against the relevant set; recall over the relevant sources the generator saw."""
+    m: dict[str, Any] = {"relevant_in_context": len(relevant & given)}
+    if relevant and cited:
+        m["citation_precision"] = round(len(cited & relevant) / len(cited), 4)
+    if relevant & given:
+        m["citation_recall"] = round(len(cited & relevant & given) / len(relevant & given), 4)
+    return m
+
+
 def score_answer(item: Any, out: dict[str, Any], dose_pattern: str, redaction: str,
                  embed: Callable[[list[str]], np.ndarray] | None = None) -> dict[str, Any]:
     md = out.get("markdown") or ""
@@ -77,13 +87,7 @@ def score_answer(item: Any, out: dict[str, Any], dose_pattern: str, redaction: s
     m["claims_checked"] = len(vals)
 
     cited = {x for c in a.get("claims") or [] for x in c.get("citations") or []}
-    relevant = set(item.relevant_doc_ids)
-    given = set((out.get("sources") or {}).keys())
-    if relevant and cited:
-        m["citation_precision"] = round(len(cited & relevant) / len(cited), 4)
-    if relevant & given:
-        m["citation_recall"] = round(len(cited & relevant & given) / len(relevant & given), 4)
-    m["relevant_in_context"] = len(relevant & given)
+    m.update(citation_metrics(cited, set((out.get("sources") or {}).keys()), set(item.relevant_doc_ids)))
 
     if item.must_include:
         hits = sum(1 for t in item.must_include if t.lower() in low)

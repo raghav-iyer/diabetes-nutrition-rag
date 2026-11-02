@@ -64,6 +64,11 @@ def golden_items(cfg) -> list[golden.GoldenItem]:
     return golden.load(resolve_path(cfg["eval"]["golden"]))
 
 
+def label_sources(cfg, items: list[golden.GoldenItem]) -> dict[str, Any]:
+    ec = cfg["eval"]
+    return golden.coverage(items, ec["relevant_min"], ec["label_review"]["reviewer"])
+
+
 def _documents(cfg) -> dict[str, dict[str, Any]]:
     with resolve_path(cfg["paths"]["documents"]).open() as f:
         return {d["doc_id"]: d for d in map(json.loads, f)}
@@ -117,9 +122,9 @@ def import_labels(cfg) -> dict[str, Any]:
         with path.open(newline="") as f:
             rows = list(csv.DictReader(f))
     items = golden_items(cfg)
-    stats = golden.import_labels(items, rows, ec["relevant_min"])
+    stats = golden.import_labels(items, rows, ec["relevant_min"], ec["label_review"]["source"])
     golden.save(resolve_path(ec["golden"]), items)
-    return {"import": stats, "coverage": golden.coverage(items)}
+    return {"import": stats, "coverage": label_sources(cfg, items)}
 
 
 def evaluate(cfg, comp: Components, split: str = "all", answers: bool = True, label: str = "base",
@@ -139,16 +144,26 @@ def evaluate(cfg, comp: Components, split: str = "all", answers: bool = True, la
         rows.append(row)
         print(f"  [{n}/{len(items)}] {it.id} {row.get('answer_status') or row['retrieval_status']} "
               f"ndcg@10={row.get('ndcg@10')} ({row['seconds']}s)", flush=True)
-    metrics = run_mod.summarise(rows, by_id)
-    metrics["tuning"] = {"alpha": run_mod.tune_alpha(rows, by_id, ec["alphas"], cfg["retrieval"]),
-                         "threshold": run_mod.tune_threshold(rows, by_id, ec["thresholds"])}
+    ragas_metrics = None
     if answers and ragas:
         from nrag.eval import ragas_eval
-        metrics["ragas"] = ragas_eval.evaluate_rows(cfg, rows, {k: v.reference_answer for k, v in by_id.items()},
-                                                    comp.endpoint, comp.model)
+        ragas_metrics = ragas_eval.evaluate_rows(cfg, rows, {k: v.reference_answer for k, v in by_id.items()},
+                                                 comp.endpoint, comp.model)
         for r in rows:
-            r.update({f"ragas_{k}": v for k, v in (metrics["ragas"].get("per_question") or {}).get(r["question_id"], {}).items()})
-        metrics["ragas"].pop("per_question", None)
+            r.update({f"ragas_{k}": v for k, v in (ragas_metrics.get("per_question") or {}).get(r["question_id"], {}).items()})
+        ragas_metrics.pop("per_question", None)
+    return finish_run(cfg, rows, by_id, label, judged=answers and judge, ragas=ragas_metrics)
+
+
+def finish_run(cfg, rows: list[dict[str, Any]], by_id: dict[str, golden.GoldenItem], label: str, judged: bool,
+               ragas: dict[str, Any] | None = None) -> tuple[Path, dict[str, Any]]:
+    """Summary, offline tuning, failures, saved run and report for evaluated rows."""
+    ec = cfg["eval"]
+    metrics = run_mod.summarise(rows, by_id, label_sources(cfg, list(by_id.values())))
+    metrics["tuning"] = {"alpha": run_mod.tune_alpha(rows, by_id, ec["alphas"], cfg["retrieval"]),
+                         "threshold": run_mod.tune_threshold(rows, by_id, ec["thresholds"])}
+    if ragas:
+        metrics["ragas"] = ragas
     fails = fail_mod.analyse(rows, by_id)
     metrics["failures"] = {"n": len(fails), "counts": fail_mod.counts(fails)}
     run_dir = run_mod.save_run(rows, metrics, resolve_path(ec["runs_dir"]), label,
@@ -156,7 +171,7 @@ def evaluate(cfg, comp: Components, split: str = "all", answers: bool = True, la
     fail_mod.write_csv(run_dir / "failures.csv", fails)
     agreement = None
     jv = resolve_path(ec["judge_validation"])
-    if answers and judge:
+    if judged:
         if jv.exists():
             import csv
             with jv.open(newline="") as f:
@@ -178,6 +193,16 @@ def evaluate(cfg, comp: Components, split: str = "all", answers: bool = True, la
     rp.parent.mkdir(parents=True, exist_ok=True)
     rp.write_text(md)
     return run_dir, metrics
+
+
+def rescore(cfg, run: str, label: str | None = None) -> tuple[Path, dict[str, Any]]:
+    """Re-score a saved run against the current labels (no retrieval or LLM calls); saved as a new run."""
+    src = resolve_path(cfg["eval"]["runs_dir"]) / run
+    rows, old = run_mod.load_run(src)
+    by_id = {i.id: i for i in golden_items(cfg)}
+    rows = run_mod.rescore_rows([r for r in rows if r["question_id"] in by_id], by_id)
+    judged = any(r.get("judge_score") is not None for r in rows)
+    return finish_run(cfg, rows, by_id, label or f"{run.split('_', 1)[-1]}_rescored", judged, old.get("ragas"))
 
 
 def ablations(cfg, comp: Components, split: str = "all") -> tuple[Path, dict[str, Any]]:
@@ -214,10 +239,17 @@ def ablations(cfg, comp: Components, split: str = "all") -> tuple[Path, dict[str
         variants["llamaindex_baseline"] = li_rows
     except Exception as e:
         print(f"LlamaIndex baseline skipped: {type(e).__name__}")
+    kept: dict[str, list[dict[str, Any]]] = {}
+    variants = {name: (lambda n=name, f=fn: kept.setdefault(n, f())) for name, fn in variants.items()}
     result = ablate.run_variants(base_rows, variants, ec["ablation_metrics"])
     metrics = {"n_questions": len(items), "n_retrieval_labelled": len(items), "ablation": result,
-               "label_sources": golden.coverage(list(by_id.values()))}
+               "label_sources": label_sources(cfg, list(by_id.values()))}
     run_dir = run_mod.save_run(base_rows, metrics, resolve_path(ec["runs_dir"]), "ablation", {"eval": ec})
+    with (run_dir / "variants.jsonl").open("w") as f:
+        for name, rows in kept.items():
+            for r in rows:
+                f.write(json.dumps({"variant": name, "question_id": r["question_id"],
+                                    "ranked_docs": r.get("ranked_docs")}) + "\n")
     md = report.render(run_dir.name, {**metrics, "retrieval": None, "answers": None}, ablation=result)
     (run_dir / "report.md").write_text(md)
     (resolve_path(ec["reports_dir"]) / f"ablation_{run_dir.name}.md").write_text(md)

@@ -183,6 +183,25 @@ def test_run_variants_and_report():
 
 
 
+def test_report_names_two_tier_labels():
+    ls = {"review_labels": 3, "silver_labels": 1, "reviewer": "DeepSeek",
+          "tier_agreement": {"n": 3, "exact": 0.5, "within_one": 1.0, "kappa": 0.2, "weighted_kappa": 0.6,
+                             "binary_agreement": 0.75, "binary_kappa": 0.4, "became_relevant": 1, "became_irrelevant": 0}}
+    md = report.render("r1", {"n_questions": 2, "n_retrieval_labelled": 2, "label_sources": ls})
+    assert "3 reviewed by DeepSeek (tier 2, reference)" in md and "weighted kappa 0.6" in md
+    assert "LLM-only (two tiers)" in md and "Caveat" not in md
+
+
+def test_rescore_rows_uses_current_labels():
+    it = item(graded_relevance={"D1": 3, "D2": 2}, relevant_doc_ids=["D1", "D2"])
+    row = {"question_id": "q1", "ranked_docs": ["D2", "D9", "D1"], "mrr": 0.0, "abstained": False,
+           "cited": ["D2", "D9"], "sources": ["D1", "D2", "D9"], "citation_precision": 0.0}
+    out = run_mod.rescore_rows([row], {"q1": it})[0]
+    assert out["mrr"] == 1.0 and out["recall@5"] == 1.0
+    assert out["citation_precision"] == 0.5 and out["citation_recall"] == 0.5 and out["relevant_in_context"] == 2
+    assert row["mrr"] == 0.0                                            # input rows are not mutated
+
+
 def test_ragas_samples_skip_abstained_and_contextless_rows():
     from nrag.eval.ragas_eval import samples_from_rows
     rows = [{"question_id": "a", "question": "q", "direct_answer": "ans", "contexts": ["c"], "abstained": False},

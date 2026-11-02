@@ -33,13 +33,25 @@ def render(run_name: str, metrics: dict[str, Any], ablation: dict[str, Any] | No
            examples: dict[str, list[dict]] | None = None) -> str:
     L = [f"# Evaluation run `{run_name}`", ""]
     ls = metrics.get("label_sources") or {}
+    reviewer = ls.get("reviewer") or "second LLM"
     L += [f"Questions: {metrics['n_questions']} (retrieval-labelled: {metrics['n_retrieval_labelled']}). "
-          f"Relevance labels: {ls.get('gold_labels', 0)} human (gold), {ls.get('silver_labels', 0)} LLM-drafted (silver). "
+          f"Relevance labels: {ls.get('gold_labels', 0)} human (gold), {ls.get('review_labels', 0)} reviewed by "
+          f"{reviewer} (tier 2, reference), {ls.get('silver_labels', 0)} Gemma draft only (tier 1). "
           f"Golden questions expert-verified: {ls.get('expert_verified', 0)}/{ls.get('items', 0)}. "
           f"Median seconds/question: {metrics.get('median_seconds')}.", ""]
-    if ls.get("silver_labels") and not ls.get("gold_labels"):
-        L += ["> **Caveat:** all relevance labels are LLM drafts not yet checked by a human; treat retrieval "
-              "numbers as provisional.", ""]
+    ta = ls.get("tier_agreement")
+    if ta:
+        L += [f"Tier agreement, Gemma draft vs reviewer (n = {ta['n']} pairs): exact {ta['exact']:.0%}, within one grade "
+              f"{ta['within_one']:.0%}, Cohen's kappa {ta['kappa']}, quadratic-weighted kappa {ta['weighted_kappa']}; "
+              f"relevant/not (grade >= 2) agreement {ta['binary_agreement']:.0%}, kappa {ta['binary_kappa']} "
+              f"({ta['became_relevant']} pairs became relevant, {ta['became_irrelevant']} became not relevant).", ""]
+    if not ls.get("gold_labels"):
+        if ls.get("review_labels"):
+            L += [f"> **Labels are LLM-only (two tiers):** retrieval numbers measure agreement with {reviewer}'s grades, "
+                  "not with a human expert.", ""]
+        elif ls.get("silver_labels"):
+            L += ["> **Caveat:** all relevance labels are single-tier LLM drafts; treat retrieval numbers as "
+                  "provisional.", ""]
     r = metrics.get("retrieval")
     if r:
         L += ["## Retrieval", "", "| Metric | Overall (95% CI) |", "|---|---|"]

@@ -2,9 +2,12 @@
 
 Relevance is judged per document (0 = not relevant, 1 = marginal, 2 = relevant, 3 = directly answers).
 Candidates are pooled from several systems (BM25, dense, the full pipeline, the LlamaIndex
-baseline) so that no single system defines what "relevant" means. Gemma drafts a grade for
-each pair ("silver"); the human's grade, where given, overrides it ("gold"). Every metric
-report states how many labels are gold vs silver.
+baseline) so that no single system defines what "relevant" means. Labels come in tiers:
+Gemma drafts a grade for each pair (tier 1, "silver"); a second, independent reviewer
+re-grades it (`your_grade` in the label sheet). The reviewer is a second LLM by default
+(`eval.label_review`, source "llm_review"), or a human (source "human", "gold"). The reviewer's
+grade is the reference; the Gemma draft is kept in `draft_relevance` so every report can state
+the agreement between the two tiers (a measure of label noise) next to the label counts.
 """
 
 from __future__ import annotations
@@ -24,6 +27,7 @@ from nrag.extract.schemas import PopulationTag
 
 QType = Literal["factual", "comparison", "safety", "conflicting", "unanswerable", "india_specific"]
 Topic = Literal["diabetes_prevention", "weight_management", "maternal_nutrition", "gestational_diabetes"]
+LabelSource = Literal["human", "llm_review", "llm"]
 
 
 class GoldenItem(BaseModel):
@@ -35,7 +39,8 @@ class GoldenItem(BaseModel):
     type: QType
     relevant_doc_ids: list[str] = Field(default_factory=list)
     graded_relevance: dict[str, int] = Field(default_factory=dict)
-    relevance_source: dict[str, Literal["human", "llm"]] = Field(default_factory=dict)
+    relevance_source: dict[str, LabelSource] = Field(default_factory=dict)
+    draft_relevance: dict[str, int] = Field(default_factory=dict)       # tier-1 (Gemma) grades, for agreement
     reference_answer: str
     must_include: list[str] = Field(default_factory=list)
     must_not_include: list[str] = Field(default_factory=list)
@@ -64,13 +69,44 @@ def split(item_id: str, dev_fraction: float = 0.5, seed: str = "nrag") -> str:
     return "dev" if h < dev_fraction * 1000 else "test"
 
 
-def coverage(items: list[GoldenItem]) -> dict[str, Any]:
+def coverage(items: list[GoldenItem], relevant_min: int = 2, reviewer: str | None = None) -> dict[str, Any]:
+    src = Counter(s for i in items for s in i.relevance_source.values())
     return {"items": len(items), "by_topic": dict(Counter(i.topic for i in items)),
             "by_type": dict(Counter(i.type for i in items)),
             "labelled": sum(1 for i in items if i.graded_relevance),
-            "gold_labels": sum(1 for i in items for s in i.relevance_source.values() if s == "human"),
-            "silver_labels": sum(1 for i in items for s in i.relevance_source.values() if s == "llm"),
+            "gold_labels": src["human"], "review_labels": src["llm_review"], "silver_labels": src["llm"],
+            "reviewer": reviewer, "tier_agreement": label_agreement(items, relevant_min),
             "expert_verified": sum(i.expert_verified for i in items)}
+
+
+def _kappa(pairs: list[tuple[int, int]], weighted: bool = False, k: int = 4) -> float | None:
+    """Cohen's kappa over grades 0..k-1; weighted=True uses quadratic weights (ordinal grades)."""
+    n = len(pairs)
+    if not n:
+        return None
+    w = (lambda a, b: (a - b) ** 2 / (k - 1) ** 2) if weighted else (lambda a, b: float(a != b))
+    ca, cb = Counter(a for a, _ in pairs), Counter(b for _, b in pairs)
+    observed = sum(w(a, b) for a, b in pairs) / n
+    expected = sum(ca[a] * cb[b] * w(a, b) for a in range(k) for b in range(k)) / (n * n)
+    return round(1 - observed / expected, 4) if expected else 1.0
+
+
+def label_agreement(items: list[GoldenItem], relevant_min: int = 2) -> dict[str, Any] | None:
+    """Tier-1 draft vs reviewer grade on every reviewed pair: exact and binary agreement, kappas, flips."""
+    pairs = [(i.draft_relevance[d], g) for i in items for d, g in i.graded_relevance.items()
+             if i.relevance_source.get(d) in ("human", "llm_review") and d in i.draft_relevance]
+    if not pairs:
+        return None
+    n = len(pairs)
+    binary = [(int(a >= relevant_min), int(b >= relevant_min)) for a, b in pairs]
+    return {"n": n, "exact": round(sum(a == b for a, b in pairs) / n, 4),
+            "within_one": round(sum(abs(a - b) <= 1 for a, b in pairs) / n, 4),
+            "kappa": _kappa(pairs), "weighted_kappa": _kappa(pairs, weighted=True),
+            "binary_agreement": round(sum(a == b for a, b in binary) / n, 4), "binary_kappa": _kappa(binary, k=2),
+            "draft_mean": round(sum(a for a, _ in pairs) / n, 3), "review_mean": round(sum(b for _, b in pairs) / n, 3),
+            "became_relevant": sum(1 for a, b in binary if (a, b) == (0, 1)),
+            "became_irrelevant": sum(1 for a, b in binary if (a, b) == (1, 0)),
+            "confusion": {f"{a}->{b}": c for (a, b), c in sorted(Counter(pairs).items())}}
 
 
 # ---------------------------------------------------------------------------
@@ -179,8 +215,10 @@ def write_label_csv(path: Path, items: list[GoldenItem], pooled: dict[str, dict[
     return n
 
 
-def import_labels(items: list[GoldenItem], rows: list[dict[str, str]], relevant_min: int = 2) -> dict[str, int]:
-    """Human grade wins over the LLM grade; relevant_doc_ids = docs graded >= relevant_min."""
+def import_labels(items: list[GoldenItem], rows: list[dict[str, str]], relevant_min: int = 2,
+                  review_source: LabelSource = "human") -> dict[str, int]:
+    """The reviewer's grade (your_grade, recorded as `review_source`) wins over the tier-1 LLM draft, which is
+    kept in draft_relevance; relevant_doc_ids = docs graded >= relevant_min."""
     by_id = {i.id: i for i in items}
     stats = Counter()
     for r in rows:
@@ -188,10 +226,12 @@ def import_labels(items: list[GoldenItem], rows: list[dict[str, str]], relevant_
         if it is None:
             stats["unknown_question"] += 1
             continue
-        human, llm = str(r.get("your_grade") or "").strip(), str(r.get("llm_grade") or "").strip()
-        if human in {"0", "1", "2", "3"}:
-            it.graded_relevance[r["doc_id"]], it.relevance_source[r["doc_id"]] = int(human), "human"
-            stats["human"] += 1
+        review, llm = str(r.get("your_grade") or "").strip(), str(r.get("llm_grade") or "").strip()
+        if llm in {"0", "1", "2", "3"}:
+            it.draft_relevance[r["doc_id"]] = int(llm)
+        if review in {"0", "1", "2", "3"}:
+            it.graded_relevance[r["doc_id"]], it.relevance_source[r["doc_id"]] = int(review), review_source
+            stats[review_source] += 1
         elif llm in {"0", "1", "2", "3"}:
             it.graded_relevance[r["doc_id"]], it.relevance_source[r["doc_id"]] = int(llm), "llm"
             stats["llm"] += 1

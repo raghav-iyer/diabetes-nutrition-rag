@@ -64,6 +64,36 @@ def test_label_csv_roundtrip_human_overrides_llm(tmp_path):
     assert items[0].relevant_doc_ids == ["D1", "D2"]
 
 
+def test_two_tier_labels_keep_draft_and_measure_agreement():
+    items = [golden.GoldenItem(id="a", question="q1", topic="weight_management", population=[], type="factual",
+                               reference_answer="")]
+    rows = [{"question_id": "a", "doc_id": d, "llm_grade": lg, "your_grade": yg}
+            for d, lg, yg in [("D1", "3", "3"), ("D2", "1", "2"), ("D3", "0", "1"), ("D4", "2", "")]]
+    assert golden.import_labels(items, rows, review_source="llm_review") == {"llm_review": 3, "llm": 1}
+    it = items[0]
+    assert it.relevance_source == {"D1": "llm_review", "D2": "llm_review", "D3": "llm_review", "D4": "llm"}
+    assert it.draft_relevance == {"D1": 3, "D2": 1, "D3": 0, "D4": 2}
+    assert it.relevant_doc_ids == ["D1", "D2", "D4"]                    # reviewer's 2 for D2 wins over the draft's 1
+    ag = golden.label_agreement(items)
+    assert ag["n"] == 3 and ag["exact"] == pytest.approx(1 / 3, abs=1e-4) and ag["within_one"] == 1.0
+    assert ag["became_relevant"] == 1 and ag["became_irrelevant"] == 0
+    assert ag["confusion"] == {"0->1": 1, "1->2": 1, "3->3": 1}
+    cov = golden.coverage(items, reviewer="DeepSeek")
+    assert (cov["review_labels"], cov["silver_labels"], cov["gold_labels"]) == (3, 1, 0)
+    assert cov["reviewer"] == "DeepSeek" and cov["tier_agreement"]["n"] == 3
+
+
+def test_kappa_hand_computed():
+    assert golden._kappa([(0, 0), (1, 1), (2, 2), (3, 3)]) == 1.0
+    # 2x2: po = 0.5, pe = 0.5 -> kappa 0
+    assert golden._kappa([(1, 1), (1, 0), (0, 1), (0, 0)], k=2) == 0.0
+    # Quadratic weights penalise a 0->3 swap more than a 0->1 swap.
+    near = [(0, 1), (1, 1), (2, 2), (3, 3)]
+    far = [(0, 3), (1, 1), (2, 2), (3, 3)]
+    assert golden._kappa(near, weighted=True) > golden._kappa(far, weighted=True)
+    assert golden._kappa([]) is None
+
+
 def test_llm_grades_cached_and_validated(tmp_path):
     calls = []
 
