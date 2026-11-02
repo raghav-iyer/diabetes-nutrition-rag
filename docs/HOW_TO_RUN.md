@@ -263,7 +263,7 @@ nrag eval-pool --workers 2
 ```
 
 2. A second reviewer fills in the `your_grade` column (0 = not relevant … 3 = directly answers it). By default that is a
-   second LLM (DeepSeek: two-tier labels, `eval.label_review` in `config.yaml`); set `source: human` if a person grades
+   second LLM (GPT-6.1 Astra on UltraCode: two-tier labels, `eval.label_review` in `config.yaml`); set `source: human` if a person grades
    instead. Load the grades; they override Gemma's drafts, and every report states how often the two tiers agree:
 
 ```bash
@@ -316,7 +316,7 @@ Checks the evaluation relies on:
 
 | File | What to fill in |
 |---|---|
-| `eval/relevance_labels.csv` | `your_grade` 0–3 per question–paper pair (done by DeepSeek, tier 2) |
+| `eval/relevance_labels.csv` | `your_grade` 0–3 per question–paper pair (done by GPT-6.1 Astra, tier 2) |
 | `eval/judge_validation.csv` | `your_score` 0–2 per answer (validates the LLM judge) |
 | `eval/runs/<run>/failures.csv` | `your_bucket` if the automatic failure cause is wrong |
 | `eval/golden_set.jsonl` | review questions and reference answers; set `expert_verified: true` |

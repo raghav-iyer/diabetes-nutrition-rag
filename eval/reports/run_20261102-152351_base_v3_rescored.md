@@ -1,10 +1,10 @@
-# Evaluation run `20261102-151709_base_v3_rescored`
+# Evaluation run `20261102-152351_base_v3_rescored`
 
-Questions: 60 (retrieval-labelled: 50). Relevance labels: 0 human (gold), 1085 reviewed by DeepSeek (tier 2, reference), 0 Gemma draft only (tier 1). Golden questions expert-verified: 0/60. Median seconds/question: 14.1.
+Questions: 60 (retrieval-labelled: 50). Relevance labels: 0 human (gold), 1085 reviewed by GPT-6.1 Astra (UltraCode) (tier 2, reference), 0 Gemma draft only (tier 1). Golden questions expert-verified: 0/60. Median seconds/question: 14.1.
 
 Tier agreement, Gemma draft vs reviewer (n = 1085 pairs): exact 64%, within one grade 99%, Cohen's kappa 0.5161, quadratic-weighted kappa 0.8166; relevant/not (grade >= 2) agreement 86%, kappa 0.7074 (127 pairs became relevant, 28 became not relevant).
 
-> **Labels are LLM-only (two tiers):** retrieval numbers measure agreement with DeepSeek's grades, not with a human expert.
+> **Labels are LLM-only (two tiers):** retrieval numbers measure agreement with GPT-6.1 Astra (UltraCode)'s grades, not with a human expert.
 
 ## Retrieval
 

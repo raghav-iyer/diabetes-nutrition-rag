@@ -428,7 +428,7 @@ eval:
   relevant_min: 2                   # graded relevance >= this counts as relevant
   label_review:                     # who filled your_grade in labels_csv (tier 2; overrides the Gemma draft)
     source: llm_review              # llm_review (a second LLM) | human
-    reviewer: DeepSeek              # named in every report next to the tier-1 vs tier-2 agreement
+    reviewer: GPT-6.1 Astra (UltraCode)  # named in every report next to the tier-1 vs tier-2 agreement
   judge_validation: eval/judge_validation.csv
   failures_csv: eval/failures.csv
   alphas: [0.5, 0.6, 0.7, 0.8, 0.9, 1.0]

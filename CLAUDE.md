@@ -37,9 +37,9 @@ Built in phases; stop after each phase for review and wait for the go-ahead.
   restricted: guideline position, amounts redacted to "[amount withheld]" in every field, clinician note.
 - Phase 7 (evaluation): code built and tested. `eval/golden_set.jsonl` = 60 seed questions (all
   `expert_verified: false`). Relevance labels are two-tier LLM, by the user's choice (no human in the loop): Gemma
-  drafts (tier 1, kept in `draft_relevance`), the user's DeepSeek re-grades all 1,085 pairs in `your_grade` (tier 2,
+  drafts (tier 1, kept in `draft_relevance`), GPT-6.1 Astra (run by the user on UltraCode) re-grades all 1,085 pairs in `your_grade` (tier 2,
   source `llm_review`, the reference; `eval.label_review`). Tier agreement: exact 64%, quadratic-weighted kappa 0.82,
-  relevant/not kappa 0.71; DeepSeek is more lenient (127 pairs became relevant, 28 not). Every report states the
+  relevant/not kappa 0.71; the reviewer is more lenient (127 pairs became relevant, 28 not). Every report states the
   label sources and this agreement. `nrag eval-rescore RUN` re-scores a saved run offline after label changes;
   the 2026-10-23 ablation predates the tier-2 labels and saved no variant rankings (ablations now do). Live run chained in `scripts/phase7_live.sh` (log
   `data/runs/phase7_live.log`). RAGAS needs `langchain-community<0.4` (ragas 0.4.3 imports a removed module).
