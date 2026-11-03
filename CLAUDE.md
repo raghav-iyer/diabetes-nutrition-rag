@@ -41,7 +41,12 @@ Built in phases; stop after each phase for review and wait for the go-ahead.
   source `llm_review`, the reference; `eval.label_review`). Tier agreement: exact 64%, quadratic-weighted kappa 0.82,
   relevant/not kappa 0.71; the reviewer is more lenient (127 pairs became relevant, 28 not). Every report states the
   label sources and this agreement. `nrag eval-rescore RUN` re-scores a saved run offline after label changes;
-  the 2026-10-23 ablation predates the tier-2 labels and saved no variant rankings (ablations now do). Live run chained in `scripts/phase7_live.sh` (log
+  the 2026-10-23 ablation predates the tier-2 labels and saved no variant rankings (ablations now do).
+  Ablation 2026-11-03 (`eval/reports/ablation_20261103-163107_ablation.md`, tier-2 labels, 50 questions, nDCG@10
+  base 0.719): chunking token_aware best; sliding_window -0.022, recursive -0.044, hierarchical -0.094 (all CIs
+  below 0). Components: no_dense -0.120, concat_fusion -0.061, no_rewrite -0.053, no_bm25 -0.050; no_rerank
+  nDCG n.s. but recall@10 -0.061; quality weighting, filters, query understanding n.s.; retry never fires;
+  LlamaIndex recall@10 -0.108 but MRR +0.062. Semantic strategy not indexed (skipped). Live run chained in `scripts/phase7_live.sh` (log
   `data/runs/phase7_live.log`). RAGAS needs `langchain-community<0.4` (ragas 0.4.3 imports a removed module).
 - No GCP account: Phase 10 is a local deployment (Docker compose, CI, local monitoring); the embedding
   comparison uses local models only.
